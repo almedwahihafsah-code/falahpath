@@ -9,7 +9,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { domains } from "@/data/falah";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { Sparkles, BookOpen, Heart, ListChecks, Loader2 } from "lucide-react";
+import { Sparkles, BookOpen, Heart, ListChecks, Loader2, Plus } from "lucide-react";
+
+const STORAGE_CUSTOM_HABITS = "falah_custom_habits_v1";
 
 interface Guidance {
   verse_arabic: string;
@@ -169,6 +171,27 @@ const Guide = () => {
                   </li>
                 ))}
               </ul>
+              <Button
+                onClick={() => {
+                  const today = new Date().toDateString();
+                  const stored = JSON.parse(localStorage.getItem(STORAGE_CUSTOM_HABITS) || "{}");
+                  const existing = stored.date === today ? stored.items : [];
+                  const newItems = result.actions.map((label, i) => ({
+                    id: `guide_${Date.now()}_${i}`,
+                    label,
+                    domain: 1,
+                  }));
+                  localStorage.setItem(
+                    STORAGE_CUSTOM_HABITS,
+                    JSON.stringify({ date: today, items: [...existing, ...newItems] })
+                  );
+                  toast.success("أُضيفت السلوكيات إلى عادات اليوم");
+                }}
+                variant="outline"
+                className="w-full mt-5 border-accent/40 text-accent hover:bg-accent/10"
+              >
+                <Plus className="ml-2 w-4 h-4" /> أضف هذه السلوكيات إلى عادات اليوم
+              </Button>
             </Card>
 
             <Card className="p-7 ornament-border bg-card shadow-soft text-center">

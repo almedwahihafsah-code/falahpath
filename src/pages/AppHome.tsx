@@ -14,8 +14,9 @@ type Habits = Record<string, boolean>;
 
 const STORAGE_SCORES = "falah_scores_v1";
 const STORAGE_HABITS = "falah_habits_v1";
+const STORAGE_CUSTOM_HABITS = "falah_custom_habits_v1";
 
-const dailyHabits = [
+const baseHabits = [
   { id: "fajr", label: "صلاة الفجر في وقتها", domain: 1 },
   { id: "wird", label: "وِرد قرآني (10 دقائق)", domain: 1 },
   { id: "walk", label: "نشاط بدني (30 دقيقة)", domain: 2 },
@@ -36,6 +37,28 @@ const AppHome = () => {
     const today = new Date().toDateString();
     return stored.date === today ? stored.habits : {};
   });
+  const [customHabits, setCustomHabits] = useState<{ id: string; label: string; domain: number }[]>(() => {
+    const stored = JSON.parse(localStorage.getItem(STORAGE_CUSTOM_HABITS) || "{}");
+    const today = new Date().toDateString();
+    return stored.date === today ? stored.items : [];
+  });
+
+  const dailyHabits = [...baseHabits, ...customHabits];
+
+  // Sync customHabits if changed in another tab/page
+  useEffect(() => {
+    const sync = () => {
+      const stored = JSON.parse(localStorage.getItem(STORAGE_CUSTOM_HABITS) || "{}");
+      const today = new Date().toDateString();
+      setCustomHabits(stored.date === today ? stored.items : []);
+    };
+    window.addEventListener("storage", sync);
+    window.addEventListener("focus", sync);
+    return () => {
+      window.removeEventListener("storage", sync);
+      window.removeEventListener("focus", sync);
+    };
+  }, []);
 
   useEffect(() => {
     localStorage.setItem(STORAGE_SCORES, JSON.stringify(scores));
