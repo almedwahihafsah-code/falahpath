@@ -1,3 +1,5 @@
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.103.3";
+
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
@@ -34,6 +36,27 @@ function sanitize(s: string): string {
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
+
+  // Require authenticated user
+  const authHeader = req.headers.get("Authorization");
+  if (!authHeader?.startsWith("Bearer ")) {
+    return new Response(JSON.stringify({ error: "غير مصرّح" }), {
+      status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+  const supabase = createClient(
+    Deno.env.get("SUPABASE_URL")!,
+    Deno.env.get("SUPABASE_ANON_KEY")!,
+    { global: { headers: { Authorization: authHeader } } },
+  );
+  const token = authHeader.replace("Bearer ", "");
+  const { data: claimsData, error: claimsErr } = await supabase.auth.getClaims(token);
+  if (claimsErr || !claimsData?.claims?.sub) {
+    return new Response(JSON.stringify({ error: "غير مصرّح" }), {
+      status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+  const userId = claimsData.claims.sub as string;
 
   const ip =
     req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
@@ -162,6 +185,21 @@ Deno.serve(async (req) => {
       });
     }
     const guidance = JSON.parse(call.function.arguments);
+
+    // Save to history (best-effort)
+    const { error: insErr } = await supabase.from("guidance_history").insert({
+      user_id: userId,
+      mood: mood || null,
+      situation: situationIn || null,
+      domain: domain || null,
+      verse_arabic: guidance.verse_arabic,
+      verse_reference: guidance.verse_reference,
+      guidance_domain: guidance.domain,
+      reflection: guidance.reflection,
+      actions: guidance.actions,
+      dua: guidance.dua,
+    });
+    if (insErr) console.error("history insert failed:", insErr);
 
     return new Response(JSON.stringify({ guidance }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
