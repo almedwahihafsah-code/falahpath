@@ -14,8 +14,9 @@ type Habits = Record<string, boolean>;
 
 const STORAGE_SCORES = "falah_scores_v1";
 const STORAGE_HABITS = "falah_habits_v1";
+const STORAGE_CUSTOM_HABITS = "falah_custom_habits_v1";
 
-const dailyHabits = [
+const baseHabits = [
   { id: "fajr", label: "صلاة الفجر في وقتها", domain: 1 },
   { id: "wird", label: "وِرد قرآني (10 دقائق)", domain: 1 },
   { id: "walk", label: "نشاط بدني (30 دقيقة)", domain: 2 },
