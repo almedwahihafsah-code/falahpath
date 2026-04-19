@@ -9,7 +9,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { domains } from "@/data/falah";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { Sparkles, BookOpen, Heart, ListChecks, Loader2 } from "lucide-react";
+import { Sparkles, BookOpen, Heart, ListChecks, Loader2, Plus } from "lucide-react";
+
+const STORAGE_CUSTOM_HABITS = "falah_custom_habits_v1";
 
 interface Guidance {
   verse_arabic: string;
