@@ -11,13 +11,12 @@ export const Navbar = () => (
         <span className="font-display text-xl text-primary">الفلاح</span>
       </Link>
       <div className="hidden md:flex items-center gap-8 text-sm">
-        <a href="#perspective" className="text-muted-foreground hover:text-primary transition-smooth">المنظور</a>
-        <a href="#domains" className="text-muted-foreground hover:text-primary transition-smooth">المجالات</a>
-        <a href="#paths" className="text-muted-foreground hover:text-primary transition-smooth">المسارات</a>
-        <a href="#method" className="text-muted-foreground hover:text-primary transition-smooth">المنهج</a>
+        <Link to="/" className="text-muted-foreground hover:text-primary transition-smooth">الرئيسية</Link>
+        <Link to="/app" className="text-muted-foreground hover:text-primary transition-smooth">لوحة الفلاح</Link>
+        <Link to="/guide" className="text-accent hover:text-primary transition-smooth">المرشد الذكي</Link>
       </div>
       <Button asChild className="bg-gradient-emerald hover:opacity-90 text-primary-foreground shadow-soft">
-        <Link to="/app">ابدأ رحلتك</Link>
+        <Link to="/guide">اطلب إرشادًا</Link>
       </Button>
     </nav>
   </header>
