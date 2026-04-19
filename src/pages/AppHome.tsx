@@ -37,8 +37,28 @@ const AppHome = () => {
     const today = new Date().toDateString();
     return stored.date === today ? stored.habits : {};
   });
+  const [customHabits, setCustomHabits] = useState<{ id: string; label: string; domain: number }[]>(() => {
+    const stored = JSON.parse(localStorage.getItem(STORAGE_CUSTOM_HABITS) || "{}");
+    const today = new Date().toDateString();
+    return stored.date === today ? stored.items : [];
+  });
 
+  const dailyHabits = [...baseHabits, ...customHabits];
+
+  // Sync customHabits if changed in another tab/page
   useEffect(() => {
+    const sync = () => {
+      const stored = JSON.parse(localStorage.getItem(STORAGE_CUSTOM_HABITS) || "{}");
+      const today = new Date().toDateString();
+      setCustomHabits(stored.date === today ? stored.items : []);
+    };
+    window.addEventListener("storage", sync);
+    window.addEventListener("focus", sync);
+    return () => {
+      window.removeEventListener("storage", sync);
+      window.removeEventListener("focus", sync);
+    };
+  }, []);
     localStorage.setItem(STORAGE_SCORES, JSON.stringify(scores));
   }, [scores]);
 
