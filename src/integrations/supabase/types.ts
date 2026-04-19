@@ -14,7 +14,51 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      guidance_history: {
+        Row: {
+          actions: Json
+          created_at: string
+          domain: string | null
+          dua: string
+          guidance_domain: string | null
+          id: string
+          mood: string | null
+          reflection: string
+          situation: string | null
+          user_id: string
+          verse_arabic: string
+          verse_reference: string
+        }
+        Insert: {
+          actions: Json
+          created_at?: string
+          domain?: string | null
+          dua: string
+          guidance_domain?: string | null
+          id?: string
+          mood?: string | null
+          reflection: string
+          situation?: string | null
+          user_id: string
+          verse_arabic: string
+          verse_reference: string
+        }
+        Update: {
+          actions?: Json
+          created_at?: string
+          domain?: string | null
+          dua?: string
+          guidance_domain?: string | null
+          id?: string
+          mood?: string | null
+          reflection?: string
+          situation?: string | null
+          user_id?: string
+          verse_arabic?: string
+          verse_reference?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
