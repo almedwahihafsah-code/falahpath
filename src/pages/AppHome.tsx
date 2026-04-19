@@ -59,6 +59,8 @@ const AppHome = () => {
       window.removeEventListener("focus", sync);
     };
   }, []);
+
+  useEffect(() => {
     localStorage.setItem(STORAGE_SCORES, JSON.stringify(scores));
   }, [scores]);
 
