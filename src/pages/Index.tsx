@@ -31,13 +31,29 @@ const Index = () => {
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10">
             من الوحي... إلى الحياة. القرآن هدايةٌ تُعاش، وسلوكٌ يُنجز، وفلاحٌ لا ينقطع.
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-4">
+          <div className="flex flex-wrap items-center justify-center gap-4 mb-12">
             <Button asChild size="lg" className="bg-gradient-emerald text-primary-foreground hover:opacity-90 shadow-elegant text-base px-8">
               <Link to="/app">ابدأ رحلتك <ArrowLeft className="mr-2 w-4 h-4" /></Link>
             </Button>
             <Button asChild variant="outline" size="lg" className="border-primary/30 text-base px-8">
               <a href="#perspective">تعرّف على المنهج</a>
             </Button>
+          </div>
+
+          <div className="max-w-4xl mx-auto animate-float-in">
+            <div className="relative rounded-2xl overflow-hidden shadow-elegant border border-accent/20 bg-card">
+              <div className="aspect-video">
+                <iframe
+                  src="https://www.youtube.com/embed/tiNANW1m1_o"
+                  title="منهج الفلاح — تعريف بالمشروع"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  loading="lazy"
+                  className="w-full h-full"
+                />
+              </div>
+            </div>
+            <p className="text-sm text-muted-foreground mt-4">شاهد تعريفًا موجزًا بمنهج الفلاح</p>
           </div>
         </div>
       </section>
