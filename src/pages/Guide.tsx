@@ -9,7 +9,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { domains } from "@/data/falah";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { Sparkles, BookOpen, Heart, ListChecks, Loader2, Plus } from "lucide-react";
+import { Sparkles, BookOpen, Heart, ListChecks, Loader2, Plus, ListTodo } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 
 const STORAGE_CUSTOM_HABITS = "falah_custom_habits_v1";
 
@@ -25,6 +26,7 @@ interface Guidance {
 const moods = ["مطمئن", "قلِق", "حزين", "متعب", "متحمّس", "مشتّت", "ممتنّ", "محبَط"];
 
 const Guide = () => {
+  const { user } = useAuth();
   const [mood, setMood] = useState<string>("");
   const [situation, setSituation] = useState("");
   const [domain, setDomain] = useState<string>("");
@@ -191,6 +193,22 @@ const Guide = () => {
                 className="w-full mt-5 border-accent/40 text-accent hover:bg-accent/10"
               >
                 <Plus className="ml-2 w-4 h-4" /> أضف هذه السلوكيات إلى عادات اليوم
+              </Button>
+              <Button
+                onClick={async () => {
+                  if (!user) { toast.error("سجّل الدخول أولاً"); return; }
+                  const domainId = domains.find((d) => d.title === result.domain)?.id || 1;
+                  const rows = result.actions.map((title) => ({
+                    user_id: user.id, title, domain_id: domainId, type: "task", priority: "medium", points: 10,
+                  }));
+                  const { error } = await supabase.from("tasks").insert(rows);
+                  if (error) toast.error("تعذّر إنشاء المهام");
+                  else toast.success("أُنشئت المهام في لوحة الفلاح");
+                }}
+                variant="outline"
+                className="w-full mt-3 border-primary/40 text-primary hover:bg-primary/10"
+              >
+                <ListTodo className="ml-2 w-4 h-4" /> أنشئ مهام من هذه الاقتراحات
               </Button>
             </Card>
 

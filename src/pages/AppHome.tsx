@@ -1,183 +1,176 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Navbar } from "@/components/falah/Navbar";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Progress } from "@/components/ui/progress";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
 import { domains } from "@/data/falah";
-import { CheckCircle2, Heart } from "lucide-react";
+import { Heart } from "lucide-react";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
+import { VerseOfTheDay } from "@/components/falah/VerseOfTheDay";
+import { StatsBar } from "@/components/falah/StatsBar";
+import { TaskForm } from "@/components/falah/TaskForm";
+import { TaskList, type Task } from "@/components/falah/TaskList";
+import { JournalForm } from "@/components/falah/JournalForm";
+import { Achievements } from "@/components/falah/Achievements";
+import { calcLevel } from "@/lib/falah-points";
 
 type Scores = Record<number, number>;
-type Habits = Record<string, boolean>;
-
-const STORAGE_SCORES = "falah_scores_v1";
-const STORAGE_HABITS = "falah_habits_v1";
-const STORAGE_CUSTOM_HABITS = "falah_custom_habits_v1";
-
-const baseHabits = [
-  { id: "fajr", label: "صلاة الفجر في وقتها", domain: 1 },
-  { id: "wird", label: "وِرد قرآني (10 دقائق)", domain: 1 },
-  { id: "walk", label: "نشاط بدني (30 دقيقة)", domain: 2 },
-  { id: "read", label: "قراءة نافعة (30 دقيقة)", domain: 3 },
-  { id: "work", label: "إتقان مهمة عمل واحدة", domain: 4 },
-  { id: "sadaqa", label: "صدقة ولو يسيرة", domain: 5 },
-  { id: "family", label: "وقت جودة مع الأسرة", domain: 6 },
-  { id: "help", label: "إحسان لشخصٍ ما", domain: 7 },
-  { id: "sabr", label: "محاسبة وشكر قبل النوم", domain: 8 },
-];
 
 const AppHome = () => {
-  const [scores, setScores] = useState<Scores>(() =>
-    JSON.parse(localStorage.getItem(STORAGE_SCORES) || "{}")
-  );
-  const [habits, setHabits] = useState<Habits>(() => {
-    const stored = JSON.parse(localStorage.getItem(STORAGE_HABITS) || "{}");
-    const today = new Date().toDateString();
-    return stored.date === today ? stored.habits : {};
-  });
-  const [customHabits, setCustomHabits] = useState<{ id: string; label: string; domain: number }[]>(() => {
-    const stored = JSON.parse(localStorage.getItem(STORAGE_CUSTOM_HABITS) || "{}");
-    const today = new Date().toDateString();
-    return stored.date === today ? stored.items : [];
-  });
+  const { user } = useAuth();
+  const [scores, setScores] = useState<Scores>({});
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [points, setPoints] = useState(0);
+  const [streak, setStreak] = useState(0);
+  const [habitCount, setHabitCount] = useState(0);
+  const [filter, setFilter] = useState<"all" | "active" | "done">("all");
+  const [domainFilter, setDomainFilter] = useState<number | null>(null);
 
-  const dailyHabits = [...baseHabits, ...customHabits];
+  const loadAll = useCallback(async () => {
+    if (!user) return;
+    const [t, p, hc, ds] = await Promise.all([
+      supabase.from("tasks").select("*").eq("user_id", user.id).order("created_at", { ascending: false }),
+      supabase.from("user_progress").select("*").eq("user_id", user.id).maybeSingle(),
+      supabase.from("habit_completions").select("date,points_earned").eq("user_id", user.id),
+      supabase.from("domain_scores").select("domain_id,score").eq("user_id", user.id),
+    ]);
+    setTasks((t.data as Task[]) || []);
+    setPoints(p.data?.total_points || 0);
+    setStreak(p.data?.streak_days || 0);
+    setHabitCount(hc.data?.length || 0);
+    if (ds.data) setScores(Object.fromEntries(ds.data.map((d) => [d.domain_id, d.score])));
+  }, [user]);
 
-  // Sync customHabits if changed in another tab/page
-  useEffect(() => {
-    const sync = () => {
-      const stored = JSON.parse(localStorage.getItem(STORAGE_CUSTOM_HABITS) || "{}");
-      const today = new Date().toDateString();
-      setCustomHabits(stored.date === today ? stored.items : []);
-    };
-    window.addEventListener("storage", sync);
-    window.addEventListener("focus", sync);
-    return () => {
-      window.removeEventListener("storage", sync);
-      window.removeEventListener("focus", sync);
-    };
-  }, []);
+  useEffect(() => { loadAll(); }, [loadAll]);
 
-  useEffect(() => {
-    localStorage.setItem(STORAGE_SCORES, JSON.stringify(scores));
-  }, [scores]);
+  const addPoints = async (pts: number) => {
+    if (!user) return;
+    const today = new Date().toISOString().slice(0, 10);
+    const newTotal = points + pts;
+    const newLevel = calcLevel(newTotal);
+    const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+    const { data: cur } = await supabase.from("user_progress").select("last_activity_date,streak_days").eq("user_id", user.id).maybeSingle();
+    let newStreak = cur?.streak_days || 0;
+    if (cur?.last_activity_date !== today) {
+      newStreak = cur?.last_activity_date === yesterday ? newStreak + 1 : 1;
+    }
+    await supabase.from("user_progress").upsert({
+      user_id: user.id, total_points: newTotal, level: newLevel, streak_days: newStreak, last_activity_date: today,
+    });
+    setPoints(newTotal); setStreak(newStreak);
+  };
 
-  useEffect(() => {
-    localStorage.setItem(
-      STORAGE_HABITS,
-      JSON.stringify({ date: new Date().toDateString(), habits })
+  const setScore = async (id: number, val: number) => {
+    if (!user) return;
+    setScores((s) => ({ ...s, [id]: val }));
+    const week = new Date().toISOString().slice(0, 10);
+    await supabase.from("domain_scores").upsert(
+      { user_id: user.id, domain_id: id, score: val, week_of: week },
+      { onConflict: "user_id,domain_id,week_of" }
     );
-  }, [habits]);
+  };
 
-  const setScore = (id: number, val: number) => setScores((s) => ({ ...s, [id]: val }));
-  const overall = Math.round(
-    (Object.values(scores).reduce((a, b) => a + b, 0) / (domains.length * 10)) * 100
-  ) || 0;
+  const overall = Math.round((Object.values(scores).reduce((a, b) => a + b, 0) / (domains.length * 10)) * 100) || 0;
+  const completedTasks = tasks.filter((t) => t.status === "done").length;
+  const filtered = tasks.filter((t) => {
+    if (filter === "active" && t.status !== "active") return false;
+    if (filter === "done" && t.status !== "done") return false;
+    if (domainFilter && t.domain_id !== domainFilter) return false;
+    return true;
+  });
 
-  const completed = Object.values(habits).filter(Boolean).length;
-  const dailyPct = Math.round((completed / dailyHabits.length) * 100);
+  if (!user) return null;
 
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <main className="container py-12">
-        <header className="mb-10">
+      <main className="container py-10 space-y-6">
+        <header>
           <p className="text-accent text-sm tracking-widest mb-2">لوحة الفلاح</p>
-          <h1 className="font-display text-4xl md:text-5xl text-primary mb-2">رحلتك اليومية</h1>
-          <p className="text-muted-foreground">قِس فلاحك، تابع عاداتك، واسعَ بثبات.</p>
+          <h1 className="font-display text-3xl md:text-4xl text-primary">رحلتك اليومية</h1>
         </header>
 
-        {/* Summary */}
-        <div className="grid md:grid-cols-2 gap-6 mb-10">
-          <Card className="p-7 bg-gradient-emerald text-primary-foreground shadow-elegant">
+        <StatsBar tasks={tasks.length} completed={completedTasks} points={points} level={calcLevel(points)} />
+
+        <div className="grid md:grid-cols-2 gap-5">
+          <VerseOfTheDay />
+          <Card className="p-6 bg-gradient-emerald text-primary-foreground shadow-elegant">
             <div className="flex items-center gap-2 mb-3 opacity-80">
               <Heart className="w-4 h-4" /> <span className="text-sm">مقياس الفلاح الشامل</span>
             </div>
-            <div className="font-display text-6xl mb-3 text-gradient-gold">{overall}%</div>
+            <div className="font-display text-5xl mb-3 text-gradient-gold">{overall}%</div>
             <Progress value={overall} className="h-2 bg-primary-foreground/15" />
-            <p className="text-sm opacity-75 mt-3">متوسط تقييمك في المجالات الثمانية.</p>
-          </Card>
-          <Card className="p-7 bg-gradient-card shadow-soft">
-            <div className="flex items-center gap-2 mb-3 text-muted-foreground">
-              <CheckCircle2 className="w-4 h-4 text-accent" /> <span className="text-sm">عادات اليوم</span>
-            </div>
-            <div className="font-display text-6xl text-primary mb-3">
-              {completed}<span className="text-3xl text-muted-foreground">/{dailyHabits.length}</span>
-            </div>
-            <Progress value={dailyPct} className="h-2" />
-            <p className="text-sm text-muted-foreground mt-3">تتجدّد العادات كل يوم.</p>
           </Card>
         </div>
 
-        {/* Daily habits */}
-        <section className="mb-12">
-          <h2 className="font-display text-2xl text-primary mb-5">عادات اليوم</h2>
-          <Card className="p-6 bg-card shadow-soft divide-y divide-border/60">
-            {dailyHabits.map((h) => {
-              const checked = !!habits[h.id];
-              return (
-                <label
-                  key={h.id}
-                  className="flex items-center gap-4 py-3 cursor-pointer group"
-                >
-                  <Checkbox
-                    checked={checked}
-                    onCheckedChange={(v) => {
-                      setHabits((prev) => ({ ...prev, [h.id]: !!v }));
-                      if (v) toast.success("بوركت — خطوة نحو الفلاح");
-                    }}
-                  />
-                  <span className={`flex-1 ${checked ? "line-through text-muted-foreground" : "text-foreground"}`}>
-                    {h.label}
-                  </span>
-                  <span className="text-xs text-accent">
-                    {domains.find((d) => d.id === h.domain)?.title}
-                  </span>
-                </label>
-              );
-            })}
-          </Card>
-        </section>
+        <Tabs defaultValue="tasks" className="w-full">
+          <TabsList className="grid grid-cols-4 w-full h-auto">
+            <TabsTrigger value="tasks">📋 المهام</TabsTrigger>
+            <TabsTrigger value="domains">🌿 المجالات</TabsTrigger>
+            <TabsTrigger value="journal">🌅 اليومية</TabsTrigger>
+            <TabsTrigger value="achievements">🏆 الإنجازات</TabsTrigger>
+          </TabsList>
 
-        {/* Domain scoring */}
-        <section>
-          <h2 className="font-display text-2xl text-primary mb-5">قَيِّم مجالاتك (1 – 10)</h2>
-          <div className="grid md:grid-cols-2 gap-5">
-            {domains.map((d) => {
-              const v = scores[d.id] ?? 5;
-              return (
-                <Card key={d.id} className="p-6 bg-gradient-card border-border/60 shadow-soft">
-                  <div className="flex items-start justify-between mb-3">
-                    <div>
-                      <h3 className="font-display text-lg text-primary">{d.title}</h3>
-                      <p className="text-xs text-accent">{d.subtitle}</p>
+          <TabsContent value="tasks" className="space-y-4 mt-4">
+            <TaskForm userId={user.id} onCreated={loadAll} />
+            <div className="flex flex-wrap gap-2">
+              {(["all", "active", "done"] as const).map((f) => (
+                <Badge key={f} variant={filter === f ? "default" : "outline"} className="cursor-pointer" onClick={() => setFilter(f)}>
+                  {f === "all" ? "الكل" : f === "active" ? "نشطة" : "منجزة"}
+                </Badge>
+              ))}
+              {domainFilter && (
+                <Badge variant="secondary" className="cursor-pointer" onClick={() => setDomainFilter(null)}>
+                  ✕ {domains.find((d) => d.id === domainFilter)?.title}
+                </Badge>
+              )}
+            </div>
+            <TaskList tasks={filtered} onChange={loadAll} onComplete={addPoints} />
+          </TabsContent>
+
+          <TabsContent value="domains" className="space-y-4 mt-4">
+            <div className="grid md:grid-cols-2 gap-4">
+              {domains.map((d) => {
+                const dTasks = tasks.filter((t) => t.domain_id === d.id);
+                const dDone = dTasks.filter((t) => t.status === "done").length;
+                const pct = dTasks.length ? Math.round((dDone / dTasks.length) * 100) : 0;
+                const v = scores[d.id] ?? 5;
+                return (
+                  <Card key={d.id} className="p-5 bg-gradient-card shadow-soft">
+                    <div className="flex items-start justify-between mb-2">
+                      <div>
+                        <h3 className="font-display text-lg text-primary cursor-pointer hover:underline" onClick={() => setDomainFilter(d.id)}>{d.title}</h3>
+                        <p className="text-xs text-accent">{d.subtitle}</p>
+                      </div>
+                      <span className="font-display text-2xl text-gradient-gold">{v}</span>
                     </div>
-                    <span className="font-display text-3xl text-gradient-gold">{v}</span>
-                  </div>
-                  <p className="font-quran text-sm text-primary/70 mb-4 leading-loose">﴿ {d.quote} ﴾</p>
-                  <Slider
-                    value={[v]}
-                    min={1}
-                    max={10}
-                    step={1}
-                    onValueChange={(val) => setScore(d.id, val[0])}
-                  />
-                </Card>
-              );
-            })}
-          </div>
-          <div className="text-center mt-10">
-            <Button
-              onClick={() => toast.success("تم حفظ تقييمك الأسبوعي")}
-              size="lg"
-              className="bg-gradient-emerald text-primary-foreground shadow-elegant px-10"
-            >
-              حفظ تقرير الفلاح الأسبوعي
-            </Button>
-          </div>
-        </section>
+                    <p className="text-xs text-muted-foreground mb-2">{dDone}/{dTasks.length} مهام • {pct}%</p>
+                    <Progress value={pct} className="h-1.5 mb-3" />
+                    <Slider value={[v]} min={1} max={10} step={1} onValueChange={(val) => setScore(d.id, val[0])} />
+                  </Card>
+                );
+              })}
+            </div>
+            <div className="text-center pt-4">
+              <Button onClick={() => toast.success("تم حفظ تقييمك")} className="bg-gradient-emerald text-primary-foreground px-8">
+                حفظ تقرير الفلاح الأسبوعي
+              </Button>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="journal" className="mt-4">
+            <JournalForm userId={user.id} onPointsEarned={addPoints} />
+          </TabsContent>
+
+          <TabsContent value="achievements" className="mt-4">
+            <Achievements points={points} habitCount={habitCount} streak={streak} />
+          </TabsContent>
+        </Tabs>
       </main>
     </div>
   );
