@@ -2,7 +2,7 @@ import { Navbar } from "@/components/falah/Navbar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { ArrowLeft, BookOpen, Compass, Sparkles } from "lucide-react";
+import { ArrowLeft, BookOpen, Compass, Sparkles, ListTodo, Sunrise, Trophy, Layers } from "lucide-react";
 import heroPattern from "@/assets/hero-pattern.jpg";
 import { domains, paths, methodSteps } from "@/data/falah";
 
@@ -143,6 +143,31 @@ const Index = () => {
               </Card>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* SERVICES */}
+      <section id="services" className="container py-24">
+        <div className="text-center mb-16">
+          <p className="text-accent text-sm tracking-widest mb-3">خدماتنا</p>
+          <h2 className="font-display text-4xl md:text-5xl text-primary mb-4">ماذا تجد داخل التطبيق؟</h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto">منظومة متكاملة تجمع بين التخطيط والتزكية والإنجاز.</p>
+        </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+          {[
+            { icon: ListTodo, t: "مخطّط المهام", d: "أضف مهامك وأهدافك حسب المجال والأولوية والتاريخ." },
+            { icon: Layers, t: "المجالات الثمانية", d: "تابع تقدّمك في 8 مجالات حياتية بنظرة شاملة." },
+            { icon: Sunrise, t: "اليومية الإيمانية", d: "وِرد، صلوات، تأمل، طمأنينة وطاقة — في صفحة واحدة." },
+            { icon: Trophy, t: "الإنجازات والمستويات", d: "اجمع نقاطًا، ارتقِ مستويات، واحصد الأوسمة." },
+          ].map((s, i) => (
+            <Card key={i} className="p-6 bg-gradient-card border-border/60 shadow-soft hover:shadow-elegant hover:-translate-y-1 transition-smooth">
+              <div className="w-12 h-12 rounded-xl bg-gradient-emerald flex items-center justify-center mb-4">
+                <s.icon className="w-6 h-6 text-primary-foreground" />
+              </div>
+              <h3 className="font-display text-xl text-primary mb-2">{s.t}</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">{s.d}</p>
+            </Card>
+          ))}
         </div>
       </section>
 
