@@ -14,6 +14,72 @@ export type Database = {
   }
   public: {
     Tables: {
+      daily_journal: {
+        Row: {
+          created_at: string
+          date: string
+          energy_level: number | null
+          id: string
+          note: string | null
+          peace_level: number | null
+          quran_juz: number | null
+          reflection_minutes: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          date?: string
+          energy_level?: number | null
+          id?: string
+          note?: string | null
+          peace_level?: number | null
+          quran_juz?: number | null
+          reflection_minutes?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          energy_level?: number | null
+          id?: string
+          note?: string | null
+          peace_level?: number | null
+          quran_juz?: number | null
+          reflection_minutes?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      domain_scores: {
+        Row: {
+          created_at: string
+          domain_id: number
+          id: string
+          score: number
+          user_id: string
+          week_of: string
+        }
+        Insert: {
+          created_at?: string
+          domain_id: number
+          id?: string
+          score: number
+          user_id: string
+          week_of?: string
+        }
+        Update: {
+          created_at?: string
+          domain_id?: number
+          id?: string
+          score?: number
+          user_id?: string
+          week_of?: string
+        }
+        Relationships: []
+      }
       guidance_history: {
         Row: {
           actions: Json
@@ -56,6 +122,108 @@ export type Database = {
           user_id?: string
           verse_arabic?: string
           verse_reference?: string
+        }
+        Relationships: []
+      }
+      habit_completions: {
+        Row: {
+          created_at: string
+          date: string
+          habit_key: string
+          id: string
+          points_earned: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          date?: string
+          habit_key: string
+          id?: string
+          points_earned?: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          habit_key?: string
+          id?: string
+          points_earned?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      tasks: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          description: string | null
+          domain_id: number | null
+          due_date: string | null
+          id: string
+          points: number
+          priority: string
+          status: string
+          title: string
+          type: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          description?: string | null
+          domain_id?: number | null
+          due_date?: string | null
+          id?: string
+          points?: number
+          priority?: string
+          status?: string
+          title: string
+          type?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          description?: string | null
+          domain_id?: number | null
+          due_date?: string | null
+          id?: string
+          points?: number
+          priority?: string
+          status?: string
+          title?: string
+          type?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_progress: {
+        Row: {
+          last_activity_date: string | null
+          level: number
+          streak_days: number
+          total_points: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          last_activity_date?: string | null
+          level?: number
+          streak_days?: number
+          total_points?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          last_activity_date?: string | null
+          level?: number
+          streak_days?: number
+          total_points?: number
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
