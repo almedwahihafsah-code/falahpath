@@ -153,12 +153,13 @@ const Index = () => {
           <h2 className="font-display text-4xl md:text-5xl text-primary mb-4">ماذا تجد داخل التطبيق؟</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">منظومة متكاملة تجمع بين التخطيط والتزكية والإنجاز.</p>
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-5">
           {[
             { icon: ListTodo, t: "مخطّط المهام", d: "أضف مهامك وأهدافك حسب المجال والأولوية والتاريخ." },
             { icon: Layers, t: "المجالات الثمانية", d: "تابع تقدّمك في 8 مجالات حياتية بنظرة شاملة." },
             { icon: Sunrise, t: "اليومية الإيمانية", d: "وِرد، صلوات، تأمل، طمأنينة وطاقة — في صفحة واحدة." },
             { icon: Trophy, t: "الإنجازات والمستويات", d: "اجمع نقاطًا، ارتقِ مستويات، واحصد الأوسمة." },
+            { icon: BookOpen, t: "تصنيف القرآن", d: "استكشف آيات القرآن مصنّفة وفق منهج الفلاح السداسي.", href: "/quran" },
           ].map((s, i) => (
             <Card key={i} className="p-6 bg-gradient-card border-border/60 shadow-soft hover:shadow-elegant hover:-translate-y-1 transition-smooth">
               <div className="w-12 h-12 rounded-xl bg-gradient-emerald flex items-center justify-center mb-4">
@@ -166,6 +167,9 @@ const Index = () => {
               </div>
               <h3 className="font-display text-xl text-primary mb-2">{s.t}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">{s.d}</p>
+              {(s as any).href && (
+                <a href={(s as any).href} className="inline-block mt-3 text-sm text-accent hover:underline">استكشف →</a>
+              )}
             </Card>
           ))}
         </div>
