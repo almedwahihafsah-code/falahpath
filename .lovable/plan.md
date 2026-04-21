@@ -1,78 +1,81 @@
 
 
 ## Goal
-Align the Falah app with the core services of `ellfalah.netlify.app` while keeping the existing identity (auth, Smart Guide, Cloud sync). The reference site is a **gamified Quranic life planner** organized in 4 tabs: Tasks, Domains, Daily Journal, Achievements — with points/levels, verse of the day, and energy/peace meters.
+Embed the Excel-defined Quranic classification system into the app and seed Surah Al-Baqarah (286 verses) as the first classified surah, so users can browse, classify, and link any verse to the existing Falah domains/tasks.
 
-## Gap analysis
+## What the Excel defines (6-layer schema)
 
-| Reference feature | Current state | Action |
+| Layer | Purpose | Examples |
 |---|---|---|
-| Tasks (title, desc, domain, priority, due date, type) | Missing | **Build** |
-| 8 Domains with progress | Have static cards (slider scoring only) | **Enhance** with task counts |
-| Daily Journal (10 worship habits with points, Quran reading, reflection minutes, peace/energy sliders, daily note) | Partial (9 habits, no points) | **Enhance** |
-| Achievements (level, points, badges) | Missing | **Build** |
-| Verse of the Day card | Missing | **Build** |
-| Top stats bar (tasks/completed/points/level) | Missing | **Build** |
-| Tabbed AppHome layout | Single scroll | **Refactor** to tabs |
+| 1. المجال (Domain) | A–F top-level + sub-domain | A_الله_والغيبيات, B_الإنسان, C_الكون, D_الهداية, E_الحياة_العملية, F_المصير_والآخرة |
+| 2. المحور (Theme) | Recurring theme | التوحيد, الابتلاء, التمكين, الصبر, الشكر, التوبة, الحكمة… |
+| 3. الوظيفة الخطابية (Function) | Speech act | أمر, نهي, وعد, وعيد, قصة, مثل, حوار, تقرير, تعزية, تحفيز, تصحيح |
+| 4. السياق (Context) | مكي/مدني + occasion | مكية / مدنية, سياق السورة, سبب النزول |
+| 5. الأثر التربوي (Educational effect) | بناء_الإيمان, تزكية_النفس, تصحيح_السلوك, إحياء_الرجاء… |
+| 6. العلامات الذكية (Smart tags) | #سنة_إلهية, #تمكين, #قيادة, #تحول… |
 
-## Plan
+## Database (Lovable Cloud)
 
-### 1. Backend (Lovable Cloud)
-Add 3 tables with RLS (user_id-scoped):
-- `tasks` — id, user_id, title, description, domain_id, priority (high/med/low), due_date, type (task/habit/goal), status, completed_at, points
-- `daily_journal` — id, user_id, date (unique per user), quran_juz, reflection_minutes, peace_level (1-10), energy_level (1-10), note
-- `user_progress` — user_id (PK), total_points, level, streak_days, last_activity_date
+Five new tables, all readable by everyone (public Quran reference data), writable only by admins.
 
-Move existing localStorage data (scores, habits, custom habits) to Cloud-backed tables for cross-device sync:
-- `domain_scores` — user_id, domain_id, score, week_of
-- `habit_completions` — user_id, habit_key, date, points_earned
+- `surahs` — id, number (1–114), name_ar, name_translit, revelation (مكية/مدنية), verses_count, order_revelation
+- `verses` — id, surah_number, verse_number, text_ar (uthmani), text_simple, page, juz; unique(surah_number, verse_number)
+- `verse_classifications` — id, verse_id, domain_code (A–F), sub_domain, themes[], function, context, educational_effects[], tags[], notes, created_by, created_at, updated_at
+- `classification_taxonomy` — type (domain|theme|function|effect|tag), code, label_ar, parent_code, description — seeded from the Excel reference sheets
+- `user_roles` + `app_role` enum (`admin`, `user`) + `has_role()` security-definer function (per project rules — never store role on profiles)
 
-### 2. Frontend — refactor `/app` into tabbed layout
+Seed data from Excel:
+- All taxonomy rows from sheets 3–7 of the workbook
+- Surah Al-Baqarah metadata + all 286 verses (text fetched from a reliable open source — see Technical notes)
+- The example verse القصص:5 as a reference classification
 
-```text
-┌─────────────────────────────────────────┐
-│  [Top Stats] tasks | completed | pts | lvl │
-│  [Verse of the Day card]                 │
-│  [Weekly Falah Meter %]                  │
-│  ─────────────────────────────────────── │
-│  📋 Tasks | 🌿 Domains | 🌅 Journal | 🏆 │
-└─────────────────────────────────────────┘
-```
+Reference verses are PUBLIC SELECT. Only admins INSERT/UPDATE/DELETE classifications and verses.
 
-**Tab 1 — Tasks**: Add-task form (title, desc, domain dropdown, priority, due date, type). List with filter chips (All/Active/Completed + by domain). Complete = +points. Delete action.
+## UI
 
-**Tab 2 — Domains**: 8 cards with emoji + title + subtitle + `X/Y tasks Z%` progress. Click to filter Tasks tab. Keep slider scoring at the bottom.
+### New page: `/quran` — Quran Explorer
+Top bar: surah selector (114 surahs, only Al-Baqarah enabled at launch, others greyed "قريبًا"), juz/page jump, search by tag/domain/theme.
 
-**Tab 3 — Daily Journal**: 10 worship habits each with point value (+10/+15/+8). Quran juz counter (-/+). Reflection minutes (-5/+5). Peace slider (قلق ↔ مطمئن). Energy slider (متعب ↔ نشيط). Daily note textarea. Save button.
+Main: vertical list of verses with verse number badge, Arabic text in `font-quran`, and a chips row showing assigned classifications (domain color, themes, function, tags). Click a verse → side drawer with full classification, reflection notes, and an **"أضف إلى مهامي"** button that creates a task in the existing `tasks` table with the inferred domain.
 
-**Tab 4 — Achievements**: Level badge + progress to next level. Points history. Unlocked badges (e.g. "صائم الفجر 7 أيام", "ختمة جزء", "10 صدقات"). Streak counter.
+Filters (left rail on desktop, sheet on mobile):
+- Domain (A–F) toggle chips
+- Theme multi-select
+- Function multi-select
+- Smart tags multi-select
+- Context (مكي/مدني)
+- "مصنّفة فقط" toggle
 
-### 3. New shared components
-- `VerseOfTheDay` card (rotates daily from a curated list in `src/data/verses.ts`)
-- `StatsBar` (4 mini-cards: tasks, completed, points, level)
-- `TaskCard`, `TaskForm`, `JournalForm`, `AchievementBadge`
+### New page: `/quran/admin` (admins only)
+Form to add/edit a verse classification: dropdowns for all 6 layers populated from `classification_taxonomy`, multi-select for themes/effects/tags, free-text reflection. Includes a "تصنيف بالذكاء الاصطناعي" button that calls a new edge function suggesting a draft classification using Lovable AI (`google/gemini-2.5-pro`) which the admin reviews and saves.
 
-### 4. Smart Guide alignment
-Existing "Add to daily habits" button stays. Additionally add **"أنشئ مهام من هذه الاقتراحات"** to push AI actions into the new `tasks` table with the inferred domain.
+### Landing page (`/`)
+Add a "تصنيف القرآن" card to the existing Services section linking to `/quran`.
 
-### 5. Points & leveling logic
-- Each completed task/habit awards points (configurable per item, defaults from reference: fajr+10, quran+15, dhikr+10, prayers+8, charity+12, sport+10, learning+10).
-- Level = `floor(sqrt(points / 50))` (level 1 at 50pts, level 2 at 200, level 3 at 450…).
-- Streak increments when user logs any activity on consecutive days.
+### App home (`/app`)
+Add a 5th tab **"القرآن"** with a quick widget: random classified verse + "استكشف التصنيف الكامل" CTA to `/quran`.
 
-### 6. Landing page (`/`)
-Add a new **"خدماتنا"** section above CTA showcasing the 4 core services (Tasks Planner, 8 Domains, Daily Journal, Achievements) with icons + 1-line descriptions, ensuring the landing accurately reflects what users get inside the app.
+## Smart Guide alignment
+The Smart Guide (`/guide`) already maps situations to domains. Extend its response so when it suggests a behavior, it also surfaces 1–3 relevant classified verses from `verse_classifications` matching the inferred domain/theme. Add a "آيات لهذا الموقف" section under the existing reflection.
 
-### 7. Migration of existing data
-On first load after deploy, if localStorage has `falah_scores_v1` / `falah_habits_v1` / `falah_custom_habits_v1`, push them to Cloud once then clear local keys.
+## Technical notes
+- **Verse text source**: Word doc OCR is incomplete and has errors mid-surah. Fetch canonical Uthmani text for Al-Baqarah (286 verses) from a public Quran JSON source at seed time (e.g. `quran.com` API or an open `quran-json` dataset bundled in `src/data/quran/al-baqarah.json`) — this guarantees accurate Rasm.
+- **Bismillah image** from the Word doc: copy to `src/assets/bismillah.png` and show at the top of each surah view.
+- **Color tokens**: extend `index.css` with 6 semantic HSL tokens (`--domain-a` … `--domain-f`) so each domain has a consistent color across chips, filters, and the verse drawer.
+- **Components to create**: `src/components/quran/SurahHeader.tsx`, `VerseCard.tsx`, `ClassificationDrawer.tsx`, `ClassificationForm.tsx`, `FilterRail.tsx`, `ClassificationChips.tsx`.
+- **Data files**: `src/data/quran/al-baqarah.json` (verses), `src/data/quran/taxonomy.ts` (mirror of seeded taxonomy for instant UI rendering), `src/data/quran/surahs.ts` (114-surah index).
+- **Edge function**: `supabase/functions/classify-verse/index.ts` — accepts `verse_id`, calls Lovable AI with the 6-layer schema as JSON-mode prompt, returns a draft classification.
+- **Admin bootstrap**: first signed-in user is granted `admin` via a one-time SQL insert noted in the migration; subsequent admins added via a tiny "Manage admins" panel on `/quran/admin`.
+- **RLS**: `verses` and `surahs` and `classification_taxonomy` SELECT public. `verse_classifications` SELECT public, INSERT/UPDATE/DELETE admin-only via `has_role(auth.uid(),'admin')`.
 
-## Out of scope (can be follow-ups)
-- Multi-week analytics charts
-- Sharing/export of weekly report as PDF
-- Push notifications / reminders
-- Dark mode toggle (reference has 🌙 toggle)
+## Out of scope (follow-ups)
+- Seeding the remaining 113 surahs (will be added per request once Al-Baqarah flow is validated)
+- Audio recitation playback
+- Tafsir text per verse
+- Translation toggle (English/French)
+- Public submission workflow for non-admin classifications
 
 ## Files to create / edit
-**New**: `src/data/verses.ts`, `src/components/falah/StatsBar.tsx`, `src/components/falah/VerseOfTheDay.tsx`, `src/components/falah/TaskForm.tsx`, `src/components/falah/TaskList.tsx`, `src/components/falah/JournalForm.tsx`, `src/components/falah/Achievements.tsx`, `src/lib/falah-points.ts`, migration SQL.
-**Edit**: `src/pages/AppHome.tsx` (full refactor to tabs), `src/pages/Index.tsx` (add Services section), `src/pages/Guide.tsx` (add "create tasks" button), `src/data/falah.ts` (add emoji + points to habits).
+**New**: 6 components in `src/components/quran/`, `src/pages/QuranExplorer.tsx`, `src/pages/QuranAdmin.tsx`, `src/data/quran/al-baqarah.json`, `src/data/quran/surahs.ts`, `src/data/quran/taxonomy.ts`, `supabase/functions/classify-verse/index.ts`, migration with 5 tables + role system + seed data, `src/assets/bismillah.png`.
+**Edit**: `src/App.tsx` (routes), `src/pages/AppHome.tsx` (5th tab), `src/pages/Index.tsx` (Services card), `src/pages/Guide.tsx` (related verses block), `src/components/falah/Navbar.tsx` (Quran link), `src/index.css` (domain color tokens).
 
