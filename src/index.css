@@ -45,6 +45,14 @@
     --shadow-gold: 0 10px 40px -10px hsl(38 80% 50% / 0.4);
     --shadow-soft: 0 4px 20px -8px hsl(158 30% 20% / 0.15);
 
+    /* Quran domain colors (A–F) */
+    --domain-a: 265 55% 50%;
+    --domain-b: 12 75% 55%;
+    --domain-c: 200 70% 45%;
+    --domain-d: 158 55% 35%;
+    --domain-e: 38 75% 50%;
+    --domain-f: 340 60% 50%;
+
     --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 
     --sidebar-background: 40 35% 96%;
