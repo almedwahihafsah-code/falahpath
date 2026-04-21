@@ -24,6 +24,7 @@ export const Navbar = () => {
         <div className="hidden md:flex items-center gap-8 text-sm">
           <Link to="/" className="text-muted-foreground hover:text-primary transition-smooth">الرئيسية</Link>
           <Link to="/app" className="text-muted-foreground hover:text-primary transition-smooth">لوحة الفلاح</Link>
+          <Link to="/quran" className="text-muted-foreground hover:text-primary transition-smooth">القرآن</Link>
           <Link to="/guide" className="text-accent hover:text-primary transition-smooth">المرشد الذكي</Link>
         </div>
         {user ? (

@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      classification_taxonomy: {
+        Row: {
+          code: string
+          description: string | null
+          id: string
+          label_ar: string
+          parent_code: string | null
+          sort_order: number | null
+          type: string
+        }
+        Insert: {
+          code: string
+          description?: string | null
+          id?: string
+          label_ar: string
+          parent_code?: string | null
+          sort_order?: number | null
+          type: string
+        }
+        Update: {
+          code?: string
+          description?: string | null
+          id?: string
+          label_ar?: string
+          parent_code?: string | null
+          sort_order?: number | null
+          type?: string
+        }
+        Relationships: []
+      }
       daily_journal: {
         Row: {
           created_at: string
@@ -152,6 +182,33 @@ export type Database = {
         }
         Relationships: []
       }
+      surahs: {
+        Row: {
+          name_ar: string
+          name_translit: string
+          number: number
+          order_revelation: number | null
+          revelation: string
+          verses_count: number
+        }
+        Insert: {
+          name_ar: string
+          name_translit: string
+          number: number
+          order_revelation?: number | null
+          revelation: string
+          verses_count: number
+        }
+        Update: {
+          name_ar?: string
+          name_translit?: string
+          number?: number
+          order_revelation?: number | null
+          revelation?: string
+          verses_count?: number
+        }
+        Relationships: []
+      }
       tasks: {
         Row: {
           completed_at: string | null
@@ -227,15 +284,131 @@ export type Database = {
         }
         Relationships: []
       }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      verse_classifications: {
+        Row: {
+          context: string | null
+          created_at: string
+          created_by: string | null
+          domain_code: string | null
+          educational_effects: string[] | null
+          function: string | null
+          id: string
+          notes: string | null
+          sub_domain: string | null
+          tags: string[] | null
+          themes: string[] | null
+          updated_at: string
+          verse_id: string
+        }
+        Insert: {
+          context?: string | null
+          created_at?: string
+          created_by?: string | null
+          domain_code?: string | null
+          educational_effects?: string[] | null
+          function?: string | null
+          id?: string
+          notes?: string | null
+          sub_domain?: string | null
+          tags?: string[] | null
+          themes?: string[] | null
+          updated_at?: string
+          verse_id: string
+        }
+        Update: {
+          context?: string | null
+          created_at?: string
+          created_by?: string | null
+          domain_code?: string | null
+          educational_effects?: string[] | null
+          function?: string | null
+          id?: string
+          notes?: string | null
+          sub_domain?: string | null
+          tags?: string[] | null
+          themes?: string[] | null
+          updated_at?: string
+          verse_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "verse_classifications_verse_id_fkey"
+            columns: ["verse_id"]
+            isOneToOne: false
+            referencedRelation: "verses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      verses: {
+        Row: {
+          created_at: string
+          id: string
+          juz: number | null
+          page: number | null
+          surah_number: number
+          text_ar: string
+          text_simple: string | null
+          verse_number: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          juz?: number | null
+          page?: number | null
+          surah_number: number
+          text_ar: string
+          text_simple?: string | null
+          verse_number: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          juz?: number | null
+          page?: number | null
+          surah_number?: number
+          text_ar?: string
+          text_simple?: string | null
+          verse_number?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -362,6 +535,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user"],
+    },
   },
 } as const

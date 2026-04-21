@@ -8,6 +8,8 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 import Index from "./pages/Index.tsx";
 import AppHome from "./pages/AppHome.tsx";
 import Guide from "./pages/Guide.tsx";
+import QuranExplorer from "./pages/QuranExplorer.tsx";
+import QuranAdmin from "./pages/QuranAdmin.tsx";
 import Auth from "./pages/Auth.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
@@ -25,6 +27,8 @@ const App = () => (
             <Route path="/auth" element={<Auth />} />
             <Route path="/app" element={<ProtectedRoute><AppHome /></ProtectedRoute>} />
             <Route path="/guide" element={<ProtectedRoute><Guide /></ProtectedRoute>} />
+            <Route path="/quran" element={<QuranExplorer />} />
+            <Route path="/quran/admin" element={<ProtectedRoute><QuranAdmin /></ProtectedRoute>} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

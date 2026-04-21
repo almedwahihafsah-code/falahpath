@@ -109,11 +109,12 @@ const AppHome = () => {
         </div>
 
         <Tabs defaultValue="tasks" className="w-full">
-          <TabsList className="grid grid-cols-4 w-full h-auto">
+          <TabsList className="grid grid-cols-5 w-full h-auto">
             <TabsTrigger value="tasks">📋 المهام</TabsTrigger>
             <TabsTrigger value="domains">🌿 المجالات</TabsTrigger>
             <TabsTrigger value="journal">🌅 اليومية</TabsTrigger>
             <TabsTrigger value="achievements">🏆 الإنجازات</TabsTrigger>
+            <TabsTrigger value="quran">📖 القرآن</TabsTrigger>
           </TabsList>
 
           <TabsContent value="tasks" className="space-y-4 mt-4">
@@ -169,6 +170,19 @@ const AppHome = () => {
 
           <TabsContent value="achievements" className="mt-4">
             <Achievements points={points} habitCount={habitCount} streak={streak} />
+          </TabsContent>
+
+          <TabsContent value="quran" className="mt-4">
+            <Card className="p-8 bg-gradient-card text-center space-y-4">
+              <div className="font-quran text-3xl text-gradient-gold">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+              <h3 className="font-display text-2xl text-primary">نظام التصنيف القرآني</h3>
+              <p className="text-muted-foreground max-w-xl mx-auto">
+                استكشف آيات القرآن مصنّفة وفق المنهج السداسي: المجال، الوظيفة، السياق، المحاور، الأثر التربوي، والعلامات الذكية. سورة البقرة متاحة الآن بكامل آياتها (286).
+              </p>
+              <Button asChild className="bg-gradient-emerald text-primary-foreground">
+                <a href="/quran">استكشف التصنيف الكامل</a>
+              </Button>
+            </Card>
           </TabsContent>
         </Tabs>
       </main>
