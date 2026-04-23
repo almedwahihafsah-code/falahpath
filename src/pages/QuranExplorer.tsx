@@ -84,8 +84,8 @@ const QuranExplorer = () => {
             <SelectTrigger className="w-56"><SelectValue /></SelectTrigger>
             <SelectContent className="max-h-80">
               {surahs.map(s => (
-                <SelectItem key={s.number} value={String(s.number)} disabled={s.number !== 2}>
-                  {s.number}. {s.name_ar} {s.number !== 2 && "(قريبًا)"}
+                <SelectItem key={s.number} value={String(s.number)} disabled={s.number !== 2 && s.number !== 3}>
+                  {s.number}. {s.name_ar} {s.number !== 2 && s.number !== 3 && "(قريبًا)"}
                 </SelectItem>
               ))}
             </SelectContent>
