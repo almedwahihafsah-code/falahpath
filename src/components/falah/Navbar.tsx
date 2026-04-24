@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-import { LogOut } from "lucide-react";
+import { LogOut, Menu } from "lucide-react";
+import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 
 export const Navbar = () => {
   const { user, signOut } = useAuth();
@@ -11,6 +12,13 @@ export const Navbar = () => {
     await signOut();
     navigate("/", { replace: true });
   };
+
+  const navLinks = [
+    { to: "/", label: "الرئيسية" },
+    { to: "/app", label: "لوحة الفلاح" },
+    { to: "/quran", label: "القرآن" },
+    { to: "/guide", label: "المرشد الذكي", accent: true },
+  ];
 
   return (
     <header className="sticky top-0 z-50 backdrop-blur-xl bg-background/75 border-b border-border/50">
@@ -22,20 +30,70 @@ export const Navbar = () => {
           <span className="font-display text-xl text-primary">الفلاح</span>
         </Link>
         <div className="hidden md:flex items-center gap-8 text-sm">
-          <Link to="/" className="text-muted-foreground hover:text-primary transition-smooth">الرئيسية</Link>
-          <Link to="/app" className="text-muted-foreground hover:text-primary transition-smooth">لوحة الفلاح</Link>
-          <Link to="/quran" className="text-muted-foreground hover:text-primary transition-smooth">القرآن</Link>
-          <Link to="/guide" className="text-accent hover:text-primary transition-smooth">المرشد الذكي</Link>
+          {navLinks.map((l) => (
+            <Link
+              key={l.to}
+              to={l.to}
+              className={`${l.accent ? "text-accent" : "text-muted-foreground"} hover:text-primary transition-smooth`}
+            >
+              {l.label}
+            </Link>
+          ))}
         </div>
-        {user ? (
-          <Button variant="outline" onClick={handleSignOut} className="gap-2">
-            <LogOut className="w-4 h-4" /> خروج
-          </Button>
-        ) : (
-          <Button asChild className="bg-gradient-emerald hover:opacity-90 text-primary-foreground shadow-soft">
-            <Link to="/auth">دخول</Link>
-          </Button>
-        )}
+        <div className="flex items-center gap-2">
+          <div className="hidden md:block">
+            {user ? (
+              <Button variant="outline" onClick={handleSignOut} className="gap-2">
+                <LogOut className="w-4 h-4" /> خروج
+              </Button>
+            ) : (
+              <Button asChild className="bg-gradient-emerald hover:opacity-90 text-primary-foreground shadow-soft">
+                <Link to="/auth">دخول</Link>
+              </Button>
+            )}
+          </div>
+          <Sheet>
+            <SheetTrigger asChild className="md:hidden">
+              <Button variant="ghost" size="icon" aria-label="فتح القائمة">
+                <Menu className="w-5 h-5" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-72">
+              <SheetHeader>
+                <SheetTitle className="font-display text-primary text-right">القائمة</SheetTitle>
+              </SheetHeader>
+              <div className="flex flex-col gap-1 mt-6">
+                {navLinks.map((l) => (
+                  <SheetClose asChild key={l.to}>
+                    <Link
+                      to={l.to}
+                      className={`px-4 py-3 rounded-lg text-base text-right hover:bg-muted transition-smooth ${
+                        l.accent ? "text-accent font-medium" : "text-foreground"
+                      }`}
+                    >
+                      {l.label}
+                    </Link>
+                  </SheetClose>
+                ))}
+                <div className="mt-4 border-t border-border pt-4">
+                  {user ? (
+                    <SheetClose asChild>
+                      <Button variant="outline" onClick={handleSignOut} className="w-full gap-2">
+                        <LogOut className="w-4 h-4" /> خروج
+                      </Button>
+                    </SheetClose>
+                  ) : (
+                    <SheetClose asChild>
+                      <Button asChild className="w-full bg-gradient-emerald hover:opacity-90 text-primary-foreground shadow-soft">
+                        <Link to="/auth">دخول</Link>
+                      </Button>
+                    </SheetClose>
+                  )}
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
       </nav>
     </header>
   );
