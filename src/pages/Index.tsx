@@ -155,22 +155,30 @@ const Index = () => {
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-5">
           {[
-            { icon: ListTodo, t: "مخطّط المهام", d: "أضف مهامك وأهدافك حسب المجال والأولوية والتاريخ." },
-            { icon: Layers, t: "المجالات الثمانية", d: "تابع تقدّمك في 8 مجالات حياتية بنظرة شاملة." },
-            { icon: Sunrise, t: "اليومية الإيمانية", d: "وِرد، صلوات، تأمل، طمأنينة وطاقة — في صفحة واحدة." },
-            { icon: Trophy, t: "الإنجازات والمستويات", d: "اجمع نقاطًا، ارتقِ مستويات، واحصد الأوسمة." },
+            { icon: ListTodo, t: "مخطّط المهام", d: "أضف مهامك وأهدافك حسب المجال والأولوية والتاريخ.", href: "/app" },
+            { icon: Layers, t: "المجالات الثمانية", d: "تابع تقدّمك في 8 مجالات حياتية بنظرة شاملة.", href: "/app" },
+            { icon: Sunrise, t: "اليومية الإيمانية", d: "وِرد، صلوات، تأمل، طمأنينة وطاقة — في صفحة واحدة.", href: "/app" },
+            { icon: Trophy, t: "الإنجازات والمستويات", d: "اجمع نقاطًا، ارتقِ مستويات، واحصد الأوسمة.", href: "/app" },
             { icon: BookOpen, t: "تصنيف القرآن", d: "استكشف آيات القرآن مصنّفة وفق منهج الفلاح السداسي.", href: "/quran" },
+            { icon: Compass, t: "المرشد الذكي", d: "استشر القرآن في موقفك واحصل على هداية وأدعية وخطوات.", href: "/guide" },
           ].map((s, i) => (
-            <Card key={i} className="p-6 bg-gradient-card border-border/60 shadow-soft hover:shadow-elegant hover:-translate-y-1 transition-smooth">
-              <div className="w-12 h-12 rounded-xl bg-gradient-emerald flex items-center justify-center mb-4">
-                <s.icon className="w-6 h-6 text-primary-foreground" />
-              </div>
-              <h3 className="font-display text-xl text-primary mb-2">{s.t}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">{s.d}</p>
-              {(s as any).href && (
-                <a href={(s as any).href} className="inline-block mt-3 text-sm text-accent hover:underline">استكشف →</a>
-              )}
-            </Card>
+            <Link
+              key={i}
+              to={s.href}
+              aria-label={s.t}
+              className="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-xl"
+            >
+              <Card className="h-full p-6 bg-gradient-card border-border/60 shadow-soft hover:shadow-elegant hover:-translate-y-1 transition-smooth cursor-pointer">
+                <div className="w-12 h-12 rounded-xl bg-gradient-emerald flex items-center justify-center mb-4">
+                  <s.icon className="w-6 h-6 text-primary-foreground" />
+                </div>
+                <h3 className="font-display text-xl text-primary mb-2">{s.t}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{s.d}</p>
+                <span className="inline-flex items-center gap-1 mt-3 text-sm text-accent group-hover:underline">
+                  استكشف <ArrowLeft className="w-3.5 h-3.5" />
+                </span>
+              </Card>
+            </Link>
           ))}
         </div>
       </section>
