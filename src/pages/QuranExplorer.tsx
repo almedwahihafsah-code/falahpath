@@ -91,10 +91,32 @@ const QuranExplorer = () => {
     if (filters.tags.length && (!c || !c.tags?.some((t: string) => filters.tags.includes(t)))) return false;
     if (search.trim()) {
       const s = search.trim();
-      if (!v.text_ar.includes(s) && String(v.verse_number) !== s) return false;
+      // Support: "2:255", "البقرة 255", "البقرة:255", surah name only, verse number only, or text
+      const colonMatch = s.match(/^(\d+)\s*[:\-]\s*(\d+)$/);
+      const nameNumMatch = s.match(/^(.+?)[\s:\-]+(\d+)$/);
+      const surahName = surahMap[v.surah_number] || "";
+      const surahNameNoAl = surahName.replace(/^ال/, "");
+      const normalize = (t: string) => t.replace(/[\u064B-\u0652\u0670]/g, "");
+      const verseTextNorm = normalize(v.text_ar);
+      const sNorm = normalize(s);
+
+      if (colonMatch) {
+        if (v.surah_number !== +colonMatch[1] || v.verse_number !== +colonMatch[2]) return false;
+      } else if (nameNumMatch && isNaN(+nameNumMatch[1])) {
+        const name = nameNumMatch[1].trim();
+        const num = +nameNumMatch[2];
+        if (v.verse_number !== num) return false;
+        if (!surahName.includes(name) && !surahNameNoAl.includes(name)) return false;
+      } else if (/^\d+$/.test(s)) {
+        if (String(v.verse_number) !== s) return false;
+      } else {
+        const matchesText = verseTextNorm.includes(sNorm);
+        const matchesSurah = surahName.includes(s) || surahNameNoAl.includes(s);
+        if (!matchesText && !matchesSurah) return false;
+      }
     }
     return true;
-  }), [sourceVerses, sourceClassifications, filters, search, effectiveClassifiedOnly]);
+  }), [sourceVerses, sourceClassifications, filters, search, effectiveClassifiedOnly, surahMap]);
 
   const visible = scope === "all" ? filtered.slice(0, visibleCount) : filtered;
   const availableSurahsCount = useMemo(() => {
@@ -140,7 +162,7 @@ const QuranExplorer = () => {
               {allLoaded ? `نتائج من كل السور المتاحة (${availableSurahsCount})` : "جارِ التحميل..."}
             </div>
           )}
-          <Input placeholder="بحث في النص أو رقم الآية..." value={search} onChange={(e) => setSearch(e.target.value)} className="flex-1 min-w-48" />
+          <Input placeholder='بحث: نص الآية، رقم، "البقرة 255"، أو 2:255...' value={search} onChange={(e) => setSearch(e.target.value)} className="flex-1 min-w-48" />
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="outline" className="lg:hidden gap-2"><Filter className="w-4 h-4" /> فلاتر</Button>
