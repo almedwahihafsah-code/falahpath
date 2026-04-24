@@ -12,7 +12,7 @@ import { VerseCard } from "@/components/quran/VerseCard";
 import { ClassificationDrawer } from "@/components/quran/ClassificationDrawer";
 import { ClassificationForm } from "@/components/quran/ClassificationForm";
 import { FilterRail, type Filters } from "@/components/quran/FilterRail";
-import { Filter } from "lucide-react";
+import { Filter, Search } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const QuranExplorer = () => {
@@ -70,6 +70,13 @@ const QuranExplorer = () => {
 
   useEffect(() => { setVisibleCount(100); }, [scope, filters, search]);
 
+  // Auto-switch to "all surahs" scope when user types a search query
+  useEffect(() => {
+    if (search.trim() && scope === "single") {
+      setScope("all");
+    }
+  }, [search]);
+
   const surah = surahs.find(s => s.number === surahNum);
   const surahMap = useMemo(() => {
     const m: Record<number, string> = {};
@@ -81,6 +88,19 @@ const QuranExplorer = () => {
   const sourceClassifications = scope === "all" ? allClassifications : classifications;
   const noFilters = !filters.domains.length && !filters.functions.length && !filters.themes.length && !filters.tags.length && !search.trim();
   const effectiveClassifiedOnly = scope === "all" && noFilters ? true : filters.classifiedOnly;
+
+  // Arabic-aware normalization: strip diacritics, unify Alif/Yaa/Taa-Marbuta variants, optionally strip leading Alif-Lam
+  const normalizeArabic = (t: string, stripAlifLam = false) => {
+    let s = t
+      .replace(/[\u064B-\u0652\u0670\u0640]/g, "") // tashkeel + tatweel
+      .replace(/[إأآا]/g, "ا")
+      .replace(/ى/g, "ي")
+      .replace(/ؤ/g, "و")
+      .replace(/ئ/g, "ي")
+      .replace(/ة/g, "ه");
+    if (stripAlifLam) s = s.replace(/\bال/g, "");
+    return s.trim();
+  };
 
   const filtered = useMemo(() => sourceVerses.filter(v => {
     const c = sourceClassifications[v.id];
@@ -96,9 +116,9 @@ const QuranExplorer = () => {
       const nameNumMatch = s.match(/^(.+?)[\s:\-]+(\d+)$/);
       const surahName = surahMap[v.surah_number] || "";
       const surahNameNoAl = surahName.replace(/^ال/, "");
-      const normalize = (t: string) => t.replace(/[\u064B-\u0652\u0670]/g, "");
-      const verseTextNorm = normalize(v.text_ar);
-      const sNorm = normalize(s);
+      const verseTextNorm = normalizeArabic(v.text_ar, true);
+      const sNorm = normalizeArabic(s, true);
+      const surahNameNorm = normalizeArabic(surahName, true);
 
       if (colonMatch) {
         if (v.surah_number !== +colonMatch[1] || v.verse_number !== +colonMatch[2]) return false;
@@ -106,12 +126,13 @@ const QuranExplorer = () => {
         const name = nameNumMatch[1].trim();
         const num = +nameNumMatch[2];
         if (v.verse_number !== num) return false;
-        if (!surahName.includes(name) && !surahNameNoAl.includes(name)) return false;
+        const nameNorm = normalizeArabic(name, true);
+        if (!surahNameNorm.includes(nameNorm)) return false;
       } else if (/^\d+$/.test(s)) {
         if (String(v.verse_number) !== s) return false;
       } else {
         const matchesText = verseTextNorm.includes(sNorm);
-        const matchesSurah = surahName.includes(s) || surahNameNoAl.includes(s);
+        const matchesSurah = surahNameNorm.includes(sNorm);
         if (!matchesText && !matchesSurah) return false;
       }
     }
@@ -139,7 +160,17 @@ const QuranExplorer = () => {
           )}
         </header>
 
-        <Card className="p-4 flex flex-wrap gap-3 items-center">
+        <Card className="p-4 space-y-3 shadow-elegant">
+          <div className="relative">
+            <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none" />
+            <Input
+              placeholder='ابحث في كل الآيات: "الحكمة"، "الصبر"، 2:255، أو "البقرة 255"...'
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="h-12 pr-11 text-base"
+            />
+          </div>
+          <div className="flex flex-wrap gap-3 items-center">
           <Tabs value={scope} onValueChange={(v) => setScope(v as "single" | "all")}>
             <TabsList>
               <TabsTrigger value="single">سورة واحدة</TabsTrigger>
@@ -162,13 +193,13 @@ const QuranExplorer = () => {
               {allLoaded ? `نتائج من كل السور المتاحة (${availableSurahsCount})` : "جارِ التحميل..."}
             </div>
           )}
-          <Input placeholder='بحث: نص الآية، رقم، "البقرة 255"، أو 2:255...' value={search} onChange={(e) => setSearch(e.target.value)} className="flex-1 min-w-48" />
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="outline" className="lg:hidden gap-2"><Filter className="w-4 h-4" /> فلاتر</Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-80 overflow-y-auto"><FilterRail filters={filters} setFilters={setFilters} /></SheetContent>
           </Sheet>
+          </div>
         </Card>
 
         <div className="grid lg:grid-cols-[260px_1fr] gap-6">
