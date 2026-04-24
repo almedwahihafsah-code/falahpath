@@ -2,9 +2,10 @@ import { useEffect, useState, useMemo } from "react";
 import { Navbar } from "@/components/falah/Navbar";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { SurahHeader } from "@/components/quran/SurahHeader";
@@ -12,7 +13,8 @@ import { VerseCard } from "@/components/quran/VerseCard";
 import { ClassificationDrawer } from "@/components/quran/ClassificationDrawer";
 import { ClassificationForm } from "@/components/quran/ClassificationForm";
 import { FilterRail, type Filters } from "@/components/quran/FilterRail";
-import { Filter, Search } from "lucide-react";
+import { Filter, Search, ChevronsUpDown, Check } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const QuranExplorer = () => {
@@ -31,6 +33,7 @@ const QuranExplorer = () => {
   const [allClassifications, setAllClassifications] = useState<Record<string, any>>({});
   const [allLoaded, setAllLoaded] = useState(false);
   const [visibleCount, setVisibleCount] = useState(100);
+  const [surahPickerOpen, setSurahPickerOpen] = useState(false);
 
   useEffect(() => {
     supabase.from("surahs").select("*").order("number").then(({ data }) => setSurahs(data || []));
@@ -178,16 +181,40 @@ const QuranExplorer = () => {
             </TabsList>
           </Tabs>
           {scope === "single" ? (
-            <Select value={String(surahNum)} onValueChange={(v) => setSurahNum(+v)}>
-              <SelectTrigger className="w-56"><SelectValue /></SelectTrigger>
-              <SelectContent className="max-h-80">
-                {surahs.map(s => (
-                  <SelectItem key={s.number} value={String(s.number)}>
-                    {s.number}. {s.name_ar}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <Popover open={surahPickerOpen} onOpenChange={setSurahPickerOpen}>
+              <PopoverTrigger asChild>
+                <Button variant="outline" role="combobox" className="w-56 justify-between">
+                  {surah ? `${surah.number}. ${surah.name_ar}` : "اختر سورة..."}
+                  <ChevronsUpDown className="ms-2 h-4 w-4 opacity-50" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-64 p-0" align="start">
+                <Command
+                  filter={(value, search) => {
+                    const s = normalizeArabic(search, true);
+                    const v = normalizeArabic(value, true);
+                    return v.includes(s) ? 1 : 0;
+                  }}
+                >
+                  <CommandInput placeholder="ابحث عن سورة..." />
+                  <CommandList className="max-h-72">
+                    <CommandEmpty>لا توجد نتائج</CommandEmpty>
+                    <CommandGroup>
+                      {surahs.map(s => (
+                        <CommandItem
+                          key={s.number}
+                          value={`${s.number} ${s.name_ar} ${s.name_translit ?? ""}`}
+                          onSelect={() => { setSurahNum(s.number); setSurahPickerOpen(false); }}
+                        >
+                          <Check className={cn("ms-2 h-4 w-4", surahNum === s.number ? "opacity-100" : "opacity-0")} />
+                          {s.number}. {s.name_ar}
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
           ) : (
             <div className="text-sm text-muted-foreground px-3 py-2 rounded-md bg-muted/40">
               {allLoaded ? `نتائج من كل السور المتاحة (${availableSurahsCount})` : "جارِ التحميل..."}
