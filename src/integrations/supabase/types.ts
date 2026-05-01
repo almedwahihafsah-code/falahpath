@@ -305,6 +305,30 @@ export type Database = {
         }
         Relationships: []
       }
+      verse_bookmarks: {
+        Row: {
+          created_at: string
+          id: string
+          note: string | null
+          user_id: string
+          verse_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          note?: string | null
+          user_id: string
+          verse_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          note?: string | null
+          user_id?: string
+          verse_id?: string
+        }
+        Relationships: []
+      }
       verse_classifications: {
         Row: {
           context: string | null
