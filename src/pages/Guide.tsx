@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Navbar } from "@/components/falah/Navbar";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -9,8 +10,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { domains } from "@/data/falah";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { Sparkles, BookOpen, Heart, ListChecks, Loader2, Plus, ListTodo } from "lucide-react";
+import { Sparkles, BookOpen, Heart, ListChecks, Loader2, Plus, ListTodo, Search } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import { LIFE_CONTEXTS, findContextByText, LifeContext } from "@/data/quran/contexts";
+import { FalahPrescription } from "@/components/quran/FalahPrescription";
 
 const STORAGE_CUSTOM_HABITS = "falah_custom_habits_v1";
 
@@ -27,11 +30,56 @@ const moods = ["مطمئن", "قلِق", "حزين", "متعب", "متحمّس",
 
 const Guide = () => {
   const { user } = useAuth();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [mood, setMood] = useState<string>("");
   const [situation, setSituation] = useState("");
   const [domain, setDomain] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<Guidance | null>(null);
+  const [activeContext, setActiveContext] = useState<LifeContext | null>(null);
+  const [contextQuery, setContextQuery] = useState("");
+  const [surahMap, setSurahMap] = useState<Record<number, string>>({});
+
+  // Load surah names once for prescription verse references
+  useEffect(() => {
+    supabase.from("surahs").select("number,name_ar").then(({ data }) => {
+      const m: Record<number, string> = {};
+      (data || []).forEach((s: any) => { m[s.number] = s.name_ar; });
+      setSurahMap(m);
+    });
+  }, []);
+
+  // Allow deep-linking via ?ctx=financial etc.
+  useEffect(() => {
+    const ctxId = searchParams.get("ctx");
+    if (ctxId) {
+      const c = LIFE_CONTEXTS.find(x => x.id === ctxId);
+      if (c) setActiveContext(c);
+    }
+  }, [searchParams]);
+
+  const handleContextSearch = () => {
+    const q = contextQuery.trim();
+    if (!q) return;
+    const match = findContextByText(q);
+    if (match) {
+      setActiveContext(match);
+      setSearchParams({ ctx: match.id });
+    } else {
+      toast.info("لم نجد سياقًا مطابقًا — اختر من البطاقات أدناه");
+    }
+  };
+
+  const openContext = (c: LifeContext) => {
+    setActiveContext(c);
+    setSearchParams({ ctx: c.id });
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const closeContext = () => {
+    setActiveContext(null);
+    setSearchParams({});
+  };
 
   const handleSubmit = async () => {
     if (!mood && !situation) {
@@ -70,9 +118,65 @@ const Guide = () => {
             ما حالك اليوم؟
           </h1>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            صف لنا شعورك أو موقفك، ويختار لك مرشد الفلاح آيةً، تأمّلًا، وثلاث خطوات عملية.
+            اختر سياقًا من حياتك، أو صف موقفك، ليرسم لك مرشد الفلاح "وصفة قرآنية" من آيات مصنّفة.
           </p>
         </header>
+
+        {activeContext ? (
+          <FalahPrescription context={activeContext} onBack={closeContext} surahMap={surahMap} />
+        ) : (
+          <>
+            {/* Quick search across life contexts */}
+            <Card className="p-5 mb-6 bg-gradient-card shadow-soft">
+              <Label className="mb-2 block text-primary">ابحث عن وصفة لحالتك</Label>
+              <div className="flex gap-2">
+                <div className="relative flex-1">
+                  <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                  <Input
+                    placeholder='مثال: "قلق"، "مال"، "أسرة"، "ضعف"...'
+                    value={contextQuery}
+                    onChange={(e) => setContextQuery(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && handleContextSearch()}
+                    className="pr-10"
+                  />
+                </div>
+                <Button onClick={handleContextSearch} className="bg-gradient-emerald text-primary-foreground">
+                  بحث
+                </Button>
+              </div>
+            </Card>
+
+            {/* Contextual tiles — Major Fields */}
+            <div className="mb-10">
+              <h2 className="font-display text-xl text-primary mb-4 flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-accent" />
+                مجالات الحياة الكبرى
+              </h2>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                {LIFE_CONTEXTS.map(c => (
+                  <button
+                    key={c.id}
+                    onClick={() => openContext(c)}
+                    className="text-right p-4 rounded-lg border border-border bg-card hover:border-accent hover:shadow-elegant transition-smooth group"
+                  >
+                    <div className="text-3xl mb-2">{c.emoji}</div>
+                    <div className="font-display text-sm text-primary group-hover:text-accent transition-colors">
+                      {c.title}
+                    </div>
+                    <div className="text-xs text-muted-foreground mt-1 leading-snug">{c.subtitle}</div>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Existing AI free-form guide */}
+            <div className="mb-4">
+              <h2 className="font-display text-xl text-primary mb-1 flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-accent" />
+                أو صف حالتك بحرية للمرشد الذكي
+              </h2>
+              <p className="text-xs text-muted-foreground">سيختار لك المرشد آيةً، تأمّلًا، وثلاث خطوات عملية.</p>
+            </div>
 
         <Card className="p-6 md:p-8 bg-gradient-card shadow-soft mb-8">
           <div className="space-y-5">
@@ -217,6 +321,8 @@ const Guide = () => {
               <p className="font-quran text-xl text-primary leading-loose">{result.dua}</p>
             </Card>
           </div>
+        )}
+          </>
         )}
       </main>
     </div>
