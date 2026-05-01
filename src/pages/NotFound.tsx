@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { Navbar } from "@/components/falah/Navbar";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,7 @@ import { ArrowLeft, Compass, Home, AlertTriangle, BookOpen, ListTodo } from "luc
 
 const NotFound = () => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.error("404 Error: User attempted to access non-existent route:", location.pathname);
@@ -57,11 +58,21 @@ const NotFound = () => {
             ))}
           </div>
 
-          <Button asChild size="lg" className="bg-gradient-emerald text-primary-foreground hover:opacity-90 shadow-soft">
-            <Link to="/">
-              العودة إلى الرئيسية <ArrowLeft className="mr-2 w-4 h-4" />
-            </Link>
-          </Button>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Button
+              size="lg"
+              variant="outline"
+              onClick={() => (window.history.length > 1 ? navigate(-1) : navigate("/"))}
+              className="border-accent/40 hover:bg-accent/5"
+            >
+              <ArrowLeft className="ml-2 w-4 h-4" /> الرجوع للصفحة السابقة
+            </Button>
+            <Button asChild size="lg" className="bg-gradient-emerald text-primary-foreground hover:opacity-90 shadow-soft">
+              <Link to="/">
+                العودة إلى الرئيسية <Home className="mr-2 w-4 h-4" />
+              </Link>
+            </Button>
+          </div>
         </Card>
       </main>
     </div>
