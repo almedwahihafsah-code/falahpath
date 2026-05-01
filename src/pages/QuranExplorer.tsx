@@ -34,6 +34,7 @@ const QuranExplorer = () => {
   const [allLoaded, setAllLoaded] = useState(false);
   const [visibleCount, setVisibleCount] = useState(100);
   const [surahPickerOpen, setSurahPickerOpen] = useState(false);
+  const [bookmarks, setBookmarks] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     supabase.from("surahs").select("*").order("number").then(({ data }) => setSurahs(data || []));
@@ -44,6 +45,20 @@ const QuranExplorer = () => {
     supabase.from("user_roles").select("role").eq("user_id", user.id).eq("role", "admin").maybeSingle()
       .then(({ data }) => setIsAdmin(!!data));
   }, [user]);
+
+  useEffect(() => {
+    if (!user) { setBookmarks(new Set()); return; }
+    supabase.from("verse_bookmarks").select("verse_id").eq("user_id", user.id)
+      .then(({ data }) => setBookmarks(new Set((data || []).map((b: any) => b.verse_id))));
+  }, [user]);
+
+  const handleBookmarkToggle = (verseId: string, next: boolean) => {
+    setBookmarks(prev => {
+      const s = new Set(prev);
+      if (next) s.add(verseId); else s.delete(verseId);
+      return s;
+    });
+  };
 
   const loadVerses = async () => {
     const { data: vs } = await supabase.from("verses").select("*").eq("surah_number", surahNum).order("verse_number");
@@ -254,6 +269,12 @@ const QuranExplorer = () => {
                 classification={sourceClassifications[v.id]}
                 onClick={() => setActive(v)}
                 surahName={scope === "all" ? surahMap[v.surah_number] : undefined}
+                bookmarked={bookmarks.has(v.id)}
+                onBookmarkToggle={handleBookmarkToggle}
+                onTagClick={(t) => setFilters({ ...filters, tags: filters.tags.includes(t) ? filters.tags : [...filters.tags, t] })}
+                onDomainClick={(d) => { setScope("all"); setFilters({ ...filters, domains: filters.domains.includes(d) ? filters.domains : [...filters.domains, d] }); }}
+                onThemeClick={(t) => { setScope("all"); setFilters({ ...filters, themes: filters.themes.includes(t) ? filters.themes : [...filters.themes, t] }); }}
+                onFunctionClick={(f) => { setScope("all"); setFilters({ ...filters, functions: filters.functions.includes(f) ? filters.functions : [...filters.functions, f] }); }}
               />
             ))}
             {scope === "all" && visible.length < filtered.length && (
