@@ -13,6 +13,10 @@ interface Props {
     context?: string | null;
   } | null;
   compact?: boolean;
+  onTagClick?: (tag: string) => void;
+  onDomainClick?: (domain: string) => void;
+  onThemeClick?: (theme: string) => void;
+  onFunctionClick?: (fn: string) => void;
 }
 
 // Color mapping for rhetorical functions — each function gets a distinct visual identity
@@ -30,10 +34,18 @@ const FUNCTION_STYLES: Record<string, { bg: string; label: string }> = {
   "تصحيح":   { bg: "hsl(355 60% 50%)", label: "تصحيح" },
 };
 
-export const ClassificationChips = ({ classification: c, compact = false }: Props) => {
+export const ClassificationChips = ({
+  classification: c,
+  compact = false,
+  onTagClick,
+  onDomainClick,
+  onThemeClick,
+  onFunctionClick,
+}: Props) => {
   if (!c) return <Badge variant="outline" className="text-xs opacity-60">غير مصنّفة</Badge>;
 
   const fnStyle = c.function ? FUNCTION_STYLES[c.function] : null;
+  const stop = (e: React.MouseEvent) => e.stopPropagation();
 
   return (
     <div className="space-y-2">
@@ -43,7 +55,8 @@ export const ClassificationChips = ({ classification: c, compact = false }: Prop
           <span className="text-[10px] text-muted-foreground font-medium">الوظيفة الخطابية:</span>
           <Badge
             style={{ backgroundColor: fnStyle?.bg ?? "hsl(var(--secondary))" }}
-            className="text-white border-0 gap-1 shadow-sm"
+            className={`text-white border-0 gap-1 shadow-sm ${onFunctionClick ? "cursor-pointer hover:opacity-90 transition-opacity" : ""}`}
+            onClick={onFunctionClick ? (e) => { stop(e); onFunctionClick(c.function!); } : undefined}
           >
             <Megaphone className="w-3 h-3" />
             {fnStyle?.label ?? c.function}
@@ -57,7 +70,8 @@ export const ClassificationChips = ({ classification: c, compact = false }: Prop
           <span className="text-[10px] text-muted-foreground font-medium">المحور الموضوعي:</span>
           <Badge
             style={{ backgroundColor: `hsl(var(--domain-${c.domain_code.toLowerCase()}))` }}
-            className="text-white border-0"
+            className={`text-white border-0 ${onDomainClick ? "cursor-pointer hover:opacity-90 transition-opacity" : ""}`}
+            onClick={onDomainClick ? (e) => { stop(e); onDomainClick(c.domain_code!); } : undefined}
           >
             {domainLabel(c.domain_code)}
           </Badge>
@@ -70,7 +84,12 @@ export const ClassificationChips = ({ classification: c, compact = false }: Prop
         <div className="flex items-center gap-2 flex-wrap">
           <span className="text-[10px] text-muted-foreground font-medium">الموضوعات:</span>
           {c.themes.slice(0, compact ? 2 : 4).map(t => (
-            <Badge key={t} variant="outline" className="gap-1">
+            <Badge
+              key={t}
+              variant="outline"
+              className={`gap-1 ${onThemeClick ? "cursor-pointer hover:bg-accent/10 transition-colors" : ""}`}
+              onClick={onThemeClick ? (e) => { stop(e); onThemeClick(t); } : undefined}
+            >
               <Sparkles className="w-3 h-3 text-accent" />
               {t}
             </Badge>
@@ -99,7 +118,12 @@ export const ClassificationChips = ({ classification: c, compact = false }: Prop
       {c.tags && c.tags.length > 0 && (
         <div className="flex items-center gap-2 flex-wrap">
           {c.tags.slice(0, compact ? 2 : 4).map(t => (
-            <Badge key={t} variant="outline" className="text-accent gap-1 text-xs">
+            <Badge
+              key={t}
+              variant="outline"
+              className={`text-accent gap-1 text-xs ${onTagClick ? "cursor-pointer hover:bg-accent/10 transition-colors" : ""}`}
+              onClick={onTagClick ? (e) => { stop(e); onTagClick(t); } : undefined}
+            >
               <Hash className="w-3 h-3" />
               {t.replace(/^#/, "")}
             </Badge>
