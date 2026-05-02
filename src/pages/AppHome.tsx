@@ -136,6 +136,7 @@ const AppHome = () => {
           </TabsContent>
 
           <TabsContent value="domains" className="space-y-4 mt-4">
+            <FalahRadar userId={user.id} scores={scores} tasks={tasks} />
             <div className="grid md:grid-cols-2 gap-4">
               {domains.map((d) => {
                 const dTasks = tasks.filter((t) => t.domain_id === d.id);
