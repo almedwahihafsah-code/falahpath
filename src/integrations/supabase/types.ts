@@ -110,6 +110,36 @@ export type Database = {
         }
         Relationships: []
       }
+      function_engagements: {
+        Row: {
+          created_at: string
+          function: string
+          id: string
+          points: number
+          source: string
+          user_id: string
+          verse_id: string
+        }
+        Insert: {
+          created_at?: string
+          function: string
+          id?: string
+          points?: number
+          source?: string
+          user_id: string
+          verse_id: string
+        }
+        Update: {
+          created_at?: string
+          function?: string
+          id?: string
+          points?: number
+          source?: string
+          user_id?: string
+          verse_id?: string
+        }
+        Relationships: []
+      }
       guidance_history: {
         Row: {
           actions: Json

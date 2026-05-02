@@ -7,6 +7,7 @@ import { Bookmark, BookmarkCheck, ChevronDown, ChevronUp } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
+import { awardFunctionPoints, FUNCTION_POINTS } from "@/lib/function-points";
 
 interface Props {
   verse: { id: string; verse_number: number; text_ar: string };
@@ -53,7 +54,15 @@ export const VerseCard = ({
       } else {
         const { error } = await supabase.from("verse_bookmarks").insert({ user_id: user.id, verse_id: verse.id });
         if (error) throw error;
-        toast.success("حُفظت في مسار الفلاح");
+        // Award function-based points for "Life Balance"
+        const fn = classification?.function as string | undefined;
+        const award = await awardFunctionPoints(user.id, verse.id, fn, "bookmark");
+        if (award.awarded && award.fn) {
+          const meta = FUNCTION_POINTS[award.fn];
+          toast.success(`حُفظت • +${award.points} نقطة (${meta?.dimension})`);
+        } else {
+          toast.success("حُفظت في مسار الفلاح");
+        }
         onBookmarkToggle?.(verse.id, true);
       }
     } catch (err: any) {
