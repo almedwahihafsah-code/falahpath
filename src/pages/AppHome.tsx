@@ -18,6 +18,7 @@ import { TaskList, type Task } from "@/components/falah/TaskList";
 import { JournalForm } from "@/components/falah/JournalForm";
 import { Achievements } from "@/components/falah/Achievements";
 import { FalahRadar } from "@/components/falah/FalahRadar";
+import { LifeBalanceMeter } from "@/components/falah/LifeBalanceMeter";
 import { calcLevel } from "@/lib/falah-points";
 
 type Scores = Record<number, number>;
@@ -171,7 +172,10 @@ const AppHome = () => {
           </TabsContent>
 
           <TabsContent value="achievements" className="mt-4">
-            <Achievements points={points} habitCount={habitCount} streak={streak} />
+            <div className="space-y-4">
+              <LifeBalanceMeter userId={user.id} />
+              <Achievements points={points} habitCount={habitCount} streak={streak} />
+            </div>
           </TabsContent>
 
           <TabsContent value="quran" className="mt-4">
