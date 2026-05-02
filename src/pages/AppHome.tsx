@@ -17,6 +17,7 @@ import { TaskForm } from "@/components/falah/TaskForm";
 import { TaskList, type Task } from "@/components/falah/TaskList";
 import { JournalForm } from "@/components/falah/JournalForm";
 import { Achievements } from "@/components/falah/Achievements";
+import { FalahRadar } from "@/components/falah/FalahRadar";
 import { calcLevel } from "@/lib/falah-points";
 
 type Scores = Record<number, number>;
