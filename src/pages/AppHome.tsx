@@ -19,6 +19,7 @@ import { JournalForm } from "@/components/falah/JournalForm";
 import { Achievements } from "@/components/falah/Achievements";
 import { FalahRadar } from "@/components/falah/FalahRadar";
 import { LifeBalanceMeter } from "@/components/falah/LifeBalanceMeter";
+import { NextSteps } from "@/components/falah/NextSteps";
 import { calcLevel } from "@/lib/falah-points";
 
 type Scores = Record<number, number>;
@@ -109,6 +110,8 @@ const AppHome = () => {
             <Progress value={overall} className="h-2 bg-primary-foreground/15" />
           </Card>
         </div>
+
+        <NextSteps scores={scores} tasks={tasks} />
 
         <Tabs defaultValue="tasks" className="w-full">
           <TabsList className="grid grid-cols-5 w-full h-auto">
