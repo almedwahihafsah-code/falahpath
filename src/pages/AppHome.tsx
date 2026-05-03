@@ -18,6 +18,7 @@ import { TaskList, type Task } from "@/components/falah/TaskList";
 import { JournalForm } from "@/components/falah/JournalForm";
 import { Achievements } from "@/components/falah/Achievements";
 import { FalahRadar } from "@/components/falah/FalahRadar";
+import { FalahCompass } from "@/components/falah/FalahCompass";
 import { LifeBalanceMeter } from "@/components/falah/LifeBalanceMeter";
 import { NextSteps } from "@/components/falah/NextSteps";
 import { calcLevel } from "@/lib/falah-points";
@@ -99,6 +100,9 @@ const AppHome = () => {
         </header>
 
         <StatsBar tasks={tasks.length} completed={completedTasks} points={points} level={calcLevel(points)} />
+
+        {/* Falah Compass — 8-axis growth radar at the top of the dashboard */}
+        <FalahCompass userId={user.id} scores={scores} tasks={tasks} />
 
         <div className="grid md:grid-cols-2 gap-5">
           <VerseOfTheDay />
