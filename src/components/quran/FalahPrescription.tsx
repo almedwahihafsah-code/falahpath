@@ -1,8 +1,12 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Loader2, Heart, BookOpen, Sparkles, ArrowLeft, Compass } from "lucide-react";
+import {
+  Loader2, Heart, BookOpen, Sparkles, ArrowLeft, Compass,
+  Shield, Sunrise, AlertTriangle, Megaphone, Scroll, HelpCircle,
+  Scale, Lightbulb, Flame, Zap, Star,
+} from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { LifeContext, LIFE_CONTEXTS } from "@/data/quran/contexts";
 import { domainLabel } from "@/data/quran/taxonomy";
@@ -29,9 +33,49 @@ interface Props {
   surahMap: Record<number, string>;
 }
 
+// Map rhetorical functions to icons + tonal accent
+const FUNCTION_META: Record<string, { Icon: typeof Shield; tone: string; label: string }> = {
+  "أمر":      { Icon: Zap,           tone: "from-amber-500/80 to-orange-600/80",   label: "أمر" },
+  "نهي":      { Icon: AlertTriangle, tone: "from-rose-500/80 to-red-600/80",       label: "نهي" },
+  "وعد":      { Icon: Sunrise,       tone: "from-amber-400/80 to-yellow-500/80",   label: "وعد" },
+  "وعيد":     { Icon: Flame,         tone: "from-rose-600/80 to-red-700/80",       label: "وعيد" },
+  "تحذير":    { Icon: Shield,        tone: "from-orange-500/80 to-rose-500/80",    label: "تحذير" },
+  "تحفيز":    { Icon: Star,          tone: "from-yellow-400/80 to-amber-500/80",   label: "تحفيز" },
+  "قصة":      { Icon: Scroll,        tone: "from-sky-500/80 to-indigo-600/80",     label: "قصة" },
+  "تشريع":    { Icon: Scale,         tone: "from-emerald-600/80 to-teal-700/80",   label: "تشريع" },
+  "حكمة":     { Icon: Lightbulb,     tone: "from-amber-400/80 to-emerald-500/80",  label: "حكمة" },
+  "دعاء":     { Icon: Sparkles,      tone: "from-violet-500/80 to-fuchsia-600/80", label: "دعاء" },
+  "سؤال":     { Icon: HelpCircle,    tone: "from-cyan-500/80 to-blue-600/80",      label: "سؤال" },
+  "بيان":     { Icon: Megaphone,     tone: "from-emerald-500/80 to-green-600/80",  label: "بيان" },
+  "تصحيح":    { Icon: Scale,         tone: "from-teal-500/80 to-emerald-600/80",   label: "تصحيح" },
+};
+const DEFAULT_FN_META = { Icon: BookOpen, tone: "from-primary/80 to-primary-glow/80", label: "آية" };
+const fnMeta = (fn?: string | null) => (fn && FUNCTION_META[fn]) || DEFAULT_FN_META;
+
 export const FalahPrescription = ({ context, onBack, surahMap }: Props) => {
   const [loading, setLoading] = useState(true);
   const [verses, setVerses] = useState<(VerseRow & { cls: ClassRow })[]>([]);
+  const [visibleSet, setVisibleSet] = useState<Set<string>>(new Set());
+  const itemRefs = useRef<Map<string, HTMLDivElement>>(new Map());
+
+  // Reveal-on-scroll
+  useEffect(() => {
+    if (!verses.length) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        setVisibleSet(prev => {
+          const next = new Set(prev);
+          entries.forEach(e => {
+            if (e.isIntersecting) next.add((e.target as HTMLElement).dataset.id || "");
+          });
+          return next;
+        });
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -10% 0px" }
+    );
+    itemRefs.current.forEach(el => io.observe(el));
+    return () => io.disconnect();
+  }, [verses]);
 
   useEffect(() => {
     let cancelled = false;
@@ -112,7 +156,9 @@ export const FalahPrescription = ({ context, onBack, surahMap }: Props) => {
       </Button>
 
       {/* Header — the prescription */}
-      <Card className="p-6 bg-gradient-emerald text-primary-foreground shadow-elegant">
+      <Card className="p-6 bg-gradient-emerald text-primary-foreground shadow-elegant relative overflow-hidden">
+        <div className="absolute -top-16 -left-16 w-56 h-56 rounded-full bg-accent/20 blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-20 -right-10 w-64 h-64 rounded-full bg-primary-glow/20 blur-3xl pointer-events-none" />
         <div className="flex items-center gap-3 mb-2">
           <span className="text-3xl">{context.emoji}</span>
           <div>
@@ -148,7 +194,7 @@ export const FalahPrescription = ({ context, onBack, surahMap }: Props) => {
         <>
           {/* Aggregated expected impacts */}
           {expectedImpacts.length > 0 && (
-            <Card className="p-5 bg-gradient-card shadow-soft">
+            <Card className="p-5 bg-card/60 backdrop-blur-xl border border-white/40 dark:border-white/10 shadow-soft">
               <div className="flex items-center gap-2 mb-3 text-accent">
                 <Heart className="w-4 h-4" />
                 <span className="text-sm font-medium">الأثر التربوي المتوقع</span>
@@ -169,33 +215,106 @@ export const FalahPrescription = ({ context, onBack, surahMap }: Props) => {
           )}
 
           {/* The Path — verses as a numbered journey */}
-          <div className="relative">
-            <div className="absolute top-0 bottom-0 right-[19px] w-px bg-gradient-to-b from-accent/40 via-primary/30 to-accent/40" />
-            <div className="space-y-4">
-              {verses.map((v, idx) => (
-                <Card key={v.id} className="p-5 mr-12 bg-card shadow-soft relative">
-                  <div className="absolute -right-12 top-5 w-10 h-10 rounded-full bg-gradient-emerald text-primary-foreground flex items-center justify-center font-display shadow-soft">
-                    {idx + 1}
+          <div className="relative pt-2 pb-4">
+            {/* Curved gradient spine (SVG) */}
+            <svg
+              className="absolute top-0 bottom-0 right-[14px] w-12 h-full pointer-events-none"
+              preserveAspectRatio="none"
+              viewBox="0 0 40 1000"
+              aria-hidden="true"
+            >
+              <defs>
+                <linearGradient id="falah-spine" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="hsl(var(--accent))" stopOpacity="0.05" />
+                  <stop offset="20%" stopColor="hsl(var(--accent))" stopOpacity="0.7" />
+                  <stop offset="50%" stopColor="hsl(var(--primary))" stopOpacity="0.6" />
+                  <stop offset="80%" stopColor="hsl(var(--accent))" stopOpacity="0.7" />
+                  <stop offset="100%" stopColor="hsl(var(--accent))" stopOpacity="0.05" />
+                </linearGradient>
+              </defs>
+              <path
+                d="M20 0 C 4 200, 36 400, 20 600 S 4 900, 20 1000"
+                fill="none"
+                stroke="url(#falah-spine)"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+              />
+            </svg>
+
+            <div className="space-y-7">
+              {verses.map((v, idx) => {
+                const meta = fnMeta(v.cls.function);
+                const visible = visibleSet.has(v.id);
+                const isCurrent = idx === 0; // first step = current focus
+                return (
+                  <div
+                    key={v.id}
+                    data-id={v.id}
+                    ref={el => { if (el) itemRefs.current.set(v.id, el); }}
+                    className={`relative mr-14 transition-all duration-700 ease-out ${
+                      visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+                    }`}
+                    style={{ transitionDelay: `${Math.min(idx, 5) * 60}ms` }}
+                  >
+                    {/* Step node with icon + glow for current */}
+                    <div className="absolute -right-[60px] top-4 z-10">
+                      {isCurrent && (
+                        <span className="absolute inset-0 -m-1 rounded-full bg-accent/40 blur-md animate-pulse" aria-hidden="true" />
+                      )}
+                      <div
+                        className={`relative w-11 h-11 rounded-full bg-gradient-to-br ${meta.tone} text-white flex items-center justify-center shadow-gold ring-2 ring-background`}
+                        title={meta.label}
+                      >
+                        <meta.Icon className="w-5 h-5" />
+                      </div>
+                      <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 text-[10px] font-bold text-muted-foreground bg-background/80 backdrop-blur px-1.5 rounded-full">
+                        {idx + 1}
+                      </div>
+                    </div>
+
+                    {/* Glassmorphism verse card */}
+                    <Card
+                      className={`p-6 relative overflow-hidden border bg-card/55 dark:bg-card/40 backdrop-blur-xl
+                        ${isCurrent
+                          ? "border-accent/50 shadow-gold ring-1 ring-accent/30"
+                          : "border-white/40 dark:border-white/10 shadow-soft"}
+                      `}
+                    >
+                      {/* soft tonal wash */}
+                      <div className={`pointer-events-none absolute inset-0 opacity-[0.07] bg-gradient-to-br ${meta.tone}`} />
+                      <div className="relative">
+                        <div className="flex items-center justify-between mb-3 gap-2">
+                          <div className="text-xs text-accent flex items-center gap-1.5">
+                            <BookOpen className="w-3.5 h-3.5" />
+                            <span className="font-medium">سورة {surahMap[v.surah_number] || v.surah_number}</span>
+                            <span className="opacity-60">•</span>
+                            <span>آية {v.verse_number}</span>
+                          </div>
+                          {v.cls.function && (
+                            <Badge className={`bg-gradient-to-br ${meta.tone} text-white border-0 gap-1 text-[10px]`}>
+                              <meta.Icon className="w-3 h-3" />
+                              {meta.label}
+                            </Badge>
+                          )}
+                        </div>
+                        <p className="font-quran text-2xl md:text-[1.7rem] leading-[2.4rem] text-foreground" dir="rtl">
+                          {v.text_ar}
+                        </p>
+                        <div className="flex flex-wrap gap-1.5 mt-4">
+                          {(v.cls.tags || []).slice(0, 3).map(t => (
+                            <Badge key={t} variant="outline" className="text-accent text-xs bg-background/40 backdrop-blur-sm">{t}</Badge>
+                          ))}
+                          {(v.cls.educational_effects || []).slice(0, 2).map(e => (
+                            <Badge key={e} variant="secondary" className="gap-1 bg-emerald-50/80 text-emerald-900 dark:bg-emerald-950/60 dark:text-emerald-100 text-xs backdrop-blur-sm">
+                              <Heart className="w-3 h-3" />{e.replace(/_/g, " ")}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+                    </Card>
                   </div>
-                  <div className="text-xs text-accent mb-2 flex items-center gap-2">
-                    <BookOpen className="w-3.5 h-3.5" />
-                    سورة {surahMap[v.surah_number] || v.surah_number} • آية {v.verse_number}
-                  </div>
-                  <p className="font-quran text-2xl leading-loose text-foreground" dir="rtl">
-                    {v.text_ar}
-                  </p>
-                  <div className="flex flex-wrap gap-1.5 mt-3">
-                    {(v.cls.tags || []).slice(0, 3).map(t => (
-                      <Badge key={t} variant="outline" className="text-accent text-xs">{t}</Badge>
-                    ))}
-                    {(v.cls.educational_effects || []).slice(0, 2).map(e => (
-                      <Badge key={e} variant="secondary" className="gap-1 bg-emerald-50 text-emerald-900 dark:bg-emerald-950 dark:text-emerald-100 text-xs">
-                        <Heart className="w-3 h-3" />{e.replace(/_/g, " ")}
-                      </Badge>
-                    ))}
-                  </div>
-                </Card>
-              ))}
+                );
+              })}
             </div>
           </div>
         </>
