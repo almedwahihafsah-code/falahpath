@@ -5,6 +5,9 @@ import { Link } from "react-router-dom";
 import { ArrowLeft, BookOpen, Compass, Sparkles, ListTodo, Sunrise, Trophy, Layers } from "lucide-react";
 import heroPattern from "@/assets/hero-pattern.jpg";
 import { domains, paths, methodSteps } from "@/data/falah";
+import { LegacySection } from "@/components/falah/LegacySection";
+import { Governance } from "@/components/falah/Governance";
+import { EngagementHub } from "@/components/falah/EngagementHub";
 
 const Index = () => {
   return (
@@ -199,10 +202,72 @@ const Index = () => {
         </div>
       </section>
 
-      <footer className="border-t border-border/60 py-10">
-        <div className="container text-center text-sm text-muted-foreground">
-          <p className="font-quran text-base text-primary mb-2">القرآن... هداية تُعاش، وسلوك يُنجز، وفلاح لا ينقطع</p>
-          <p>© {new Date().getFullYear()} منهج الفلاح — وقفٌ معرفي رقمي</p>
+      {/* LEGACY · GOVERNANCE · ENGAGEMENT */}
+      <LegacySection />
+      <Governance />
+      <EngagementHub />
+
+      {/* MUSEUM FOOTER */}
+      <footer className="bg-[hsl(155_40%_6%)] text-primary-foreground/80 pt-20 pb-10">
+        <div className="container">
+          <div className="grid md:grid-cols-12 gap-10 mb-14">
+            <div className="md:col-span-5">
+              <div className="flex items-center gap-3 mb-5">
+                <div className="w-11 h-11 rounded-sm bg-gradient-emerald flex items-center justify-center border border-accent/40">
+                  <span className="font-editorial text-xl text-primary-foreground">ف</span>
+                </div>
+                <div>
+                  <p className="font-editorial text-2xl text-primary-foreground leading-none">وقف الفلاح</p>
+                  <p className="font-sans2 text-[10px] tracking-[0.4em] uppercase text-accent mt-1">
+                    A Perpetual Endowment
+                  </p>
+                </div>
+              </div>
+              <p className="font-quran text-base text-primary-foreground/80 leading-loose mb-4">
+                ﴿ قَدْ أَفْلَحَ مَن زَكَّاهَا ﴾
+              </p>
+              <p className="text-sm text-primary-foreground/55 leading-relaxed max-w-md">
+                مشروع وقفي معرفي رقمي، مجاني للأفراد، صدقة جارية عن أرواح آبائنا
+                وأمهاتنا من المسلمين أجمعين.
+              </p>
+            </div>
+
+            <div className="md:col-span-3">
+              <p className="font-sans2 text-[10px] tracking-[0.4em] uppercase text-accent mb-5">Quick Links</p>
+              <ul className="space-y-3 text-sm">
+                {[
+                  { to: "/#perspective", label: "المنظور" },
+                  { to: "/#method", label: "المنهج" },
+                  { to: "/#domains", label: "المجالات الثمانية" },
+                  { to: "/#legacy", label: "قصة الوفاء" },
+                  { to: "/#engagement", label: "تواصل معنا" },
+                ].map((l) => (
+                  <li key={l.to}>
+                    <a href={l.to} className="text-primary-foreground/70 hover:text-accent transition-smooth">
+                      {l.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="md:col-span-4">
+              <p className="font-sans2 text-[10px] tracking-[0.4em] uppercase text-accent mb-5">Operated By</p>
+              <p className="font-editorial text-2xl text-primary-foreground mb-1">Markets Movers</p>
+              <p className="font-display text-base text-primary-foreground/80 mb-3">ماركتس موفرز للاستشارات</p>
+              <p className="text-xs text-primary-foreground/55 leading-relaxed">
+                إشرافٌ مؤسسي يضمن الاستدامة، الجودة التقنية،
+                واستمرار الوقف عبر الأجيال.
+              </p>
+            </div>
+          </div>
+
+          <div className="border-t border-primary-foreground/10 pt-7 flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-xs text-primary-foreground/45">
+            <p>© {new Date().getFullYear()} منهج الفلاح — وقفٌ معرفي رقمي</p>
+            <p className="font-sans2 tracking-widest uppercase">
+              تطوير وإدارة: ماركتس موفرز للاستشارات
+            </p>
+          </div>
         </div>
       </footer>
     </div>
