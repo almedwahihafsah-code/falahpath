@@ -34,49 +34,107 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
 
-      {/* HERO */}
-      <section className="relative overflow-hidden">
+      {/* HERO — Editorial */}
+      <section className="relative overflow-hidden bg-[hsl(40_35%_96%)]">
         <div
-          className="absolute inset-0 opacity-20"
+          className="absolute inset-0 opacity-[0.12]"
           style={{ backgroundImage: `url(${heroPattern})`, backgroundSize: "cover", backgroundPosition: "center" }}
           aria-hidden
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/80 to-background" aria-hidden />
-        <div className="container relative py-24 md:py-36 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-accent/30 bg-accent/5 mb-6 animate-float-in">
-            <Sparkles className="w-3.5 h-3.5 text-accent" />
-            <span className="text-xs text-accent">مشروع قرآني تطبيقي</span>
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse at 50% 0%, hsl(38 65% 52% / 0.10), transparent 55%), linear-gradient(to bottom, hsl(40 35% 96% / 0.4), hsl(40 35% 96% / 0.92) 60%, hsl(40 35% 96%))",
+          }}
+          aria-hidden
+        />
+        {/* Subtle museum dot grid */}
+        <div
+          className="absolute inset-0 opacity-[0.05] pointer-events-none"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 1px 1px, hsl(var(--primary)) 1px, transparent 0)",
+            backgroundSize: "36px 36px",
+          }}
+          aria-hidden
+        />
+
+        <div className="container relative pt-24 pb-20 md:pt-36 md:pb-28 text-center">
+          <div className="animate-float-in">
+            <Eyebrow kicker="A Quranic Endowment" label="وقفٌ قرآنيٌّ معرفي" />
           </div>
-          <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold text-primary leading-tight mb-6 animate-float-in">
-            منهج <span className="text-gradient-gold">الفلاح</span>
+
+          <h1 className="font-editorial text-[3.25rem] sm:text-7xl md:text-8xl lg:text-[8.5rem] text-primary leading-[1] tracking-tight mb-8 animate-float-in">
+            منهج <em className="not-italic font-editorial italic text-gradient-gold">الفلاح</em>
           </h1>
-          <p className="font-quran text-2xl md:text-3xl text-primary/80 mb-4">﴿ قَدْ أَفْلَحَ مَن زَكَّاهَا ﴾</p>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10">
-            من الوحي... إلى الحياة. القرآن هدايةٌ تُعاش، وسلوكٌ يُنجز، وفلاحٌ لا ينقطع.
+
+          {/* Ornament rule */}
+          <div className="flex items-center justify-center gap-4 mb-7" aria-hidden>
+            <span className="h-px w-16 md:w-24 bg-accent/50" />
+            <span className="w-1.5 h-1.5 rotate-45 bg-accent/70" />
+            <span className="h-px w-16 md:w-24 bg-accent/50" />
+          </div>
+
+          <p className="font-quran text-2xl md:text-4xl text-primary/85 mb-6 leading-loose">
+            ﴿ قَدْ أَفْلَحَ مَن زَكَّاهَا ﴾
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-4 mb-12">
-            <Button asChild size="lg" className="bg-gradient-emerald text-primary-foreground hover:opacity-90 shadow-elegant text-base px-8">
-              <Link to="/app">ابدأ رحلتك <ArrowLeft className="mr-2 w-4 h-4" /></Link>
+
+          <p className="font-editorial italic text-lg md:text-2xl text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed">
+            من الوحي… إلى الحياة. القرآن هدايةٌ تُعاش، وسلوكٌ يُنجز، وفلاحٌ لا ينقطع.
+          </p>
+
+          <div className="flex flex-wrap items-center justify-center gap-4 mb-16">
+            <Button
+              asChild
+              size="lg"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-elegant text-base px-10 h-12 rounded-none font-sans2 tracking-widest uppercase"
+            >
+              <Link to="/app">
+                ابدأ رحلتك <ArrowLeft className="mr-2 w-4 h-4" />
+              </Link>
             </Button>
-            <Button asChild variant="outline" size="lg" className="border-primary/30 text-base px-8">
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="border-primary/30 hover:border-accent text-primary text-base px-10 h-12 rounded-none font-sans2 tracking-widest uppercase bg-transparent"
+            >
               <a href="#perspective">تعرّف على المنهج</a>
             </Button>
           </div>
 
-          <div className="max-w-4xl mx-auto animate-float-in">
-            <div className="relative rounded-2xl overflow-hidden shadow-elegant border border-accent/20 bg-card">
-              <div className="aspect-video">
-                <iframe
-                  src="https://www.youtube.com/embed/tiNANW1m1_o"
-                  title="منهج الفلاح — تعريف بالمشروع"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                  loading="lazy"
-                  className="w-full h-full"
-                />
+          {/* Editorial film frame */}
+          <div className="max-w-5xl mx-auto animate-float-in">
+            <p className="font-sans2 text-[10px] tracking-[0.45em] uppercase text-accent mb-4">
+              <PlayCircle className="inline w-3.5 h-3.5 mb-0.5 ml-1" />
+              Featured Film · فيلم تعريفي
+            </p>
+            <div
+              className="relative p-[2px]"
+              style={{
+                background:
+                  "linear-gradient(135deg, hsl(38 75% 55%), hsl(42 85% 70%) 40%, hsl(38 60% 40%))",
+              }}
+            >
+              <div className="bg-card p-2">
+                <div className="border border-accent/30 p-[3px]">
+                  <div className="aspect-video relative overflow-hidden">
+                    <iframe
+                      src="https://www.youtube.com/embed/tiNANW1m1_o"
+                      title="منهج الفلاح — تعريف بالمشروع"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                      loading="lazy"
+                      className="w-full h-full"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
-            <p className="text-sm text-muted-foreground mt-4">شاهد تعريفًا موجزًا بمنهج الفلاح</p>
+            <p className="font-sans2 text-xs tracking-widest text-muted-foreground mt-5 uppercase">
+              An Introduction · شاهد تعريفًا موجزًا بمنهج الفلاح
+            </p>
           </div>
         </div>
       </section>
