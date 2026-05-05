@@ -41,24 +41,51 @@ export const LegacySection = () => {
               >
                 <div className="bg-[hsl(40_30%_94%)] p-2">
                   <div className="border border-accent/40 p-[6px]">
-                    <div className="relative overflow-hidden bg-black">
+                    <div className="relative overflow-hidden bg-[hsl(155_40%_8%)] aspect-[3/4]">
                       <img
                         src={portrait}
                         alt="بورتريه المرحوم أحمد يحيى المضواحي"
-                        width={1024}
-                        height={1536}
                         loading="lazy"
-                        className="w-full h-auto block"
+                        className="absolute inset-0 w-full h-full object-cover object-center block"
                         style={{
-                          filter: "grayscale(100%) contrast(1.08) brightness(0.98) sepia(0.18)",
+                          filter:
+                            "grayscale(100%) contrast(1.15) brightness(0.92)",
                         }}
                       />
-                      {/* duotone wash */}
+                      {/* shadows tone — deep olive/emerald */}
                       <div
-                        className="absolute inset-0 mix-blend-multiply opacity-30 pointer-events-none"
+                        className="absolute inset-0 mix-blend-multiply pointer-events-none"
                         style={{
                           background:
-                            "linear-gradient(180deg, hsl(158 50% 14%) 0%, hsl(38 60% 30%) 100%)",
+                            "linear-gradient(160deg, hsl(155 45% 12%) 0%, hsl(150 30% 22%) 60%, hsl(40 35% 28%) 100%)",
+                        }}
+                        aria-hidden
+                      />
+                      {/* highlights tone — pearl & muted gold */}
+                      <div
+                        className="absolute inset-0 mix-blend-screen pointer-events-none opacity-80"
+                        style={{
+                          background:
+                            "linear-gradient(160deg, hsl(42 55% 72%) 0%, hsl(38 35% 58%) 55%, hsl(40 30% 88%) 100%)",
+                        }}
+                        aria-hidden
+                      />
+                      {/* gentle vignette for museum depth */}
+                      <div
+                        className="absolute inset-0 pointer-events-none"
+                        style={{
+                          background:
+                            "radial-gradient(ellipse at 50% 40%, transparent 55%, hsl(155 45% 6% / 0.55) 100%)",
+                        }}
+                        aria-hidden
+                      />
+                      {/* subtle paper grain */}
+                      <div
+                        className="absolute inset-0 pointer-events-none opacity-[0.07] mix-blend-overlay"
+                        style={{
+                          backgroundImage:
+                            "radial-gradient(hsl(40 30% 90%) 1px, transparent 1px)",
+                          backgroundSize: "3px 3px",
                         }}
                         aria-hidden
                       />
