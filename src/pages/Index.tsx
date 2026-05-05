@@ -2,12 +2,32 @@ import { Navbar } from "@/components/falah/Navbar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { ArrowLeft, BookOpen, Compass, Sparkles, ListTodo, Sunrise, Trophy, Layers } from "lucide-react";
+import {
+  ArrowLeft,
+  BookOpen,
+  Compass,
+  Sparkles,
+  ListTodo,
+  Sunrise,
+  Trophy,
+  Layers,
+  PlayCircle,
+} from "lucide-react";
 import heroPattern from "@/assets/hero-pattern.jpg";
 import { domains, paths, methodSteps } from "@/data/falah";
 import { LegacySection } from "@/components/falah/LegacySection";
 import { Governance } from "@/components/falah/Governance";
 import { EngagementHub } from "@/components/falah/EngagementHub";
+
+const Eyebrow = ({ kicker, label }: { kicker: string; label: string }) => (
+  <div className="inline-flex items-center gap-3 mb-6">
+    <span className="h-px w-10 bg-accent/60" />
+    <span className="font-sans2 text-[11px] tracking-[0.45em] uppercase text-accent">
+      {kicker} · {label}
+    </span>
+    <span className="h-px w-10 bg-accent/60" />
+  </div>
+);
 
 const Index = () => {
   return (
