@@ -140,24 +140,25 @@ const Index = () => {
       </section>
 
       {/* PERSPECTIVE */}
-      <section id="perspective" className="container py-24">
-        <div className="text-center mb-16">
-          <p className="text-accent text-sm tracking-widest mb-3">المنظور</p>
-          <h2 className="font-display text-4xl md:text-5xl text-primary mb-4">رؤيتنا، رسالتنا، قِيَمنا</h2>
+      <section id="perspective" className="container py-28 md:py-36">
+        <div className="text-center mb-20 max-w-3xl mx-auto">
+          <Eyebrow kicker="The Perspective" label="المنظور" />
+          <h2 className="font-editorial text-5xl md:text-6xl text-primary leading-[1.05] tracking-tight">
+            رؤيتنا، رسالتنا، <em className="not-italic italic text-accent">قِيَمنا.</em>
+          </h2>
         </div>
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-3 gap-px bg-border/50">
           {[
-            { t: "الرؤية", d: "بناء إنسانٍ مهتدٍ بالقرآن، يحقّق الفلاح في دنياه ويصل إلى الجنّة في آخرته." },
-            { t: "الرسالة", d: "تقديم منهج قرآني عملي شامل يُحوّل الآيات إلى بوصلة حياة وسلوك وإنجاز." },
-            { t: "القيم", d: "القرآن أصلٌ ومنهج، الهداية قبل الإنجاز، السلوك قبل النتائج، الدنيا مزرعة الآخرة." },
+            { n: "I", t: "الرؤية", en: "Vision", d: "بناء إنسانٍ مهتدٍ بالقرآن، يحقّق الفلاح في دنياه ويصل إلى الجنّة في آخرته." },
+            { n: "II", t: "الرسالة", en: "Mission", d: "تقديم منهج قرآني عملي شامل يُحوّل الآيات إلى بوصلة حياة وسلوك وإنجاز." },
+            { n: "III", t: "القيم", en: "Values", d: "القرآن أصلٌ ومنهج، الهداية قبل الإنجاز، السلوك قبل النتائج، الدنيا مزرعة الآخرة." },
           ].map((item, i) => (
-            <Card key={i} className="p-8 bg-gradient-card border-border/60 shadow-soft hover:shadow-elegant transition-smooth">
-              <div className="w-12 h-12 rounded-xl bg-gradient-emerald flex items-center justify-center mb-5">
-                <Compass className="w-6 h-6 text-primary-foreground" />
-              </div>
-              <h3 className="font-display text-2xl text-primary mb-3">{item.t}</h3>
-              <p className="text-muted-foreground leading-relaxed">{item.d}</p>
-            </Card>
+            <div key={i} className="bg-background p-10 md:p-12 group hover:bg-card transition-smooth">
+              <p className="font-editorial italic text-5xl text-accent/70 mb-6">{item.n}</p>
+              <p className="font-sans2 text-[10px] tracking-[0.4em] uppercase text-accent mb-2">{item.en}</p>
+              <h3 className="font-editorial text-3xl text-primary mb-5">{item.t}</h3>
+              <p className="text-muted-foreground leading-loose text-[15px]">{item.d}</p>
+            </div>
           ))}
         </div>
       </section>
