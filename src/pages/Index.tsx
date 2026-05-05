@@ -164,19 +164,55 @@ const Index = () => {
       </section>
 
       {/* METHOD */}
-      <section id="method" className="bg-gradient-emerald text-primary-foreground py-24">
-        <div className="container">
-          <div className="text-center mb-16">
-            <p className="text-accent-glow text-sm tracking-widest mb-3">المنهج</p>
-            <h2 className="font-display text-4xl md:text-5xl mb-4">من الآية... إلى الفلاح</h2>
-            <p className="text-primary-foreground/70 max-w-2xl mx-auto">أربع خطوات تُحوّل الوحي إلى سلوكٍ وأثرٍ ومآلٍ كريم.</p>
+      <section id="method" className="relative bg-[hsl(155_45%_8%)] text-primary-foreground py-28 md:py-36 overflow-hidden">
+        <div
+          className="absolute inset-0 opacity-[0.05] pointer-events-none"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 1px 1px, hsl(38 80% 70%) 1px, transparent 0)",
+            backgroundSize: "40px 40px",
+          }}
+          aria-hidden
+        />
+        <div
+          className="absolute inset-0 opacity-50 pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(ellipse at 50% 0%, hsl(38 75% 55% / 0.18), transparent 60%)",
+          }}
+          aria-hidden
+        />
+        <div className="container relative">
+          <div className="text-center mb-20 max-w-3xl mx-auto">
+            <div className="inline-flex items-center gap-3 mb-6">
+              <span className="h-px w-10 bg-accent/70" />
+              <span className="font-sans2 text-[11px] tracking-[0.45em] uppercase text-accent-glow">
+                The Method · المنهج
+              </span>
+              <span className="h-px w-10 bg-accent/70" />
+            </div>
+            <h2 className="font-editorial text-5xl md:text-6xl leading-[1.05] tracking-tight mb-6">
+              من الآية… <em className="not-italic italic text-gradient-gold">إلى الفلاح.</em>
+            </h2>
+            <p className="font-editorial italic text-lg md:text-xl text-primary-foreground/65 leading-relaxed">
+              أربع خطوات تُحوّل الوحي إلى سلوكٍ وأثرٍ ومآلٍ كريم.
+            </p>
           </div>
-          <div className="grid md:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-4 gap-px bg-primary-foreground/10">
             {methodSteps.map((s) => (
-              <div key={s.n} className="relative p-7 rounded-2xl bg-primary-foreground/5 border border-primary-foreground/10 backdrop-blur-sm hover:bg-primary-foreground/10 transition-smooth">
-                <span className="font-display text-5xl text-gradient-gold opacity-90">{s.n}</span>
-                <h3 className="font-display text-2xl mt-3 mb-2">{s.title}</h3>
-                <p className="text-primary-foreground/70 text-sm leading-relaxed">{s.desc}</p>
+              <div
+                key={s.n}
+                className="relative bg-[hsl(155_45%_8%)] p-8 md:p-10 hover:bg-[hsl(155_40%_11%)] transition-smooth group"
+              >
+                <div className="flex items-baseline gap-3 mb-6">
+                  <span className="font-editorial text-6xl text-gradient-gold leading-none">{s.n}</span>
+                  <span className="font-sans2 text-[10px] tracking-[0.4em] uppercase text-accent/70">
+                    Step
+                  </span>
+                </div>
+                <h3 className="font-editorial text-2xl mb-3 text-primary-foreground">{s.title}</h3>
+                <p className="text-primary-foreground/65 text-sm leading-loose">{s.desc}</p>
+                <span className="absolute bottom-0 right-0 h-px w-0 bg-accent group-hover:w-full transition-all duration-700" />
               </div>
             ))}
           </div>
