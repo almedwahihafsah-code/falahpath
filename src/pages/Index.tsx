@@ -1,12 +1,10 @@
 import { Navbar } from "@/components/falah/Navbar";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 import {
   ArrowLeft,
   BookOpen,
   Compass,
-  Sparkles,
   ListTodo,
   Sunrise,
   Trophy,
