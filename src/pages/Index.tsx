@@ -220,27 +220,39 @@ const Index = () => {
       </section>
 
       {/* DOMAINS */}
-      <section id="domains" className="container py-24">
-        <div className="text-center mb-16">
-          <p className="text-accent text-sm tracking-widest mb-3">المجالات الثمانية</p>
-          <h2 className="font-display text-4xl md:text-5xl text-primary mb-4">رحلة الحياة المتكاملة</h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">ثمانية مجالات تُغطّي الإنسان كلّه: قلبه، جسده، عقله، عمله، ماله، أسرته، أمّته، وابتلاءاته.</p>
-        </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
-          {domains.map((d) => (
-            <Card key={d.id} className="group p-6 bg-gradient-card border-border/60 hover:shadow-elegant hover:-translate-y-1 transition-smooth cursor-default">
-              <div className="flex items-start justify-between mb-4">
-                <div className="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center font-display text-primary text-lg">
-                  {d.id.toString().padStart(2, "0")}
+      <section id="domains" className="bg-[hsl(40_30%_94%)] py-28 md:py-36">
+        <div className="container">
+          <div className="text-center mb-20 max-w-3xl mx-auto">
+            <Eyebrow kicker="The Eight Domains" label="المجالات الثمانية" />
+            <h2 className="font-editorial text-5xl md:text-6xl text-primary leading-[1.05] tracking-tight mb-6">
+              رحلةُ الحياة <em className="not-italic italic text-accent">المتكاملة.</em>
+            </h2>
+            <p className="font-editorial italic text-lg text-muted-foreground leading-relaxed">
+              ثمانية مجالاتٍ تُغطّي الإنسان كلّه — قلبَه، جسدَه، عقلَه، عمله، ماله، أسرته، أمّته، وابتلاءاته.
+            </p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-border/50 border border-border/50">
+            {domains.map((d) => (
+              <article
+                key={d.id}
+                className="group bg-background p-8 hover:bg-card transition-smooth relative overflow-hidden"
+              >
+                <div className="flex items-start justify-between mb-6">
+                  <span className="font-editorial italic text-5xl text-accent/60 leading-none">
+                    {d.id.toString().padStart(2, "0")}
+                  </span>
+                  <BookOpen className="w-4 h-4 text-accent opacity-50 group-hover:opacity-100 transition-smooth" />
                 </div>
-                <BookOpen className="w-5 h-5 text-accent opacity-60 group-hover:opacity-100 transition-smooth" />
-              </div>
-              <h3 className="font-display text-xl text-primary mb-1">{d.title}</h3>
-              <p className="text-xs text-accent mb-3">{d.subtitle}</p>
-              <p className="font-quran text-sm text-primary/70 mb-3 leading-loose">﴿ {d.quote} ﴾</p>
-              <p className="text-sm text-muted-foreground leading-relaxed">{d.desc}</p>
-            </Card>
-          ))}
+                <h3 className="font-editorial text-2xl text-primary mb-1 leading-tight">{d.title}</h3>
+                <p className="font-sans2 text-[10px] tracking-[0.35em] uppercase text-accent mb-4">
+                  {d.subtitle}
+                </p>
+                <p className="font-quran text-[15px] text-primary/75 mb-4 leading-loose">﴿ {d.quote} ﴾</p>
+                <p className="text-sm text-muted-foreground leading-loose">{d.desc}</p>
+                <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-accent group-hover:w-full transition-all duration-700" />
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
