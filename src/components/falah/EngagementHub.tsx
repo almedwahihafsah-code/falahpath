@@ -22,11 +22,10 @@ const CATEGORIES: { key: Category; label: string; Icon: typeof Lightbulb; hint: 
   { key: "thanks", label: "رسالة شكر", Icon: Heart, hint: "كلمة طيبة تُحيي المشروع" },
 ];
 
-// TODO: استبدل هذه القيم بالتفاصيل الرسمية لاحقاً عبر Visual Edits
 const CONTACT = {
-  whatsapp: "+966500000000",
-  email: "info@falahpath.org",
-  phone: "+966500000000",
+  whatsapp: "+971555851944",
+  email: "info@falah.me",
+  phone: "+971555851944",
 };
 
 export const EngagementHub = () => {
