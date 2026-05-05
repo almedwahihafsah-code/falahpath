@@ -331,16 +331,45 @@ const Index = () => {
       </section>
 
       {/* CTA */}
-      <section className="container py-24">
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-hero p-12 md:p-20 text-center shadow-elegant">
-          <div className="absolute inset-0 opacity-10" style={{ backgroundImage: `url(${heroPattern})`, backgroundSize: "cover" }} aria-hidden />
+      <section className="container py-28 md:py-36">
+        <div className="relative overflow-hidden bg-[hsl(155_45%_8%)] p-14 md:p-24 text-center shadow-elegant border border-accent/20">
+          <div
+            className="absolute inset-0 opacity-[0.06]"
+            style={{ backgroundImage: `url(${heroPattern})`, backgroundSize: "cover" }}
+            aria-hidden
+          />
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background:
+                "radial-gradient(ellipse at 50% 0%, hsl(38 75% 55% / 0.18), transparent 70%)",
+            }}
+            aria-hidden
+          />
           <div className="relative">
-            <h2 className="font-display text-4xl md:text-5xl text-primary-foreground mb-5">ابدأ رحلتك نحو الفلاح اليوم</h2>
-            <p className="text-primary-foreground/70 text-lg max-w-2xl mx-auto mb-8">
+            <div className="inline-flex items-center gap-3 mb-7">
+              <span className="h-px w-10 bg-accent/70" />
+              <span className="font-sans2 text-[11px] tracking-[0.45em] uppercase text-accent-glow">
+                Begin · ابدأ
+              </span>
+              <span className="h-px w-10 bg-accent/70" />
+            </div>
+            <h2 className="font-editorial text-4xl md:text-6xl text-primary-foreground mb-7 leading-[1.1] tracking-tight">
+              ابدأ رحلتك نحو
+              <br />
+              <em className="not-italic italic text-gradient-gold">الفلاح</em> اليوم.
+            </h2>
+            <p className="font-editorial italic text-primary-foreground/70 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
               قياسٌ أسبوعي، خططٌ يومية، وأدواتٌ عملية تُترجم القرآن إلى سلوكٍ وأثر.
             </p>
-            <Button asChild size="lg" className="bg-gradient-gold text-accent-foreground hover:opacity-90 shadow-gold text-base px-10">
-              <Link to="/app">ادخل التطبيق <ArrowLeft className="mr-2 w-4 h-4" /></Link>
+            <Button
+              asChild
+              size="lg"
+              className="bg-gradient-gold text-accent-foreground hover:opacity-90 shadow-gold text-base px-12 h-14 rounded-none font-sans2 tracking-[0.3em] uppercase"
+            >
+              <Link to="/app">
+                ادخل التطبيق <ArrowLeft className="mr-2 w-4 h-4" />
+              </Link>
             </Button>
           </div>
         </div>
