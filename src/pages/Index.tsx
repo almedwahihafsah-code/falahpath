@@ -286,13 +286,18 @@ const Index = () => {
       </section>
 
       {/* SERVICES */}
-      <section id="services" className="container py-24">
-        <div className="text-center mb-16">
-          <p className="text-accent text-sm tracking-widest mb-3">خدماتنا</p>
-          <h2 className="font-display text-4xl md:text-5xl text-primary mb-4">ماذا تجد داخل التطبيق؟</h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">منظومة متكاملة تجمع بين التخطيط والتزكية والإنجاز.</p>
+      <section id="services" className="bg-[hsl(40_30%_94%)] py-28 md:py-36">
+        <div className="container">
+        <div className="text-center mb-20 max-w-3xl mx-auto">
+          <Eyebrow kicker="Inside the Platform" label="داخل المنصّة" />
+          <h2 className="font-editorial text-5xl md:text-6xl text-primary leading-[1.05] tracking-tight mb-6">
+            منظومةٌ <em className="not-italic italic text-accent">متكاملة.</em>
+          </h2>
+          <p className="font-editorial italic text-lg text-muted-foreground leading-relaxed">
+            تخطيطٌ، وتزكيةٌ، وإنجاز — في فضاءٍ واحدٍ مدروس.
+          </p>
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-5">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-border/50 border border-border/50">
           {[
             { icon: ListTodo, t: "مخطّط المهام", d: "أضف مهامك وأهدافك حسب المجال والأولوية والتاريخ.", href: "/app" },
             { icon: Layers, t: "المجالات الثمانية", d: "تابع تقدّمك في 8 مجالات حياتية بنظرة شاملة.", href: "/app" },
@@ -305,20 +310,23 @@ const Index = () => {
               key={i}
               to={s.href}
               aria-label={s.t}
-              className="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-xl"
+              className="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-accent bg-background hover:bg-card transition-smooth p-8 relative"
             >
-              <Card className="h-full p-6 bg-gradient-card border-border/60 shadow-soft hover:shadow-elegant hover:-translate-y-1 transition-smooth cursor-pointer">
-                <div className="w-12 h-12 rounded-xl bg-gradient-emerald flex items-center justify-center mb-4">
-                  <s.icon className="w-6 h-6 text-primary-foreground" />
-                </div>
-                <h3 className="font-display text-xl text-primary mb-2">{s.t}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{s.d}</p>
-                <span className="inline-flex items-center gap-1 mt-3 text-sm text-accent group-hover:underline">
-                  استكشف <ArrowLeft className="w-3.5 h-3.5" />
+              <div className="flex items-start justify-between mb-6">
+                <s.icon className="w-7 h-7 text-accent" strokeWidth={1.4} />
+                <span className="font-editorial italic text-2xl text-accent/50">
+                  {String(i + 1).padStart(2, "0")}
                 </span>
-              </Card>
+              </div>
+              <h3 className="font-editorial text-2xl text-primary mb-3">{s.t}</h3>
+              <p className="text-sm text-muted-foreground leading-loose mb-5">{s.d}</p>
+              <span className="inline-flex items-center gap-2 text-xs font-sans2 tracking-[0.3em] uppercase text-accent group-hover:gap-3 transition-all">
+                استكشف <ArrowLeft className="w-3.5 h-3.5" />
+              </span>
+              <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-accent group-hover:w-full transition-all duration-700" />
             </Link>
           ))}
+        </div>
         </div>
       </section>
 
