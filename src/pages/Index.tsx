@@ -1,103 +1,216 @@
 import { Navbar } from "@/components/falah/Navbar";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { ArrowLeft, BookOpen, Compass, Sparkles, ListTodo, Sunrise, Trophy, Layers } from "lucide-react";
+import {
+  ArrowLeft,
+  BookOpen,
+  Compass,
+  ListTodo,
+  Sunrise,
+  Trophy,
+  Layers,
+  PlayCircle,
+} from "lucide-react";
 import heroPattern from "@/assets/hero-pattern.jpg";
 import { domains, paths, methodSteps } from "@/data/falah";
 import { LegacySection } from "@/components/falah/LegacySection";
 import { Governance } from "@/components/falah/Governance";
 import { EngagementHub } from "@/components/falah/EngagementHub";
 
+const Eyebrow = ({ kicker, label }: { kicker: string; label: string }) => (
+  <div className="inline-flex items-center gap-3 mb-6">
+    <span className="h-px w-10 bg-accent/60" />
+    <span className="font-sans2 text-[11px] tracking-[0.45em] uppercase text-accent">
+      {kicker} · {label}
+    </span>
+    <span className="h-px w-10 bg-accent/60" />
+  </div>
+);
+
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
 
-      {/* HERO */}
-      <section className="relative overflow-hidden">
+      {/* HERO — Editorial */}
+      <section className="relative overflow-hidden bg-[hsl(40_35%_96%)]">
         <div
-          className="absolute inset-0 opacity-20"
+          className="absolute inset-0 opacity-[0.12]"
           style={{ backgroundImage: `url(${heroPattern})`, backgroundSize: "cover", backgroundPosition: "center" }}
           aria-hidden
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/80 to-background" aria-hidden />
-        <div className="container relative py-24 md:py-36 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-accent/30 bg-accent/5 mb-6 animate-float-in">
-            <Sparkles className="w-3.5 h-3.5 text-accent" />
-            <span className="text-xs text-accent">مشروع قرآني تطبيقي</span>
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse at 50% 0%, hsl(38 65% 52% / 0.10), transparent 55%), linear-gradient(to bottom, hsl(40 35% 96% / 0.4), hsl(40 35% 96% / 0.92) 60%, hsl(40 35% 96%))",
+          }}
+          aria-hidden
+        />
+        {/* Subtle museum dot grid */}
+        <div
+          className="absolute inset-0 opacity-[0.05] pointer-events-none"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 1px 1px, hsl(var(--primary)) 1px, transparent 0)",
+            backgroundSize: "36px 36px",
+          }}
+          aria-hidden
+        />
+
+        <div className="container relative pt-24 pb-20 md:pt-36 md:pb-28 text-center">
+          <div className="animate-float-in">
+            <Eyebrow kicker="A Quranic Endowment" label="وقفٌ قرآنيٌّ معرفي" />
           </div>
-          <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold text-primary leading-tight mb-6 animate-float-in">
-            منهج <span className="text-gradient-gold">الفلاح</span>
+
+          <h1 className="font-editorial text-[3.25rem] sm:text-7xl md:text-8xl lg:text-[8.5rem] text-primary leading-[1] tracking-tight mb-8 animate-float-in">
+            منهج <em className="not-italic font-editorial italic text-gradient-gold">الفلاح</em>
           </h1>
-          <p className="font-quran text-2xl md:text-3xl text-primary/80 mb-4">﴿ قَدْ أَفْلَحَ مَن زَكَّاهَا ﴾</p>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10">
-            من الوحي... إلى الحياة. القرآن هدايةٌ تُعاش، وسلوكٌ يُنجز، وفلاحٌ لا ينقطع.
+
+          {/* Ornament rule */}
+          <div className="flex items-center justify-center gap-4 mb-7" aria-hidden>
+            <span className="h-px w-16 md:w-24 bg-accent/50" />
+            <span className="w-1.5 h-1.5 rotate-45 bg-accent/70" />
+            <span className="h-px w-16 md:w-24 bg-accent/50" />
+          </div>
+
+          <p className="font-quran text-2xl md:text-4xl text-primary/85 mb-6 leading-loose">
+            ﴿ قَدْ أَفْلَحَ مَن زَكَّاهَا ﴾
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-4 mb-12">
-            <Button asChild size="lg" className="bg-gradient-emerald text-primary-foreground hover:opacity-90 shadow-elegant text-base px-8">
-              <Link to="/app">ابدأ رحلتك <ArrowLeft className="mr-2 w-4 h-4" /></Link>
+
+          <p className="font-editorial italic text-lg md:text-2xl text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed">
+            من الوحي… إلى الحياة. القرآن هدايةٌ تُعاش، وسلوكٌ يُنجز، وفلاحٌ لا ينقطع.
+          </p>
+
+          <div className="flex flex-wrap items-center justify-center gap-4 mb-16">
+            <Button
+              asChild
+              size="lg"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-elegant text-base px-10 h-12 rounded-none font-sans2 tracking-widest uppercase"
+            >
+              <Link to="/app">
+                ابدأ رحلتك <ArrowLeft className="mr-2 w-4 h-4" />
+              </Link>
             </Button>
-            <Button asChild variant="outline" size="lg" className="border-primary/30 text-base px-8">
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="border-primary/30 hover:border-accent text-primary text-base px-10 h-12 rounded-none font-sans2 tracking-widest uppercase bg-transparent"
+            >
               <a href="#perspective">تعرّف على المنهج</a>
             </Button>
           </div>
 
-          <div className="max-w-4xl mx-auto animate-float-in">
-            <div className="relative rounded-2xl overflow-hidden shadow-elegant border border-accent/20 bg-card">
-              <div className="aspect-video">
-                <iframe
-                  src="https://www.youtube.com/embed/tiNANW1m1_o"
-                  title="منهج الفلاح — تعريف بالمشروع"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                  loading="lazy"
-                  className="w-full h-full"
-                />
+          {/* Editorial film frame */}
+          <div className="max-w-5xl mx-auto animate-float-in">
+            <p className="font-sans2 text-[10px] tracking-[0.45em] uppercase text-accent mb-4">
+              <PlayCircle className="inline w-3.5 h-3.5 mb-0.5 ml-1" />
+              Featured Film · فيلم تعريفي
+            </p>
+            <div
+              className="relative p-[2px]"
+              style={{
+                background:
+                  "linear-gradient(135deg, hsl(38 75% 55%), hsl(42 85% 70%) 40%, hsl(38 60% 40%))",
+              }}
+            >
+              <div className="bg-card p-2">
+                <div className="border border-accent/30 p-[3px]">
+                  <div className="aspect-video relative overflow-hidden">
+                    <iframe
+                      src="https://www.youtube.com/embed/tiNANW1m1_o"
+                      title="منهج الفلاح — تعريف بالمشروع"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                      loading="lazy"
+                      className="w-full h-full"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
-            <p className="text-sm text-muted-foreground mt-4">شاهد تعريفًا موجزًا بمنهج الفلاح</p>
+            <p className="font-sans2 text-xs tracking-widest text-muted-foreground mt-5 uppercase">
+              An Introduction · شاهد تعريفًا موجزًا بمنهج الفلاح
+            </p>
           </div>
         </div>
       </section>
 
       {/* PERSPECTIVE */}
-      <section id="perspective" className="container py-24">
-        <div className="text-center mb-16">
-          <p className="text-accent text-sm tracking-widest mb-3">المنظور</p>
-          <h2 className="font-display text-4xl md:text-5xl text-primary mb-4">رؤيتنا، رسالتنا، قِيَمنا</h2>
+      <section id="perspective" className="container py-28 md:py-36">
+        <div className="text-center mb-20 max-w-3xl mx-auto">
+          <Eyebrow kicker="The Perspective" label="المنظور" />
+          <h2 className="font-editorial text-5xl md:text-6xl text-primary leading-[1.05] tracking-tight">
+            رؤيتنا، رسالتنا، <em className="not-italic italic text-accent">قِيَمنا.</em>
+          </h2>
         </div>
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-3 gap-px bg-border/50">
           {[
-            { t: "الرؤية", d: "بناء إنسانٍ مهتدٍ بالقرآن، يحقّق الفلاح في دنياه ويصل إلى الجنّة في آخرته." },
-            { t: "الرسالة", d: "تقديم منهج قرآني عملي شامل يُحوّل الآيات إلى بوصلة حياة وسلوك وإنجاز." },
-            { t: "القيم", d: "القرآن أصلٌ ومنهج، الهداية قبل الإنجاز، السلوك قبل النتائج، الدنيا مزرعة الآخرة." },
+            { n: "I", t: "الرؤية", en: "Vision", d: "بناء إنسانٍ مهتدٍ بالقرآن، يحقّق الفلاح في دنياه ويصل إلى الجنّة في آخرته." },
+            { n: "II", t: "الرسالة", en: "Mission", d: "تقديم منهج قرآني عملي شامل يُحوّل الآيات إلى بوصلة حياة وسلوك وإنجاز." },
+            { n: "III", t: "القيم", en: "Values", d: "القرآن أصلٌ ومنهج، الهداية قبل الإنجاز، السلوك قبل النتائج، الدنيا مزرعة الآخرة." },
           ].map((item, i) => (
-            <Card key={i} className="p-8 bg-gradient-card border-border/60 shadow-soft hover:shadow-elegant transition-smooth">
-              <div className="w-12 h-12 rounded-xl bg-gradient-emerald flex items-center justify-center mb-5">
-                <Compass className="w-6 h-6 text-primary-foreground" />
-              </div>
-              <h3 className="font-display text-2xl text-primary mb-3">{item.t}</h3>
-              <p className="text-muted-foreground leading-relaxed">{item.d}</p>
-            </Card>
+            <div key={i} className="bg-background p-10 md:p-12 group hover:bg-card transition-smooth">
+              <p className="font-editorial italic text-5xl text-accent/70 mb-6">{item.n}</p>
+              <p className="font-sans2 text-[10px] tracking-[0.4em] uppercase text-accent mb-2">{item.en}</p>
+              <h3 className="font-editorial text-3xl text-primary mb-5">{item.t}</h3>
+              <p className="text-muted-foreground leading-loose text-[15px]">{item.d}</p>
+            </div>
           ))}
         </div>
       </section>
 
       {/* METHOD */}
-      <section id="method" className="bg-gradient-emerald text-primary-foreground py-24">
-        <div className="container">
-          <div className="text-center mb-16">
-            <p className="text-accent-glow text-sm tracking-widest mb-3">المنهج</p>
-            <h2 className="font-display text-4xl md:text-5xl mb-4">من الآية... إلى الفلاح</h2>
-            <p className="text-primary-foreground/70 max-w-2xl mx-auto">أربع خطوات تُحوّل الوحي إلى سلوكٍ وأثرٍ ومآلٍ كريم.</p>
+      <section id="method" className="relative bg-[hsl(155_45%_8%)] text-primary-foreground py-28 md:py-36 overflow-hidden">
+        <div
+          className="absolute inset-0 opacity-[0.05] pointer-events-none"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 1px 1px, hsl(38 80% 70%) 1px, transparent 0)",
+            backgroundSize: "40px 40px",
+          }}
+          aria-hidden
+        />
+        <div
+          className="absolute inset-0 opacity-50 pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(ellipse at 50% 0%, hsl(38 75% 55% / 0.18), transparent 60%)",
+          }}
+          aria-hidden
+        />
+        <div className="container relative">
+          <div className="text-center mb-20 max-w-3xl mx-auto">
+            <div className="inline-flex items-center gap-3 mb-6">
+              <span className="h-px w-10 bg-accent/70" />
+              <span className="font-sans2 text-[11px] tracking-[0.45em] uppercase text-accent-glow">
+                The Method · المنهج
+              </span>
+              <span className="h-px w-10 bg-accent/70" />
+            </div>
+            <h2 className="font-editorial text-5xl md:text-6xl leading-[1.05] tracking-tight mb-6">
+              من الآية… <em className="not-italic italic text-gradient-gold">إلى الفلاح.</em>
+            </h2>
+            <p className="font-editorial italic text-lg md:text-xl text-primary-foreground/65 leading-relaxed">
+              أربع خطوات تُحوّل الوحي إلى سلوكٍ وأثرٍ ومآلٍ كريم.
+            </p>
           </div>
-          <div className="grid md:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-4 gap-px bg-primary-foreground/10">
             {methodSteps.map((s) => (
-              <div key={s.n} className="relative p-7 rounded-2xl bg-primary-foreground/5 border border-primary-foreground/10 backdrop-blur-sm hover:bg-primary-foreground/10 transition-smooth">
-                <span className="font-display text-5xl text-gradient-gold opacity-90">{s.n}</span>
-                <h3 className="font-display text-2xl mt-3 mb-2">{s.title}</h3>
-                <p className="text-primary-foreground/70 text-sm leading-relaxed">{s.desc}</p>
+              <div
+                key={s.n}
+                className="relative bg-[hsl(155_45%_8%)] p-8 md:p-10 hover:bg-[hsl(155_40%_11%)] transition-smooth group"
+              >
+                <div className="flex items-baseline gap-3 mb-6">
+                  <span className="font-editorial text-6xl text-gradient-gold leading-none">{s.n}</span>
+                  <span className="font-sans2 text-[10px] tracking-[0.4em] uppercase text-accent/70">
+                    Step
+                  </span>
+                </div>
+                <h3 className="font-editorial text-2xl mb-3 text-primary-foreground">{s.title}</h3>
+                <p className="text-primary-foreground/65 text-sm leading-loose">{s.desc}</p>
+                <span className="absolute bottom-0 right-0 h-px w-0 bg-accent group-hover:w-full transition-all duration-700" />
               </div>
             ))}
           </div>
@@ -105,58 +218,84 @@ const Index = () => {
       </section>
 
       {/* DOMAINS */}
-      <section id="domains" className="container py-24">
-        <div className="text-center mb-16">
-          <p className="text-accent text-sm tracking-widest mb-3">المجالات الثمانية</p>
-          <h2 className="font-display text-4xl md:text-5xl text-primary mb-4">رحلة الحياة المتكاملة</h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">ثمانية مجالات تُغطّي الإنسان كلّه: قلبه، جسده، عقله، عمله، ماله، أسرته، أمّته، وابتلاءاته.</p>
-        </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
-          {domains.map((d) => (
-            <Card key={d.id} className="group p-6 bg-gradient-card border-border/60 hover:shadow-elegant hover:-translate-y-1 transition-smooth cursor-default">
-              <div className="flex items-start justify-between mb-4">
-                <div className="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center font-display text-primary text-lg">
-                  {d.id.toString().padStart(2, "0")}
-                </div>
-                <BookOpen className="w-5 h-5 text-accent opacity-60 group-hover:opacity-100 transition-smooth" />
-              </div>
-              <h3 className="font-display text-xl text-primary mb-1">{d.title}</h3>
-              <p className="text-xs text-accent mb-3">{d.subtitle}</p>
-              <p className="font-quran text-sm text-primary/70 mb-3 leading-loose">﴿ {d.quote} ﴾</p>
-              <p className="text-sm text-muted-foreground leading-relaxed">{d.desc}</p>
-            </Card>
-          ))}
-        </div>
-      </section>
-
-      {/* PATHS */}
-      <section id="paths" className="bg-secondary/40 py-24">
+      <section id="domains" className="bg-[hsl(40_30%_94%)] py-28 md:py-36">
         <div className="container">
-          <div className="text-center mb-16">
-            <p className="text-accent text-sm tracking-widest mb-3">المسارات الحياتية</p>
-            <h2 className="font-display text-4xl md:text-5xl text-primary mb-4">لكل عُمرٍ فلاحُه</h2>
+          <div className="text-center mb-20 max-w-3xl mx-auto">
+            <Eyebrow kicker="The Eight Domains" label="المجالات الثمانية" />
+            <h2 className="font-editorial text-5xl md:text-6xl text-primary leading-[1.05] tracking-tight mb-6">
+              رحلةُ الحياة <em className="not-italic italic text-accent">المتكاملة.</em>
+            </h2>
+            <p className="font-editorial italic text-lg text-muted-foreground leading-relaxed">
+              ثمانية مجالاتٍ تُغطّي الإنسان كلّه — قلبَه، جسدَه، عقلَه، عمله، ماله، أسرته، أمّته، وابتلاءاته.
+            </p>
           </div>
-          <div className="grid md:grid-cols-3 gap-6">
-            {paths.map((p) => (
-              <Card key={p.id} className="p-8 bg-card shadow-soft hover:shadow-elegant transition-smooth border-t-4 border-t-accent">
-                <p className="text-xs text-accent tracking-widest mb-2">{p.age}</p>
-                <h3 className="font-display text-3xl text-primary mb-4">{p.title}</h3>
-                <p className="font-quran text-base text-primary/70 mb-4 leading-loose">"{p.quote}"</p>
-                <p className="text-muted-foreground leading-relaxed">{p.focus}</p>
-              </Card>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-border/50 border border-border/50">
+            {domains.map((d) => (
+              <article
+                key={d.id}
+                className="group bg-background p-8 hover:bg-card transition-smooth relative overflow-hidden"
+              >
+                <div className="flex items-start justify-between mb-6">
+                  <span className="font-editorial italic text-5xl text-accent/60 leading-none">
+                    {d.id.toString().padStart(2, "0")}
+                  </span>
+                  <BookOpen className="w-4 h-4 text-accent opacity-50 group-hover:opacity-100 transition-smooth" />
+                </div>
+                <h3 className="font-editorial text-2xl text-primary mb-1 leading-tight">{d.title}</h3>
+                <p className="font-sans2 text-[10px] tracking-[0.35em] uppercase text-accent mb-4">
+                  {d.subtitle}
+                </p>
+                <p className="font-quran text-[15px] text-primary/75 mb-4 leading-loose">﴿ {d.quote} ﴾</p>
+                <p className="text-sm text-muted-foreground leading-loose">{d.desc}</p>
+                <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-accent group-hover:w-full transition-all duration-700" />
+              </article>
             ))}
           </div>
         </div>
       </section>
 
-      {/* SERVICES */}
-      <section id="services" className="container py-24">
-        <div className="text-center mb-16">
-          <p className="text-accent text-sm tracking-widest mb-3">خدماتنا</p>
-          <h2 className="font-display text-4xl md:text-5xl text-primary mb-4">ماذا تجد داخل التطبيق؟</h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">منظومة متكاملة تجمع بين التخطيط والتزكية والإنجاز.</p>
+      {/* PATHS */}
+      <section id="paths" className="container py-28 md:py-36">
+        <div className="text-center mb-20 max-w-3xl mx-auto">
+          <Eyebrow kicker="The Life Paths" label="المسارات الحياتية" />
+          <h2 className="font-editorial text-5xl md:text-6xl text-primary leading-[1.05] tracking-tight">
+            لكلّ عُمرٍ <em className="not-italic italic text-accent">فلاحُه.</em>
+          </h2>
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-5">
+        <div className="grid md:grid-cols-3 gap-8">
+          {paths.map((p, i) => (
+            <article
+              key={p.id}
+              className="relative bg-card p-10 border border-border/60 shadow-soft hover:shadow-elegant hover:-translate-y-1 transition-smooth"
+            >
+              <div className="absolute top-0 right-0 left-0 h-px bg-gradient-to-r from-transparent via-accent to-transparent" />
+              <p className="font-editorial italic text-3xl text-accent/70 mb-6">
+                {String(i + 1).padStart(2, "0")}
+              </p>
+              <p className="font-sans2 text-[10px] tracking-[0.4em] uppercase text-accent mb-3">
+                {p.age}
+              </p>
+              <h3 className="font-editorial text-3xl text-primary mb-5">{p.title}</h3>
+              <p className="font-quran text-base text-primary/70 mb-5 leading-loose">"{p.quote}"</p>
+              <p className="text-muted-foreground leading-loose text-[15px]">{p.focus}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* SERVICES */}
+      <section id="services" className="bg-[hsl(40_30%_94%)] py-28 md:py-36">
+        <div className="container">
+        <div className="text-center mb-20 max-w-3xl mx-auto">
+          <Eyebrow kicker="Inside the Platform" label="داخل المنصّة" />
+          <h2 className="font-editorial text-5xl md:text-6xl text-primary leading-[1.05] tracking-tight mb-6">
+            منظومةٌ <em className="not-italic italic text-accent">متكاملة.</em>
+          </h2>
+          <p className="font-editorial italic text-lg text-muted-foreground leading-relaxed">
+            تخطيطٌ، وتزكيةٌ، وإنجاز — في فضاءٍ واحدٍ مدروس.
+          </p>
+        </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-border/50 border border-border/50">
           {[
             { icon: ListTodo, t: "مخطّط المهام", d: "أضف مهامك وأهدافك حسب المجال والأولوية والتاريخ.", href: "/app" },
             { icon: Layers, t: "المجالات الثمانية", d: "تابع تقدّمك في 8 مجالات حياتية بنظرة شاملة.", href: "/app" },
@@ -169,34 +308,66 @@ const Index = () => {
               key={i}
               to={s.href}
               aria-label={s.t}
-              className="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-xl"
+              className="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-accent bg-background hover:bg-card transition-smooth p-8 relative"
             >
-              <Card className="h-full p-6 bg-gradient-card border-border/60 shadow-soft hover:shadow-elegant hover:-translate-y-1 transition-smooth cursor-pointer">
-                <div className="w-12 h-12 rounded-xl bg-gradient-emerald flex items-center justify-center mb-4">
-                  <s.icon className="w-6 h-6 text-primary-foreground" />
-                </div>
-                <h3 className="font-display text-xl text-primary mb-2">{s.t}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{s.d}</p>
-                <span className="inline-flex items-center gap-1 mt-3 text-sm text-accent group-hover:underline">
-                  استكشف <ArrowLeft className="w-3.5 h-3.5" />
+              <div className="flex items-start justify-between mb-6">
+                <s.icon className="w-7 h-7 text-accent" strokeWidth={1.4} />
+                <span className="font-editorial italic text-2xl text-accent/50">
+                  {String(i + 1).padStart(2, "0")}
                 </span>
-              </Card>
+              </div>
+              <h3 className="font-editorial text-2xl text-primary mb-3">{s.t}</h3>
+              <p className="text-sm text-muted-foreground leading-loose mb-5">{s.d}</p>
+              <span className="inline-flex items-center gap-2 text-xs font-sans2 tracking-[0.3em] uppercase text-accent group-hover:gap-3 transition-all">
+                استكشف <ArrowLeft className="w-3.5 h-3.5" />
+              </span>
+              <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-accent group-hover:w-full transition-all duration-700" />
             </Link>
           ))}
+        </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="container py-24">
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-hero p-12 md:p-20 text-center shadow-elegant">
-          <div className="absolute inset-0 opacity-10" style={{ backgroundImage: `url(${heroPattern})`, backgroundSize: "cover" }} aria-hidden />
+      <section className="container py-28 md:py-36">
+        <div className="relative overflow-hidden bg-[hsl(155_45%_8%)] p-14 md:p-24 text-center shadow-elegant border border-accent/20">
+          <div
+            className="absolute inset-0 opacity-[0.06]"
+            style={{ backgroundImage: `url(${heroPattern})`, backgroundSize: "cover" }}
+            aria-hidden
+          />
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background:
+                "radial-gradient(ellipse at 50% 0%, hsl(38 75% 55% / 0.18), transparent 70%)",
+            }}
+            aria-hidden
+          />
           <div className="relative">
-            <h2 className="font-display text-4xl md:text-5xl text-primary-foreground mb-5">ابدأ رحلتك نحو الفلاح اليوم</h2>
-            <p className="text-primary-foreground/70 text-lg max-w-2xl mx-auto mb-8">
+            <div className="inline-flex items-center gap-3 mb-7">
+              <span className="h-px w-10 bg-accent/70" />
+              <span className="font-sans2 text-[11px] tracking-[0.45em] uppercase text-accent-glow">
+                Begin · ابدأ
+              </span>
+              <span className="h-px w-10 bg-accent/70" />
+            </div>
+            <h2 className="font-editorial text-4xl md:text-6xl text-primary-foreground mb-7 leading-[1.1] tracking-tight">
+              ابدأ رحلتك نحو
+              <br />
+              <em className="not-italic italic text-gradient-gold">الفلاح</em> اليوم.
+            </h2>
+            <p className="font-editorial italic text-primary-foreground/70 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
               قياسٌ أسبوعي، خططٌ يومية، وأدواتٌ عملية تُترجم القرآن إلى سلوكٍ وأثر.
             </p>
-            <Button asChild size="lg" className="bg-gradient-gold text-accent-foreground hover:opacity-90 shadow-gold text-base px-10">
-              <Link to="/app">ادخل التطبيق <ArrowLeft className="mr-2 w-4 h-4" /></Link>
+            <Button
+              asChild
+              size="lg"
+              className="bg-gradient-gold text-accent-foreground hover:opacity-90 shadow-gold text-base px-12 h-14 rounded-none font-sans2 tracking-[0.3em] uppercase"
+            >
+              <Link to="/app">
+                ادخل التطبيق <ArrowLeft className="mr-2 w-4 h-4" />
+              </Link>
             </Button>
           </div>
         </div>
