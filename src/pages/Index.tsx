@@ -257,22 +257,31 @@ const Index = () => {
       </section>
 
       {/* PATHS */}
-      <section id="paths" className="bg-secondary/40 py-24">
-        <div className="container">
-          <div className="text-center mb-16">
-            <p className="text-accent text-sm tracking-widest mb-3">المسارات الحياتية</p>
-            <h2 className="font-display text-4xl md:text-5xl text-primary mb-4">لكل عُمرٍ فلاحُه</h2>
-          </div>
-          <div className="grid md:grid-cols-3 gap-6">
-            {paths.map((p) => (
-              <Card key={p.id} className="p-8 bg-card shadow-soft hover:shadow-elegant transition-smooth border-t-4 border-t-accent">
-                <p className="text-xs text-accent tracking-widest mb-2">{p.age}</p>
-                <h3 className="font-display text-3xl text-primary mb-4">{p.title}</h3>
-                <p className="font-quran text-base text-primary/70 mb-4 leading-loose">"{p.quote}"</p>
-                <p className="text-muted-foreground leading-relaxed">{p.focus}</p>
-              </Card>
-            ))}
-          </div>
+      <section id="paths" className="container py-28 md:py-36">
+        <div className="text-center mb-20 max-w-3xl mx-auto">
+          <Eyebrow kicker="The Life Paths" label="المسارات الحياتية" />
+          <h2 className="font-editorial text-5xl md:text-6xl text-primary leading-[1.05] tracking-tight">
+            لكلّ عُمرٍ <em className="not-italic italic text-accent">فلاحُه.</em>
+          </h2>
+        </div>
+        <div className="grid md:grid-cols-3 gap-8">
+          {paths.map((p, i) => (
+            <article
+              key={p.id}
+              className="relative bg-card p-10 border border-border/60 shadow-soft hover:shadow-elegant hover:-translate-y-1 transition-smooth"
+            >
+              <div className="absolute top-0 right-0 left-0 h-px bg-gradient-to-r from-transparent via-accent to-transparent" />
+              <p className="font-editorial italic text-3xl text-accent/70 mb-6">
+                {String(i + 1).padStart(2, "0")}
+              </p>
+              <p className="font-sans2 text-[10px] tracking-[0.4em] uppercase text-accent mb-3">
+                {p.age}
+              </p>
+              <h3 className="font-editorial text-3xl text-primary mb-5">{p.title}</h3>
+              <p className="font-quran text-base text-primary/70 mb-5 leading-loose">"{p.quote}"</p>
+              <p className="text-muted-foreground leading-loose text-[15px]">{p.focus}</p>
+            </article>
+          ))}
         </div>
       </section>
 
