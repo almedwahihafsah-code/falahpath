@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import heroPattern from "@/assets/hero-pattern.jpg";
 import heroMuseum from "@/assets/hero-museum.jpg";
+import { useEffect, useState } from "react";
 import { domains, paths, methodSteps } from "@/data/falah";
 import { LegacySection } from "@/components/falah/LegacySection";
 import { Governance } from "@/components/falah/Governance";
@@ -27,6 +28,46 @@ const Eyebrow = ({ kicker, label }: { kicker: string; label: string }) => (
     <span className="h-px w-10 bg-accent/60" />
   </div>
 );
+
+const useParallax = () => {
+  const [y, setY] = useState(0);
+  useEffect(() => {
+    const onScroll = () => setY(window.scrollY);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+  return y;
+};
+
+const ParallaxBg = ({
+  image,
+  speed = 0.25,
+  opacity = 0.08,
+  tint,
+}: {
+  image: string;
+  speed?: number;
+  opacity?: number;
+  tint?: string;
+}) => {
+  const y = useParallax();
+  return (
+    <>
+      <div
+        className="absolute inset-0 will-change-transform pointer-events-none"
+        style={{
+          backgroundImage: `url(${image})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          opacity,
+          transform: `translate3d(0, ${y * speed}px, 0)`,
+        }}
+        aria-hidden
+      />
+      {tint && <div className="absolute inset-0 pointer-events-none" style={{ background: tint }} aria-hidden />}
+    </>
+  );
+};
 
 const Index = () => {
   return (
@@ -142,20 +183,21 @@ const Index = () => {
       </section>
 
       {/* PERSPECTIVE */}
-      <section id="perspective" className="container py-28 md:py-36">
-        <div className="text-center mb-20 max-w-3xl mx-auto">
+      <section id="perspective" className="relative container py-40 md:py-56 overflow-hidden">
+        <ParallaxBg image={heroPattern} speed={0.18} opacity={0.05} />
+        <div className="relative text-center mb-24 max-w-3xl mx-auto">
           <Eyebrow kicker="The Perspective" label="المنظور" />
           <h2 className="font-editorial text-5xl md:text-6xl text-primary leading-[1.05] tracking-tight">
             رؤيتنا، رسالتنا، <em className="not-italic italic text-accent">قِيَمنا.</em>
           </h2>
         </div>
-        <div className="grid md:grid-cols-3 gap-px bg-border/50">
+        <div className="relative grid md:grid-cols-3 gap-px bg-border/50">
           {[
             { n: "I", t: "الرؤية", en: "Vision", d: "بناء إنسانٍ مهتدٍ بالقرآن، يحقّق الفلاح في دنياه ويصل إلى الجنّة في آخرته." },
             { n: "II", t: "الرسالة", en: "Mission", d: "تقديم منهج قرآني عملي شامل يُحوّل الآيات إلى بوصلة حياة وسلوك وإنجاز." },
             { n: "III", t: "القيم", en: "Values", d: "القرآن أصلٌ ومنهج، الهداية قبل الإنجاز، السلوك قبل النتائج، الدنيا مزرعة الآخرة." },
           ].map((item, i) => (
-            <div key={i} className="bg-background p-10 md:p-12 group hover:bg-card transition-smooth">
+            <div key={i} className={`bg-background p-10 md:p-12 group hover:bg-card transition-smooth ${i === 1 ? "md:translate-y-10" : ""}`}>
               <p className="font-editorial italic text-5xl text-accent/70 mb-6">{item.n}</p>
               <p className="font-sans2 text-[10px] tracking-[0.4em] uppercase text-accent mb-2">{item.en}</p>
               <h3 className="font-editorial text-3xl text-primary mb-5">{item.t}</h3>
@@ -166,12 +208,13 @@ const Index = () => {
       </section>
 
       {/* METHOD */}
-      <section id="method" className="relative bg-[hsl(155_45%_8%)] text-primary-foreground py-28 md:py-36 overflow-hidden">
+      <section id="method" className="relative bg-[hsl(118_18%_10%)] text-primary-foreground py-40 md:py-56 overflow-hidden">
+        <ParallaxBg image={heroMuseum} speed={0.2} opacity={0.18} />
         <div
           className="absolute inset-0 opacity-[0.05] pointer-events-none"
           style={{
             backgroundImage:
-              "radial-gradient(circle at 1px 1px, hsl(38 80% 70%) 1px, transparent 0)",
+              "radial-gradient(circle at 1px 1px, hsl(38 60% 70%) 1px, transparent 0)",
             backgroundSize: "40px 40px",
           }}
           aria-hidden
@@ -221,10 +264,11 @@ const Index = () => {
         </div>
       </section>
 
-      {/* DOMAINS */}
-      <section id="domains" className="bg-[hsl(40_30%_94%)] py-28 md:py-36">
-        <div className="container">
-          <div className="text-center mb-20 max-w-3xl mx-auto">
+      {/* DOMAINS — Masonry */}
+      <section id="domains" className="relative bg-[hsl(40_30%_91%)] py-40 md:py-56 overflow-hidden">
+        <ParallaxBg image={heroPattern} speed={0.12} opacity={0.06} />
+        <div className="relative container">
+          <div className="text-center mb-24 max-w-3xl mx-auto">
             <Eyebrow kicker="The Eight Domains" label="المجالات الثمانية" />
             <h2 className="font-editorial text-5xl md:text-6xl text-primary leading-[1.05] tracking-tight mb-6">
               رحلةُ الحياة <em className="not-italic italic text-accent">المتكاملة.</em>
@@ -233,11 +277,13 @@ const Index = () => {
               ثمانية مجالاتٍ تُغطّي الإنسان كلّه — قلبَه، جسدَه، عقلَه، عمله، ماله، أسرته، أمّته، وابتلاءاته.
             </p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-border/50 border border-border/50">
-            {domains.map((d) => (
+          <div className="columns-1 md:columns-2 lg:columns-3 gap-6 [column-fill:_balance]">
+            {domains.map((d, i) => (
               <article
                 key={d.id}
-                className="group bg-background p-8 hover:bg-card transition-smooth relative overflow-hidden"
+                className={`group break-inside-avoid mb-6 bg-background border border-border/50 p-8 hover:bg-card hover:shadow-elegant transition-smooth relative overflow-hidden ${
+                  i % 3 === 0 ? "pb-14" : i % 3 === 1 ? "pb-10" : "pb-12"
+                }`}
               >
                 <div className="flex items-start justify-between mb-6">
                   <span className="font-editorial italic text-5xl text-accent/60 leading-none">
@@ -259,18 +305,21 @@ const Index = () => {
       </section>
 
       {/* PATHS */}
-      <section id="paths" className="container py-28 md:py-36">
-        <div className="text-center mb-20 max-w-3xl mx-auto">
+      <section id="paths" className="relative container py-40 md:py-56 overflow-hidden">
+        <ParallaxBg image={heroMuseum} speed={0.15} opacity={0.04} />
+        <div className="relative text-center mb-24 max-w-3xl mx-auto">
           <Eyebrow kicker="The Life Paths" label="المسارات الحياتية" />
           <h2 className="font-editorial text-5xl md:text-6xl text-primary leading-[1.05] tracking-tight">
             لكلّ عُمرٍ <em className="not-italic italic text-accent">فلاحُه.</em>
           </h2>
         </div>
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="relative grid md:grid-cols-3 gap-8">
           {paths.map((p, i) => (
             <article
               key={p.id}
-              className="relative bg-card p-10 border border-border/60 shadow-soft hover:shadow-elegant hover:-translate-y-1 transition-smooth"
+              className={`relative bg-card p-10 border border-border/60 shadow-soft hover:shadow-elegant hover:-translate-y-1 transition-smooth ${
+                i === 1 ? "md:translate-y-12" : i === 2 ? "md:translate-y-6" : ""
+              }`}
             >
               <div className="absolute top-0 right-0 left-0 h-px bg-gradient-to-r from-transparent via-accent to-transparent" />
               <p className="font-editorial italic text-3xl text-accent/70 mb-6">
@@ -287,10 +336,11 @@ const Index = () => {
         </div>
       </section>
 
-      {/* SERVICES */}
-      <section id="services" className="bg-[hsl(40_30%_94%)] py-28 md:py-36">
-        <div className="container">
-        <div className="text-center mb-20 max-w-3xl mx-auto">
+      {/* SERVICES — Masonry */}
+      <section id="services" className="relative bg-[hsl(40_30%_91%)] py-40 md:py-56 overflow-hidden">
+        <ParallaxBg image={heroPattern} speed={0.18} opacity={0.05} />
+        <div className="relative container">
+        <div className="text-center mb-24 max-w-3xl mx-auto">
           <Eyebrow kicker="Inside the Platform" label="داخل المنصّة" />
           <h2 className="font-editorial text-5xl md:text-6xl text-primary leading-[1.05] tracking-tight mb-6">
             منظومةٌ <em className="not-italic italic text-accent">متكاملة.</em>
@@ -299,7 +349,7 @@ const Index = () => {
             تخطيطٌ، وتزكيةٌ، وإنجاز — في فضاءٍ واحدٍ مدروس.
           </p>
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-border/50 border border-border/50">
+        <div className="columns-1 md:columns-2 lg:columns-3 gap-6 [column-fill:_balance]">
           {[
             { icon: ListTodo, t: "مخطّط المهام", d: "أضف مهامك وأهدافك حسب المجال والأولوية والتاريخ.", href: "/app" },
             { icon: Layers, t: "المجالات الثمانية", d: "تابع تقدّمك في 8 مجالات حياتية بنظرة شاملة.", href: "/app" },
@@ -312,7 +362,9 @@ const Index = () => {
               key={i}
               to={s.href}
               aria-label={s.t}
-              className="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-accent bg-background hover:bg-card transition-smooth p-8 relative"
+              className={`group block break-inside-avoid mb-6 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent bg-background border border-border/50 hover:bg-card hover:shadow-elegant transition-smooth p-8 relative ${
+                i % 3 === 0 ? "pb-16" : i % 3 === 1 ? "pb-10" : "pb-12"
+              }`}
             >
               <div className="flex items-start justify-between mb-6">
                 <s.icon className="w-7 h-7 text-accent" strokeWidth={1.4} />
@@ -333,7 +385,7 @@ const Index = () => {
       </section>
 
       {/* CTA */}
-      <section className="container py-28 md:py-36">
+      <section className="container py-40 md:py-56">
         <div className="relative overflow-hidden bg-[hsl(155_45%_8%)] p-14 md:p-24 text-center shadow-elegant border border-accent/20">
           <div
             className="absolute inset-0 opacity-[0.06]"
