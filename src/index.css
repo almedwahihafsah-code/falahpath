@@ -4,46 +4,47 @@
 
 @layer base {
   :root {
-    --background: 40 35% 96%;
-    --foreground: 155 40% 12%;
+    /* Museumcore — Deep Olive #3B4D3C on Warm Sand #F5F1E9 */
+    --background: 40 35% 93%;
+    --foreground: 118 18% 18%;
 
-    --card: 40 40% 98%;
-    --card-foreground: 155 40% 12%;
+    --card: 40 40% 96%;
+    --card-foreground: 118 18% 18%;
 
-    --popover: 40 40% 98%;
-    --popover-foreground: 155 40% 12%;
+    --popover: 40 40% 96%;
+    --popover-foreground: 118 18% 18%;
 
-    --primary: 158 55% 18%;
-    --primary-foreground: 42 60% 92%;
-    --primary-glow: 158 45% 30%;
+    --primary: 118 13% 27%;
+    --primary-foreground: 40 35% 95%;
+    --primary-glow: 118 14% 38%;
 
-    --secondary: 40 30% 90%;
-    --secondary-foreground: 155 40% 15%;
+    --secondary: 40 28% 88%;
+    --secondary-foreground: 118 18% 18%;
 
-    --muted: 40 25% 92%;
-    --muted-foreground: 155 15% 38%;
+    --muted: 40 22% 90%;
+    --muted-foreground: 118 8% 38%;
 
-    --accent: 38 65% 52%;
-    --accent-foreground: 155 50% 10%;
-    --accent-glow: 42 80% 65%;
+    --accent: 35 28% 45%;
+    --accent-foreground: 40 35% 95%;
+    --accent-glow: 38 45% 60%;
 
     --destructive: 0 70% 45%;
     --destructive-foreground: 40 40% 98%;
 
-    --border: 40 25% 85%;
-    --input: 40 25% 85%;
-    --ring: 158 55% 25%;
+    --border: 40 18% 82%;
+    --input: 40 18% 82%;
+    --ring: 118 13% 30%;
 
     --radius: 0.75rem;
 
-    --gradient-hero: linear-gradient(135deg, hsl(158 60% 12%) 0%, hsl(158 50% 20%) 50%, hsl(155 45% 25%) 100%);
-    --gradient-gold: linear-gradient(135deg, hsl(38 75% 55%) 0%, hsl(42 85% 68%) 100%);
-    --gradient-card: linear-gradient(160deg, hsl(40 40% 98%) 0%, hsl(40 30% 94%) 100%);
-    --gradient-emerald: linear-gradient(135deg, hsl(158 55% 18%), hsl(165 50% 28%));
+    --gradient-hero: linear-gradient(135deg, hsl(118 18% 14%) 0%, hsl(118 14% 22%) 50%, hsl(118 12% 30%) 100%);
+    --gradient-gold: linear-gradient(135deg, hsl(35 32% 42%) 0%, hsl(38 45% 62%) 100%);
+    --gradient-card: linear-gradient(160deg, hsl(40 40% 96%) 0%, hsl(40 28% 90%) 100%);
+    --gradient-emerald: linear-gradient(135deg, hsl(118 13% 27%), hsl(118 14% 38%));
 
-    --shadow-elegant: 0 20px 60px -20px hsl(158 60% 15% / 0.35);
-    --shadow-gold: 0 10px 40px -10px hsl(38 80% 50% / 0.4);
-    --shadow-soft: 0 4px 20px -8px hsl(158 30% 20% / 0.15);
+    --shadow-elegant: 0 24px 60px -24px hsl(118 18% 14% / 0.32);
+    --shadow-gold: 0 12px 40px -12px hsl(35 35% 35% / 0.28);
+    --shadow-soft: 0 4px 20px -8px hsl(118 18% 18% / 0.14);
 
     /* Quran domain colors (A–F) */
     --domain-a: 265 55% 50%;
