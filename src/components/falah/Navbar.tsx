@@ -21,8 +21,8 @@ export const Navbar = () => {
   ];
 
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-xl bg-background/75 border-b border-border/50">
-      <nav className="container flex items-center justify-between h-16">
+    <header className="sticky top-0 z-50 backdrop-blur-2xl bg-background/55 border-b border-border/40 shadow-[0_1px_0_0_hsl(var(--border)/0.4),0_8px_32px_-8px_hsl(var(--primary)/0.08)] supports-[backdrop-filter]:bg-background/40">
+      <nav className="container flex items-center justify-between h-[72px]">
         <Link to="/" className="flex items-center gap-2">
           <div className="w-9 h-9 rounded-lg bg-gradient-emerald flex items-center justify-center shadow-soft">
             <span className="text-primary-foreground font-display text-lg">ف</span>
