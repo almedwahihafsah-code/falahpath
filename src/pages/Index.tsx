@@ -12,6 +12,7 @@ import {
   PlayCircle,
 } from "lucide-react";
 import heroPattern from "@/assets/hero-pattern.jpg";
+import heroMuseum from "@/assets/hero-museum.jpg";
 import { domains, paths, methodSteps } from "@/data/falah";
 import { LegacySection } from "@/components/falah/LegacySection";
 import { Governance } from "@/components/falah/Governance";
@@ -32,18 +33,21 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
 
-      {/* HERO — Editorial */}
-      <section className="relative overflow-hidden bg-[hsl(40_35%_96%)]">
-        <div
-          className="absolute inset-0 opacity-[0.12]"
-          style={{ backgroundImage: `url(${heroPattern})`, backgroundSize: "cover", backgroundPosition: "center" }}
+      {/* HERO — Museumcore Cinematic */}
+      <section className="relative overflow-hidden bg-background min-h-[92vh] flex items-center">
+        <img
+          src={heroMuseum}
+          alt=""
+          width={1920}
+          height={1080}
+          className="absolute inset-0 w-full h-full object-cover"
           aria-hidden
         />
         <div
           className="absolute inset-0"
           style={{
             background:
-              "radial-gradient(ellipse at 50% 0%, hsl(38 65% 52% / 0.10), transparent 55%), linear-gradient(to bottom, hsl(40 35% 96% / 0.4), hsl(40 35% 96% / 0.92) 60%, hsl(40 35% 96%))",
+              "linear-gradient(to bottom, hsl(40 35% 93% / 0.55) 0%, hsl(40 35% 93% / 0.78) 45%, hsl(40 35% 93% / 0.96) 90%, hsl(40 35% 93%) 100%)",
           }}
           aria-hidden
         />
@@ -58,7 +62,7 @@ const Index = () => {
           aria-hidden
         />
 
-        <div className="container relative pt-24 pb-20 md:pt-36 md:pb-28 text-center">
+        <div className="container relative pt-32 pb-24 md:pt-40 md:pb-32 text-center">
           <div className="animate-float-in">
             <Eyebrow kicker="A Quranic Endowment" label="وقفٌ قرآنيٌّ معرفي" />
           </div>

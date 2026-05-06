@@ -68,7 +68,7 @@ export default {
         body: ['Tajawal', 'system-ui', 'sans-serif'],
         quran: ['Amiri', 'serif'],
         editorial: ['"Playfair Display"', 'Amiri', 'serif'],
-        sans2: ['Montserrat', 'Tajawal', 'system-ui', 'sans-serif'],
+        sans2: ['Inter', 'Tajawal', 'system-ui', 'sans-serif'],
       },
       keyframes: {
         "accordion-down": { from: { height: "0" }, to: { height: "var(--radix-accordion-content-height)" } },
