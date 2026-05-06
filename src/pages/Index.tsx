@@ -18,6 +18,8 @@ import { domains, paths, methodSteps } from "@/data/falah";
 import { LegacySection } from "@/components/falah/LegacySection";
 import { Governance } from "@/components/falah/Governance";
 import { EngagementHub } from "@/components/falah/EngagementHub";
+import { SiteFooter } from "@/components/falah/SiteFooter";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 const Eyebrow = ({ kicker, label }: { kicker: string; label: string }) => (
   <div className="inline-flex items-center gap-3 mb-6">
@@ -70,6 +72,7 @@ const ParallaxBg = ({
 };
 
 const Index = () => {
+  useScrollReveal();
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -108,7 +111,7 @@ const Index = () => {
             <Eyebrow kicker="A Quranic Endowment" label="وقفٌ قرآنيٌّ معرفي" />
           </div>
 
-          <h1 className="font-editorial text-[3.25rem] sm:text-7xl md:text-8xl lg:text-[8.5rem] text-primary leading-[1] tracking-tight mb-8 animate-float-in">
+          <h1 className="font-editorial text-[2.75rem] xs:text-[3.25rem] sm:text-6xl md:text-8xl lg:text-[8.5rem] text-primary leading-[1] tracking-tight mb-8 animate-float-in">
             منهج <em className="not-italic font-editorial italic text-gradient-gold">الفلاح</em>
           </h1>
 
@@ -119,11 +122,11 @@ const Index = () => {
             <span className="h-px w-16 md:w-24 bg-accent/50" />
           </div>
 
-          <p className="font-quran text-2xl md:text-4xl text-primary/85 mb-6 leading-loose">
+          <p className="font-quran text-xl sm:text-2xl md:text-4xl text-primary/85 mb-6 leading-loose">
             ﴿ قَدْ أَفْلَحَ مَن زَكَّاهَا ﴾
           </p>
 
-          <p className="font-editorial italic text-lg md:text-2xl text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed">
+          <p className="font-editorial italic text-base sm:text-lg md:text-2xl text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed">
             من الوحي… إلى الحياة. القرآن هدايةٌ تُعاش، وسلوكٌ يُنجز، وفلاحٌ لا ينقطع.
           </p>
 
@@ -131,7 +134,7 @@ const Index = () => {
             <Button
               asChild
               size="lg"
-              className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-elegant text-base px-10 h-12 rounded-none font-sans2 tracking-widest uppercase"
+              className="btn-lux bg-primary text-primary-foreground hover:bg-primary/90 shadow-elegant text-base px-10 h-12 rounded-none font-sans2 tracking-widest uppercase"
             >
               <Link to="/app">
                 ابدأ رحلتك <ArrowLeft className="mr-2 w-4 h-4" />
@@ -141,7 +144,7 @@ const Index = () => {
               asChild
               variant="outline"
               size="lg"
-              className="border-primary/30 hover:border-accent text-primary text-base px-10 h-12 rounded-none font-sans2 tracking-widest uppercase bg-transparent"
+              className="btn-lux border-primary/30 hover:border-accent text-primary text-base px-10 h-12 rounded-none font-sans2 tracking-widest uppercase bg-transparent"
             >
               <a href="#perspective">تعرّف على المنهج</a>
             </Button>
@@ -154,7 +157,7 @@ const Index = () => {
               Featured Film · فيلم تعريفي
             </p>
             <div
-              className="relative p-[2px]"
+              className="img-zoom relative p-[2px]"
               style={{
                 background:
                   "linear-gradient(135deg, hsl(38 75% 55%), hsl(42 85% 70%) 40%, hsl(38 60% 40%))",
@@ -185,9 +188,9 @@ const Index = () => {
       {/* PERSPECTIVE */}
       <section id="perspective" className="relative container py-40 md:py-56 overflow-hidden">
         <ParallaxBg image={heroPattern} speed={0.18} opacity={0.05} />
-        <div className="relative text-center mb-24 max-w-3xl mx-auto">
+        <div className="reveal relative text-center mb-24 max-w-3xl mx-auto">
           <Eyebrow kicker="The Perspective" label="المنظور" />
-          <h2 className="font-editorial text-5xl md:text-6xl text-primary leading-[1.05] tracking-tight">
+          <h2 className="font-editorial text-4xl sm:text-5xl md:text-6xl text-primary leading-[1.05] tracking-tight">
             رؤيتنا، رسالتنا، <em className="not-italic italic text-accent">قِيَمنا.</em>
           </h2>
         </div>
@@ -197,7 +200,7 @@ const Index = () => {
             { n: "II", t: "الرسالة", en: "Mission", d: "تقديم منهج قرآني عملي شامل يُحوّل الآيات إلى بوصلة حياة وسلوك وإنجاز." },
             { n: "III", t: "القيم", en: "Values", d: "القرآن أصلٌ ومنهج، الهداية قبل الإنجاز، السلوك قبل النتائج، الدنيا مزرعة الآخرة." },
           ].map((item, i) => (
-            <div key={i} className={`bg-background p-10 md:p-12 group hover:bg-card transition-smooth ${i === 1 ? "md:translate-y-10" : ""}`}>
+            <div key={i} className={`reveal bg-background p-10 md:p-12 group hover:bg-card transition-smooth ${i === 1 ? "md:translate-y-10" : ""}`} style={{ transitionDelay: `${i * 90}ms` }}>
               <p className="font-editorial italic text-5xl text-accent/70 mb-6">{item.n}</p>
               <p className="font-sans2 text-[10px] tracking-[0.4em] uppercase text-accent mb-2">{item.en}</p>
               <h3 className="font-editorial text-3xl text-primary mb-5">{item.t}</h3>
@@ -228,7 +231,7 @@ const Index = () => {
           aria-hidden
         />
         <div className="container relative">
-          <div className="text-center mb-20 max-w-3xl mx-auto">
+          <div className="reveal text-center mb-20 max-w-3xl mx-auto">
             <div className="inline-flex items-center gap-3 mb-6">
               <span className="h-px w-10 bg-accent/70" />
               <span className="font-sans2 text-[11px] tracking-[0.45em] uppercase text-accent-glow">
@@ -236,7 +239,7 @@ const Index = () => {
               </span>
               <span className="h-px w-10 bg-accent/70" />
             </div>
-            <h2 className="font-editorial text-5xl md:text-6xl leading-[1.05] tracking-tight mb-6">
+            <h2 className="font-editorial text-4xl sm:text-5xl md:text-6xl leading-[1.05] tracking-tight mb-6">
               من الآية… <em className="not-italic italic text-gradient-gold">إلى الفلاح.</em>
             </h2>
             <p className="font-editorial italic text-lg md:text-xl text-primary-foreground/65 leading-relaxed">
@@ -244,10 +247,11 @@ const Index = () => {
             </p>
           </div>
           <div className="grid md:grid-cols-4 gap-px bg-primary-foreground/10">
-            {methodSteps.map((s) => (
+            {methodSteps.map((s, i) => (
               <div
                 key={s.n}
-                className="relative bg-[hsl(155_45%_8%)] p-8 md:p-10 hover:bg-[hsl(155_40%_11%)] transition-smooth group"
+                className="reveal relative bg-[hsl(155_45%_8%)] p-8 md:p-10 hover:bg-[hsl(155_40%_11%)] transition-smooth group"
+                style={{ transitionDelay: `${i * 80}ms` }}
               >
                 <div className="flex items-baseline gap-3 mb-6">
                   <span className="font-editorial text-6xl text-gradient-gold leading-none">{s.n}</span>
@@ -268,9 +272,9 @@ const Index = () => {
       <section id="domains" className="relative bg-[hsl(40_30%_91%)] py-40 md:py-56 overflow-hidden">
         <ParallaxBg image={heroPattern} speed={0.12} opacity={0.06} />
         <div className="relative container">
-          <div className="text-center mb-24 max-w-3xl mx-auto">
+          <div className="reveal text-center mb-24 max-w-3xl mx-auto">
             <Eyebrow kicker="The Eight Domains" label="المجالات الثمانية" />
-            <h2 className="font-editorial text-5xl md:text-6xl text-primary leading-[1.05] tracking-tight mb-6">
+            <h2 className="font-editorial text-4xl sm:text-5xl md:text-6xl text-primary leading-[1.05] tracking-tight mb-6">
               رحلةُ الحياة <em className="not-italic italic text-accent">المتكاملة.</em>
             </h2>
             <p className="font-editorial italic text-lg text-muted-foreground leading-relaxed">
@@ -281,9 +285,10 @@ const Index = () => {
             {domains.map((d, i) => (
               <article
                 key={d.id}
-                className={`group break-inside-avoid mb-6 bg-background border border-border/50 p-8 hover:bg-card hover:shadow-elegant transition-smooth relative overflow-hidden ${
+                className={`reveal group break-inside-avoid mb-6 bg-background border border-border/50 p-8 hover:bg-card hover:shadow-elegant transition-smooth relative overflow-hidden ${
                   i % 3 === 0 ? "pb-14" : i % 3 === 1 ? "pb-10" : "pb-12"
                 }`}
+                style={{ transitionDelay: `${(i % 6) * 70}ms` }}
               >
                 <div className="flex items-start justify-between mb-6">
                   <span className="font-editorial italic text-5xl text-accent/60 leading-none">
@@ -307,9 +312,9 @@ const Index = () => {
       {/* PATHS */}
       <section id="paths" className="relative container py-40 md:py-56 overflow-hidden">
         <ParallaxBg image={heroMuseum} speed={0.15} opacity={0.04} />
-        <div className="relative text-center mb-24 max-w-3xl mx-auto">
+        <div className="reveal relative text-center mb-24 max-w-3xl mx-auto">
           <Eyebrow kicker="The Life Paths" label="المسارات الحياتية" />
-          <h2 className="font-editorial text-5xl md:text-6xl text-primary leading-[1.05] tracking-tight">
+          <h2 className="font-editorial text-4xl sm:text-5xl md:text-6xl text-primary leading-[1.05] tracking-tight">
             لكلّ عُمرٍ <em className="not-italic italic text-accent">فلاحُه.</em>
           </h2>
         </div>
@@ -317,9 +322,10 @@ const Index = () => {
           {paths.map((p, i) => (
             <article
               key={p.id}
-              className={`relative bg-card p-10 border border-border/60 shadow-soft hover:shadow-elegant hover:-translate-y-1 transition-smooth ${
+              className={`reveal relative bg-card p-10 border border-border/60 shadow-soft hover:shadow-elegant hover:-translate-y-1 transition-smooth ${
                 i === 1 ? "md:translate-y-12" : i === 2 ? "md:translate-y-6" : ""
               }`}
+              style={{ transitionDelay: `${i * 90}ms` }}
             >
               <div className="absolute top-0 right-0 left-0 h-px bg-gradient-to-r from-transparent via-accent to-transparent" />
               <p className="font-editorial italic text-3xl text-accent/70 mb-6">
@@ -340,9 +346,9 @@ const Index = () => {
       <section id="services" className="relative bg-[hsl(40_30%_91%)] py-40 md:py-56 overflow-hidden">
         <ParallaxBg image={heroPattern} speed={0.18} opacity={0.05} />
         <div className="relative container">
-        <div className="text-center mb-24 max-w-3xl mx-auto">
+        <div className="reveal text-center mb-24 max-w-3xl mx-auto">
           <Eyebrow kicker="Inside the Platform" label="داخل المنصّة" />
-          <h2 className="font-editorial text-5xl md:text-6xl text-primary leading-[1.05] tracking-tight mb-6">
+          <h2 className="font-editorial text-4xl sm:text-5xl md:text-6xl text-primary leading-[1.05] tracking-tight mb-6">
             منظومةٌ <em className="not-italic italic text-accent">متكاملة.</em>
           </h2>
           <p className="font-editorial italic text-lg text-muted-foreground leading-relaxed">
@@ -362,9 +368,10 @@ const Index = () => {
               key={i}
               to={s.href}
               aria-label={s.t}
-              className={`group block break-inside-avoid mb-6 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent bg-background border border-border/50 hover:bg-card hover:shadow-elegant transition-smooth p-8 relative ${
+              className={`reveal group block break-inside-avoid mb-6 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent bg-background border border-border/50 hover:bg-card hover:shadow-elegant transition-smooth p-8 relative ${
                 i % 3 === 0 ? "pb-16" : i % 3 === 1 ? "pb-10" : "pb-12"
               }`}
+              style={{ transitionDelay: `${(i % 6) * 70}ms` }}
             >
               <div className="flex items-start justify-between mb-6">
                 <s.icon className="w-7 h-7 text-accent" strokeWidth={1.4} />
@@ -400,7 +407,7 @@ const Index = () => {
             }}
             aria-hidden
           />
-          <div className="relative">
+          <div className="reveal relative">
             <div className="inline-flex items-center gap-3 mb-7">
               <span className="h-px w-10 bg-accent/70" />
               <span className="font-sans2 text-[11px] tracking-[0.45em] uppercase text-accent-glow">
@@ -408,7 +415,7 @@ const Index = () => {
               </span>
               <span className="h-px w-10 bg-accent/70" />
             </div>
-            <h2 className="font-editorial text-4xl md:text-6xl text-primary-foreground mb-7 leading-[1.1] tracking-tight">
+            <h2 className="font-editorial text-3xl sm:text-4xl md:text-6xl text-primary-foreground mb-7 leading-[1.1] tracking-tight">
               ابدأ رحلتك نحو
               <br />
               <em className="not-italic italic text-gradient-gold">الفلاح</em> اليوم.
@@ -419,7 +426,7 @@ const Index = () => {
             <Button
               asChild
               size="lg"
-              className="bg-gradient-gold text-accent-foreground hover:opacity-90 shadow-gold text-base px-12 h-14 rounded-none font-sans2 tracking-[0.3em] uppercase"
+              className="btn-lux bg-gradient-gold text-accent-foreground hover:opacity-90 shadow-gold text-base px-12 h-14 rounded-none font-sans2 tracking-[0.3em] uppercase"
             >
               <Link to="/app">
                 ادخل التطبيق <ArrowLeft className="mr-2 w-4 h-4" />
@@ -434,69 +441,7 @@ const Index = () => {
       <Governance />
       <EngagementHub />
 
-      {/* MUSEUM FOOTER */}
-      <footer className="bg-[hsl(155_40%_6%)] text-primary-foreground/80 pt-20 pb-10">
-        <div className="container">
-          <div className="grid md:grid-cols-12 gap-10 mb-14">
-            <div className="md:col-span-5">
-              <div className="flex items-center gap-3 mb-5">
-                <div className="w-11 h-11 rounded-sm bg-gradient-emerald flex items-center justify-center border border-accent/40">
-                  <span className="font-editorial text-xl text-primary-foreground">ف</span>
-                </div>
-                <div>
-                  <p className="font-editorial text-2xl text-primary-foreground leading-none">وقف الفلاح</p>
-                  <p className="font-sans2 text-[10px] tracking-[0.4em] uppercase text-accent mt-1">
-                    A Perpetual Endowment
-                  </p>
-                </div>
-              </div>
-              <p className="font-quran text-base text-primary-foreground/80 leading-loose mb-4">
-                ﴿ قَدْ أَفْلَحَ مَن زَكَّاهَا ﴾
-              </p>
-              <p className="text-sm text-primary-foreground/55 leading-relaxed max-w-md">
-                مشروع وقفي معرفي رقمي، مجاني للأفراد، صدقة جارية عن أرواح آبائنا
-                وأمهاتنا من المسلمين أجمعين.
-              </p>
-            </div>
-
-            <div className="md:col-span-3">
-              <p className="font-sans2 text-[10px] tracking-[0.4em] uppercase text-accent mb-5">Quick Links</p>
-              <ul className="space-y-3 text-sm">
-                {[
-                  { to: "/#perspective", label: "المنظور" },
-                  { to: "/#method", label: "المنهج" },
-                  { to: "/#domains", label: "المجالات الثمانية" },
-                  { to: "/#legacy", label: "قصة الوفاء" },
-                  { to: "/#engagement", label: "تواصل معنا" },
-                ].map((l) => (
-                  <li key={l.to}>
-                    <a href={l.to} className="text-primary-foreground/70 hover:text-accent transition-smooth">
-                      {l.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="md:col-span-4">
-              <p className="font-sans2 text-[10px] tracking-[0.4em] uppercase text-accent mb-5">Operated By</p>
-              <p className="font-editorial text-2xl text-primary-foreground mb-1">Markets Movers</p>
-              <p className="font-display text-base text-primary-foreground/80 mb-3">ماركتس موفرز للاستشارات</p>
-              <p className="text-xs text-primary-foreground/55 leading-relaxed">
-                إشرافٌ مؤسسي يضمن الاستدامة، الجودة التقنية،
-                واستمرار الوقف عبر الأجيال.
-              </p>
-            </div>
-          </div>
-
-          <div className="border-t border-primary-foreground/10 pt-7 flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-xs text-primary-foreground/45">
-            <p>© {new Date().getFullYear()} منهج الفلاح — وقفٌ معرفي رقمي</p>
-            <p className="font-sans2 tracking-widest uppercase">
-              تطوير وإدارة: ماركتس موفرز للاستشارات
-            </p>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 };
