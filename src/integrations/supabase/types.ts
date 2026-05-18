@@ -110,6 +110,45 @@ export type Database = {
         }
         Relationships: []
       }
+      domains: {
+        Row: {
+          anchor_verse_ref: string | null
+          code: string
+          created_at: string
+          description_ar: string | null
+          is_active: boolean
+          label_ar: string
+          label_en: string | null
+          sort_order: number
+          subtitle_ar: string | null
+          updated_at: string
+        }
+        Insert: {
+          anchor_verse_ref?: string | null
+          code: string
+          created_at?: string
+          description_ar?: string | null
+          is_active?: boolean
+          label_ar: string
+          label_en?: string | null
+          sort_order: number
+          subtitle_ar?: string | null
+          updated_at?: string
+        }
+        Update: {
+          anchor_verse_ref?: string | null
+          code?: string
+          created_at?: string
+          description_ar?: string | null
+          is_active?: boolean
+          label_ar?: string
+          label_en?: string | null
+          sort_order?: number
+          subtitle_ar?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       feedback: {
         Row: {
           category: string
@@ -239,6 +278,39 @@ export type Database = {
           id?: string
           points_earned?: number
           user_id?: string
+        }
+        Relationships: []
+      }
+      intents: {
+        Row: {
+          code: string
+          created_at: string
+          description_ar: string
+          is_active: boolean
+          label_ar: string
+          label_en: string | null
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          description_ar: string
+          is_active?: boolean
+          label_ar: string
+          label_en?: string | null
+          sort_order: number
+          updated_at?: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          description_ar?: string
+          is_active?: boolean
+          label_ar?: string
+          label_en?: string | null
+          sort_order?: number
+          updated_at?: string
         }
         Relationships: []
       }
