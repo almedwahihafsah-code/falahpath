@@ -14,6 +14,48 @@ export type Database = {
   }
   public: {
     Tables: {
+      ayah_domains: {
+        Row: {
+          confidence_score: number | null
+          created_at: string
+          domain_code: string
+          is_primary: boolean
+          updated_at: string
+          verse_id: string
+        }
+        Insert: {
+          confidence_score?: number | null
+          created_at?: string
+          domain_code: string
+          is_primary?: boolean
+          updated_at?: string
+          verse_id: string
+        }
+        Update: {
+          confidence_score?: number | null
+          created_at?: string
+          domain_code?: string
+          is_primary?: boolean
+          updated_at?: string
+          verse_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ayah_domains_domain_code_fkey"
+            columns: ["domain_code"]
+            isOneToOne: false
+            referencedRelation: "domains"
+            referencedColumns: ["code"]
+          },
+          {
+            foreignKeyName: "ayah_domains_verse_id_fkey"
+            columns: ["verse_id"]
+            isOneToOne: false
+            referencedRelation: "verses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       classification_taxonomy: {
         Row: {
           code: string
