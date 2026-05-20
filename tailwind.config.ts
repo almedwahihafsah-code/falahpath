@@ -19,6 +19,25 @@ export default {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        olive: {
+          50: "hsl(var(--olive-50))",
+          100: "hsl(var(--olive-100))",
+          300: "hsl(var(--olive-300))",
+          500: "hsl(var(--olive-500))",
+          700: "hsl(var(--olive-700))",
+          900: "hsl(var(--olive-900))",
+        },
+        sand: {
+          50: "hsl(var(--sand-50))",
+          100: "hsl(var(--sand-100))",
+          200: "hsl(var(--sand-200))",
+          300: "hsl(var(--sand-300))",
+        },
+        gold: {
+          300: "hsl(var(--gold-300))",
+          500: "hsl(var(--gold-500))",
+          700: "hsl(var(--gold-700))",
+        },
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",

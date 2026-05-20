@@ -11,6 +11,8 @@ import Guide from "./pages/Guide.tsx";
 import QuranExplorer from "./pages/QuranExplorer.tsx";
 import QuranAdmin from "./pages/QuranAdmin.tsx";
 import Auth from "./pages/Auth.tsx";
+import Intent from "./pages/Intent.tsx";
+import Domain from "./pages/Domain.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -26,6 +28,8 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/app" element={<ProtectedRoute><AppHome /></ProtectedRoute>} />
+            <Route path="/intent" element={<ProtectedRoute><Intent /></ProtectedRoute>} />
+            <Route path="/domain" element={<ProtectedRoute><Domain /></ProtectedRoute>} />
             <Route path="/guide" element={<ProtectedRoute><Guide /></ProtectedRoute>} />
             <Route path="/quran" element={<QuranExplorer />} />
             <Route path="/quran/admin" element={<ProtectedRoute><QuranAdmin /></ProtectedRoute>} />
