@@ -15,9 +15,11 @@ export const Navbar = () => {
 
   const navLinks = [
     { to: "/", label: "الرئيسية" },
+    { to: "/intent", label: "ابدأ الرحلة", accent: true },
+    { to: "/progress", label: "رحلتي" },
     { to: "/app", label: "لوحة الفلاح" },
     { to: "/quran", label: "القرآن" },
-    { to: "/guide", label: "المرشد الذكي", accent: true },
+    { to: "/guide", label: "المرشد الذكي" },
   ];
 
   return (
