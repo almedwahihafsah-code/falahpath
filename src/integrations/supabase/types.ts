@@ -14,6 +14,73 @@ export type Database = {
   }
   public: {
     Tables: {
+      actions: {
+        Row: {
+          body: string | null
+          committed_at: string
+          completed_at: string | null
+          created_at: string
+          domain_code: string
+          id: string
+          intent_code: string
+          status: string
+          title: string
+          updated_at: string
+          user_id: string
+          verse_id: string
+        }
+        Insert: {
+          body?: string | null
+          committed_at?: string
+          completed_at?: string | null
+          created_at?: string
+          domain_code: string
+          id?: string
+          intent_code: string
+          status?: string
+          title: string
+          updated_at?: string
+          user_id: string
+          verse_id: string
+        }
+        Update: {
+          body?: string | null
+          committed_at?: string
+          completed_at?: string | null
+          created_at?: string
+          domain_code?: string
+          id?: string
+          intent_code?: string
+          status?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+          verse_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "actions_domain_code_fkey"
+            columns: ["domain_code"]
+            isOneToOne: false
+            referencedRelation: "domains"
+            referencedColumns: ["code"]
+          },
+          {
+            foreignKeyName: "actions_intent_code_fkey"
+            columns: ["intent_code"]
+            isOneToOne: false
+            referencedRelation: "intents"
+            referencedColumns: ["code"]
+          },
+          {
+            foreignKeyName: "actions_verse_id_fkey"
+            columns: ["verse_id"]
+            isOneToOne: false
+            referencedRelation: "verses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       ayah_domains: {
         Row: {
           confidence_score: number | null
@@ -442,6 +509,77 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      reflections: {
+        Row: {
+          action_id: string | null
+          body: string
+          clarity_score: number | null
+          created_at: string
+          difficulty_score: number | null
+          domain_code: string
+          id: string
+          intent_code: string
+          updated_at: string
+          user_id: string
+          verse_id: string
+        }
+        Insert: {
+          action_id?: string | null
+          body: string
+          clarity_score?: number | null
+          created_at?: string
+          difficulty_score?: number | null
+          domain_code: string
+          id?: string
+          intent_code: string
+          updated_at?: string
+          user_id: string
+          verse_id: string
+        }
+        Update: {
+          action_id?: string | null
+          body?: string
+          clarity_score?: number | null
+          created_at?: string
+          difficulty_score?: number | null
+          domain_code?: string
+          id?: string
+          intent_code?: string
+          updated_at?: string
+          user_id?: string
+          verse_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reflections_action_id_fkey"
+            columns: ["action_id"]
+            isOneToOne: false
+            referencedRelation: "actions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reflections_domain_code_fkey"
+            columns: ["domain_code"]
+            isOneToOne: false
+            referencedRelation: "domains"
+            referencedColumns: ["code"]
+          },
+          {
+            foreignKeyName: "reflections_intent_code_fkey"
+            columns: ["intent_code"]
+            isOneToOne: false
+            referencedRelation: "intents"
+            referencedColumns: ["code"]
+          },
+          {
+            foreignKeyName: "reflections_verse_id_fkey"
+            columns: ["verse_id"]
+            isOneToOne: false
+            referencedRelation: "verses"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       suppressed_emails: {
         Row: {
