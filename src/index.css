@@ -37,6 +37,34 @@
 
     --radius: 0.75rem;
 
+    /* Olive scale */
+    --olive-50: 118 13% 96%;
+    --olive-100: 118 13% 88%;
+    --olive-300: 118 13% 60%;
+    --olive-500: 118 13% 38%;
+    --olive-700: 118 13% 27%;
+    --olive-900: 118 18% 14%;
+
+    /* Sand scale */
+    --sand-50: 40 35% 97%;
+    --sand-100: 40 35% 93%;
+    --sand-200: 40 30% 88%;
+    --sand-300: 40 28% 82%;
+
+    /* Gold scale */
+    --gold-300: 35 35% 65%;
+    --gold-500: 35 28% 45%;
+    --gold-700: 35 30% 32%;
+
+    /* Quran ink */
+    --quran-ink: 118 25% 12%;
+
+    --shadow-xs: 0 1px 2px hsl(118 13% 27% / 0.04);
+    --shadow-sm: 0 2px 8px hsl(118 13% 27% / 0.06);
+    --shadow-md: 0 8px 24px hsl(118 13% 27% / 0.08);
+    --shadow-lg: 0 16px 48px hsl(118 13% 27% / 0.12);
+    --shadow-sacred: 0 4px 32px hsl(35 28% 45% / 0.10);
+
     --gradient-hero: linear-gradient(135deg, hsl(118 18% 14%) 0%, hsl(118 14% 22%) 50%, hsl(118 12% 30%) 100%);
     --gradient-gold: linear-gradient(135deg, hsl(35 32% 42%) 0%, hsl(38 45% 62%) 100%);
     --gradient-card: linear-gradient(160deg, hsl(40 40% 96%) 0%, hsl(40 28% 90%) 100%);
@@ -172,3 +200,33 @@
   will-change: transform;
 }
 .img-zoom:hover > * { transform: scale(1.06); }
+
+/* ── Museumcore typography hierarchy ───────────────── */
+.text-display { font-family: 'Tajawal', sans-serif; font-weight: 800; font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: 1.1; }
+.text-h1 { font-family: 'Tajawal', sans-serif; font-weight: 700; font-size: clamp(2rem, 3.5vw, 3rem); line-height: 1.2; }
+.text-h2 { font-family: 'Tajawal', sans-serif; font-weight: 700; font-size: clamp(1.5rem, 2.5vw, 2.25rem); line-height: 1.3; }
+.text-body-lg { font-family: 'Tajawal', sans-serif; font-weight: 400; font-size: 1.125rem; line-height: 1.7; }
+.text-body { font-family: 'Tajawal', sans-serif; font-weight: 400; font-size: 1rem; line-height: 1.7; }
+.text-caption { font-family: 'Tajawal', sans-serif; font-weight: 500; font-size: 0.75rem; line-height: 1.5; letter-spacing: 0.05em; text-transform: uppercase; }
+.text-quran { font-family: 'Amiri', serif; font-weight: 400; font-size: clamp(1.5rem, 3vw, 2.5rem); line-height: 2.0; color: hsl(var(--quran-ink)); }
+
+/* ── Card tiers ─────────────────────────────────────── */
+.card-rest { background: hsl(var(--card)); border: 1px solid hsl(var(--olive-100)); box-shadow: var(--shadow-sm); }
+.card-elevated { background: hsl(var(--card)); box-shadow: var(--shadow-md); }
+.card-sacred { background: hsl(var(--sand-50)); border: 1px solid hsl(var(--accent) / 0.2); box-shadow: var(--shadow-sacred); }
+
+/* ── Page enter ─────────────────────────────────────── */
+@keyframes page-enter {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.page-enter { animation: page-enter 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
+
+/* ── Card hover lift ────────────────────────────────── */
+.card-lift { transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease; }
+.card-lift:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.card-lift:active { transform: translateY(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  .page-enter, .card-lift { animation: none; transition: none; }
+}
