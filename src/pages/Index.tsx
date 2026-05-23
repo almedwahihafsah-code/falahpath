@@ -17,6 +17,7 @@ import heroMuseum from "@/assets/hero-museum.jpg";
 import { useEffect, useState } from "react";
 import { domains, paths, methodSteps } from "@/data/falah";
 import { LegacySection } from "@/components/falah/LegacySection";
+import { ContributeSection } from "@/components/falah/ContributeSection";
 import { Governance } from "@/components/falah/Governance";
 import { EngagementHub } from "@/components/falah/EngagementHub";
 import { SiteFooter } from "@/components/falah/SiteFooter";
@@ -442,6 +443,7 @@ const Index = () => {
 
       {/* LEGACY · GOVERNANCE · ENGAGEMENT */}
       <LegacySection />
+      <ContributeSection />
       <Governance />
       <EngagementHub />
 
