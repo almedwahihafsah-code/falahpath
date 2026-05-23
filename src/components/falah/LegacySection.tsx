@@ -2,7 +2,7 @@ import portrait from "@/assets/founder-father-portrait.jpg";
 
 export const LegacySection = () => {
   return (
-    <section id="legacy" className="relative bg-[hsl(40_30%_94%)] py-28 md:py-36 overflow-hidden">
+    <section id="legacy" className="relative bg-[hsl(40_30%_94%)] py-36 md:py-48 overflow-hidden">
       {/* subtle museum texture */}
       <div
         className="absolute inset-0 opacity-[0.04] pointer-events-none"
@@ -34,66 +34,30 @@ export const LegacySection = () => {
           {/* PORTRAIT */}
           <div className="md:col-span-5 lg:col-span-5">
             <figure className="relative mx-auto max-w-sm">
-              {/* Gold double frame */}
+              {/* Refined gold frame */}
               <div
-                className="relative p-[3px] rounded-sm"
-                style={{ background: "linear-gradient(135deg, hsl(38 75% 55%), hsl(42 85% 70%), hsl(38 60% 40%))" }}
+                className="relative border-2 border-accent shadow-lg p-2 bg-[hsl(40_30%_96%)]"
+                style={{ boxShadow: "0 24px 60px -20px hsl(118 18% 14% / 0.35)" }}
               >
-                <div className="bg-[hsl(40_30%_94%)] p-2">
-                  <div className="border border-accent/40 p-[6px]">
-                    <div className="relative overflow-hidden bg-[hsl(155_40%_8%)] aspect-[3/4]">
-                      <img
-                        src={portrait}
-                        alt="بورتريه المرحوم أحمد يحيى المضواحي"
-                        loading="lazy"
-                        className="absolute inset-0 w-full h-full object-cover object-center block"
-                        style={{
-                          filter:
-                            "grayscale(100%) contrast(1.15) brightness(0.92)",
-                        }}
-                      />
-                      {/* shadows tone — deep olive/emerald */}
-                      <div
-                        className="absolute inset-0 mix-blend-multiply pointer-events-none"
-                        style={{
-                          background:
-                            "linear-gradient(160deg, hsl(155 45% 12%) 0%, hsl(150 30% 22%) 60%, hsl(40 35% 28%) 100%)",
-                        }}
-                        aria-hidden
-                      />
-                      {/* highlights tone — pearl & muted gold */}
-                      <div
-                        className="absolute inset-0 mix-blend-screen pointer-events-none opacity-80"
-                        style={{
-                          background:
-                            "linear-gradient(160deg, hsl(42 55% 72%) 0%, hsl(38 35% 58%) 55%, hsl(40 30% 88%) 100%)",
-                        }}
-                        aria-hidden
-                      />
-                      {/* gentle vignette for museum depth */}
-                      <div
-                        className="absolute inset-0 pointer-events-none"
-                        style={{
-                          background:
-                            "radial-gradient(ellipse at 50% 40%, transparent 55%, hsl(155 45% 6% / 0.55) 100%)",
-                        }}
-                        aria-hidden
-                      />
-                      {/* subtle paper grain */}
-                      <div
-                        className="absolute inset-0 pointer-events-none opacity-[0.07] mix-blend-overlay"
-                        style={{
-                          backgroundImage:
-                            "radial-gradient(hsl(40 30% 90%) 1px, transparent 1px)",
-                          backgroundSize: "3px 3px",
-                        }}
-                        aria-hidden
-                      />
-                    </div>
-                  </div>
+                <div className="relative overflow-hidden aspect-[3/4]">
+                  <img
+                    src={portrait}
+                    alt="بورتريه المرحوم أحمد يحيى المضواحي"
+                    loading="lazy"
+                    className="absolute inset-0 w-full h-full object-cover object-center block"
+                  />
+                  {/* Subtle artistic gradient at the bottom only — does not cover the face */}
+                  <div
+                    className="absolute inset-x-0 bottom-0 h-1/3 pointer-events-none"
+                    style={{
+                      background:
+                        "linear-gradient(to top, hsl(118 18% 14% / 0.35) 0%, transparent 100%)",
+                    }}
+                    aria-hidden
+                  />
                 </div>
               </div>
-              <figcaption className="mt-7 text-center">
+              <figcaption className="mt-10 text-center">
                 <p className="font-sans2 text-[10px] tracking-[0.4em] uppercase text-muted-foreground mb-2">
                   In Loving Memory
                 </p>
@@ -103,8 +67,8 @@ export const LegacySection = () => {
                 <p className="font-sans2 text-sm text-muted-foreground mt-1 tracking-widest">
                   ١٩٥٣ — ٢٠١٨
                 </p>
-                <p className="font-quran text-base text-primary/70 mt-4 leading-loose">
-                  ﴿ رَبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا ﴾
+                <p className="font-quran text-xl md:text-2xl text-primary mt-6 leading-loose">
+                  ﴿ رَّبِّ ٱرْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا ﴾
                 </p>
               </figcaption>
             </figure>
