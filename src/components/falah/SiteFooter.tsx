@@ -78,7 +78,7 @@ export const SiteFooter = () => {
                 alt="الفلاح"
                 loading="lazy"
                 decoding="async"
-                className="h-12 w-auto object-contain"
+                className="h-16 w-auto object-contain"
               />
               <div>
                 <p className="font-editorial text-2xl leading-none">وقف الفلاح</p>

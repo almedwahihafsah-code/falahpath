@@ -25,7 +25,7 @@ import { useScrollReveal } from "@/hooks/useScrollReveal";
 const Eyebrow = ({ kicker, label }: { kicker: string; label: string }) => (
   <div className="inline-flex items-center gap-3 mb-6">
     <span className="h-px w-10 bg-accent/60" />
-    <span className="font-sans2 text-[11px] tracking-[0.45em] uppercase text-accent">
+    <span className="font-sans2 text-[11px] tracking-[0.45em] uppercase text-accent font-medium">
       {kicker} · {label}
     </span>
     <span className="h-px w-10 bg-accent/60" />
@@ -237,7 +237,7 @@ const Index = () => {
           <div className="reveal text-center mb-20 max-w-3xl mx-auto">
             <div className="inline-flex items-center gap-3 mb-6">
               <span className="h-px w-10 bg-accent/70" />
-              <span className="font-sans2 text-[11px] tracking-[0.45em] uppercase text-accent-glow">
+              <span className="font-sans2 text-[11px] tracking-[0.45em] uppercase text-accent font-medium">
                 The Method · المنهج
               </span>
               <span className="h-px w-10 bg-accent/70" />
