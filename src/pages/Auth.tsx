@@ -18,9 +18,22 @@ const Auth = () => {
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
 
+  const routeAfterAuth = async (userId: string) => {
+    try {
+      const { count } = await supabase
+        .from("actions")
+        .select("id", { count: "exact", head: true })
+        .eq("user_id", userId);
+      navigate((count ?? 0) > 0 ? "/app" : "/intent", { replace: true });
+    } catch {
+      navigate("/intent", { replace: true });
+    }
+  };
+
   useEffect(() => {
-    if (!authLoading && user) navigate("/guide", { replace: true });
-  }, [user, authLoading, navigate]);
+    if (!authLoading && user) routeAfterAuth(user.id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, authLoading]);
 
   const handleEmail = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,21 +46,23 @@ const Auth = () => {
       if (mode === "signup") {
         const { data, error } = await supabase.auth.signUp({
           email, password,
-          options: { emailRedirectTo: `${window.location.origin}/guide` },
+          options: { emailRedirectTo: `${window.location.origin}/intent` },
         });
         if (error) throw error;
         if (data.session) {
           toast.success("تم إنشاء الحساب بنجاح");
-          navigate("/guide", { replace: true });
+          await routeAfterAuth(data.session.user.id);
         } else {
-          const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+          const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
           if (signInError) throw signInError;
-          navigate("/guide", { replace: true });
+          if (signInData.user) await routeAfterAuth(signInData.user.id);
+          else navigate("/intent", { replace: true });
         }
       } else {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        const { data: signInData, error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        navigate("/guide", { replace: true });
+        if (signInData.user) await routeAfterAuth(signInData.user.id);
+        else navigate("/intent", { replace: true });
       }
     } catch (err: any) {
       toast.error(err?.message || "تعذّر إتمام العملية");
@@ -60,7 +75,7 @@ const Auth = () => {
     setBusy(true);
     try {
       const result = await lovable.auth.signInWithOAuth("google", {
-        redirect_uri: `${window.location.origin}/guide`,
+        redirect_uri: `${window.location.origin}/intent`,
       });
       if (result.error) {
         toast.error("تعذّر تسجيل الدخول عبر Google");
@@ -68,7 +83,7 @@ const Auth = () => {
         return;
       }
       if (result.redirected) return;
-      navigate("/guide", { replace: true });
+      navigate("/intent", { replace: true });
     } catch (err: any) {
       toast.error(err?.message || "تعذّر تسجيل الدخول");
       setBusy(false);
