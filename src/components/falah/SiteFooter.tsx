@@ -32,18 +32,18 @@ export const SiteFooter = () => {
   ];
 
   return (
-    <footer className="relative bg-[hsl(118_18%_10%)] text-primary-foreground">
+    <footer className="relative w-full bg-[hsl(118_18%_10%)] text-primary-foreground">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/60 to-transparent" />
-      <div className="container py-20 md:py-28">
+      <div className="max-w-6xl mx-auto px-6 py-12 flex flex-col gap-8">
         {/* Newsletter */}
-        <div className="reveal max-w-3xl mx-auto text-center mb-20">
-          <p className="font-sans2 text-[10px] tracking-[0.45em] uppercase text-accent mb-5">
+        <div className="max-w-3xl mx-auto text-center">
+          <p className="font-sans2 text-[10px] tracking-[0.45em] uppercase text-accent mb-4">
             Newsletter · النشرة الأسبوعية
           </p>
-          <h3 className="font-editorial text-3xl sm:text-4xl md:text-5xl leading-tight mb-5">
+          <h3 className="font-editorial text-2xl sm:text-3xl md:text-4xl leading-tight mb-4">
             تأمّلاتٌ في القرآن، <em className="not-italic italic text-accent-glow">إلى بريدك.</em>
           </h3>
-          <p className="text-sm md:text-base text-primary-foreground/60 mb-8 leading-relaxed">
+          <p className="text-sm text-primary-foreground/60 mb-6 leading-relaxed">
             رسالةٌ واحدة كلّ أسبوع: آيةٌ، تأمّلٌ، وخطوةٌ عملية نحو الفلاح.
           </p>
           <form
@@ -70,9 +70,9 @@ export const SiteFooter = () => {
         </div>
 
         {/* Grid */}
-        <div className="reveal grid md:grid-cols-12 gap-12 md:gap-10 pb-14 border-t border-primary-foreground/10 pt-14">
+        <div className="grid md:grid-cols-12 gap-8 border-t border-primary-foreground/10 pt-8">
           <div className="md:col-span-5">
-            <div className="flex items-center gap-3 mb-5">
+            <div className="flex items-center gap-3 mb-4">
               <div className="w-11 h-11 rounded-sm bg-gradient-emerald flex items-center justify-center border border-accent/40">
                 <span className="font-editorial text-xl text-primary-foreground">ف</span>
               </div>
@@ -93,10 +93,10 @@ export const SiteFooter = () => {
           </div>
 
           <div className="md:col-span-3">
-            <p className="font-sans2 text-[10px] tracking-[0.4em] uppercase text-accent mb-5">
+            <p className="font-sans2 text-[10px] tracking-[0.4em] uppercase text-accent mb-4">
               Quick Links
             </p>
-            <ul className="space-y-3 text-sm">
+            <ul className="space-y-2 text-sm">
               {[
                 { to: "/#perspective", label: "المنظور" },
                 { to: "/#method", label: "المنهج" },
@@ -117,7 +117,7 @@ export const SiteFooter = () => {
           </div>
 
           <div className="md:col-span-4">
-            <p className="font-sans2 text-[10px] tracking-[0.4em] uppercase text-accent mb-5">
+            <p className="font-sans2 text-[10px] tracking-[0.4em] uppercase text-accent mb-4">
               Operated By
             </p>
             <p className="font-editorial text-2xl mb-1">Markets Movers</p>
@@ -141,7 +141,7 @@ export const SiteFooter = () => {
           </div>
         </div>
 
-        <div className="border-t border-primary-foreground/10 pt-7 flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-xs text-primary-foreground/45">
+        <div className="border-t border-primary-foreground/10 pt-6 flex flex-col md:flex-row md:items-center md:justify-between gap-3 text-xs text-primary-foreground/45">
           <p>© {new Date().getFullYear()} منهج الفلاح — وقفٌ معرفي رقمي</p>
           <p className="font-sans2 tracking-widest uppercase">
             تطوير وإدارة: ماركتس موفرز للاستشارات
