@@ -22,7 +22,7 @@
     --secondary-foreground: 118 18% 18%;
 
     --muted: 40 22% 90%;
-    --muted-foreground: 118 8% 38%;
+    --muted-foreground: 118 12% 30%;
 
     --accent: 35 28% 45%;
     --accent-foreground: 40 35% 95%;
@@ -31,8 +31,8 @@
     --destructive: 0 70% 45%;
     --destructive-foreground: 40 40% 98%;
 
-    --border: 40 18% 82%;
-    --input: 40 18% 82%;
+    --border: 40 16% 72%;
+    --input: 40 16% 72%;
     --ring: 118 13% 30%;
 
     --radius: 0.75rem;
@@ -59,10 +59,10 @@
     /* Quran ink */
     --quran-ink: 118 25% 12%;
 
-    --shadow-xs: 0 1px 2px hsl(118 13% 27% / 0.04);
-    --shadow-sm: 0 2px 8px hsl(118 13% 27% / 0.06);
-    --shadow-md: 0 8px 24px hsl(118 13% 27% / 0.08);
-    --shadow-lg: 0 16px 48px hsl(118 13% 27% / 0.12);
+    --shadow-xs: 0 1px 2px hsl(118 13% 27% / 0.06);
+    --shadow-sm: 0 4px 14px hsl(118 13% 27% / 0.10);
+    --shadow-md: 0 12px 30px hsl(118 13% 27% / 0.14);
+    --shadow-lg: 0 20px 56px hsl(118 13% 27% / 0.18);
     --shadow-sacred: 0 4px 32px hsl(35 28% 45% / 0.10);
 
     --gradient-hero: linear-gradient(135deg, hsl(118 18% 14%) 0%, hsl(118 14% 22%) 50%, hsl(118 12% 30%) 100%);

@@ -289,7 +289,7 @@ const Index = () => {
               <Link
                 to={domainsHref}
                 key={d.id}
-                className={`reveal group break-inside-avoid mb-6 block bg-background border border-border/50 p-8 hover:bg-card hover:shadow-elegant hover:-translate-y-1 transition-smooth relative overflow-hidden cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
+                className={`reveal group break-inside-avoid mb-6 block bg-card border border-border shadow-md p-8 hover:bg-card hover:shadow-elegant hover:-translate-y-1 transition-smooth relative overflow-hidden cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
                   i % 3 === 0 ? "pb-14" : i % 3 === 1 ? "pb-10" : "pb-12"
                 }`}
                 style={{ transitionDelay: `${(i % 6) * 70}ms` }}
@@ -300,7 +300,7 @@ const Index = () => {
                   </span>
                   <BookOpen className="w-4 h-4 text-accent opacity-50 group-hover:opacity-100 transition-smooth" />
                 </div>
-                <h3 className="font-editorial text-2xl text-primary mb-1 leading-tight">{d.title}</h3>
+                <h3 className="font-editorial text-2xl text-foreground mb-1 leading-tight">{d.title}</h3>
                 <p className="font-sans2 text-[10px] tracking-[0.35em] uppercase text-accent mb-4">
                   {d.subtitle}
                 </p>
@@ -326,7 +326,7 @@ const Index = () => {
           {paths.map((p, i) => (
             <article
               key={p.id}
-              className={`reveal relative bg-card p-10 border border-border/60 shadow-soft hover:shadow-elegant hover:-translate-y-1 transition-smooth ${
+              className={`reveal relative bg-card p-10 border border-border shadow-md hover:shadow-elegant hover:-translate-y-1 transition-smooth ${
                 i === 1 ? "md:translate-y-12" : i === 2 ? "md:translate-y-6" : ""
               }`}
               style={{ transitionDelay: `${i * 90}ms` }}

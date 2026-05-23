@@ -73,9 +73,13 @@ export const SiteFooter = () => {
         <div className="grid md:grid-cols-12 gap-8 border-t border-primary-foreground/10 pt-8">
           <div className="md:col-span-5">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-11 h-11 rounded-sm bg-gradient-emerald flex items-center justify-center border border-accent/40">
-                <span className="font-editorial text-xl text-primary-foreground">ف</span>
-              </div>
+              <img
+                src="/falah_logo_transparent.png"
+                alt="الفلاح"
+                loading="lazy"
+                decoding="async"
+                className="h-12 w-auto object-contain"
+              />
               <div>
                 <p className="font-editorial text-2xl leading-none">وقف الفلاح</p>
                 <p className="font-sans2 text-[10px] tracking-[0.4em] uppercase text-accent mt-1">
