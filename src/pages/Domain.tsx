@@ -1,10 +1,11 @@
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, Link } from "react-router-dom";
 import { Navbar } from "@/components/falah/Navbar";
 import { SiteFooter } from "@/components/falah/SiteFooter";
 import { DomainCard } from "@/components/falah/DomainCard";
 import { OrnamentalDivider } from "@/components/falah/OrnamentalDivider";
 import { useDomains, useDomainCoverage } from "@/hooks/useDomains";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ArrowRight } from "lucide-react";
 
 const DomainPage = () => {
   const [searchParams] = useSearchParams();
@@ -17,6 +18,12 @@ const DomainPage = () => {
       <Navbar />
       <main className="flex-1 page-enter">
         <section className="container max-w-6xl py-16 md:py-24">
+          <Link
+            to="/intent"
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-smooth mb-6"
+          >
+            <ArrowRight className="w-4 h-4" /> رجوع
+          </Link>
           <header className="text-center mb-12 space-y-4">
             <p className="text-caption text-accent">الخطوة الثانية</p>
             <h1 className="text-display text-primary">
@@ -37,7 +44,7 @@ const DomainPage = () => {
                     key={domain.code}
                     domain={domain}
                     intentCode={intent}
-                    ayahCount={coverage?.[domain.code] ?? undefined}
+                    ayahCount={coverage ? (coverage[domain.code] ?? 0) : undefined}
                   />
                 ))}
           </div>

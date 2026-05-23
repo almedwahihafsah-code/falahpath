@@ -1,6 +1,7 @@
 import { Navbar } from "@/components/falah/Navbar";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
 import {
   ArrowLeft,
   BookOpen,
@@ -73,6 +74,8 @@ const ParallaxBg = ({
 
 const Index = () => {
   useScrollReveal();
+  const { user } = useAuth();
+  const domainsHref = user ? "/domain" : "/auth";
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -283,9 +286,10 @@ const Index = () => {
           </div>
           <div className="columns-1 md:columns-2 lg:columns-3 gap-6 [column-fill:_balance]">
             {domains.map((d, i) => (
-              <article
+              <Link
+                to={domainsHref}
                 key={d.id}
-                className={`reveal group break-inside-avoid mb-6 bg-background border border-border/50 p-8 hover:bg-card hover:shadow-elegant transition-smooth relative overflow-hidden ${
+                className={`reveal group break-inside-avoid mb-6 block bg-background border border-border/50 p-8 hover:bg-card hover:shadow-elegant hover:-translate-y-1 transition-smooth relative overflow-hidden cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
                   i % 3 === 0 ? "pb-14" : i % 3 === 1 ? "pb-10" : "pb-12"
                 }`}
                 style={{ transitionDelay: `${(i % 6) * 70}ms` }}
@@ -303,7 +307,7 @@ const Index = () => {
                 <p className="font-quran text-[15px] text-primary/75 mb-4 leading-loose">﴿ {d.quote} ﴾</p>
                 <p className="text-sm text-muted-foreground leading-loose">{d.desc}</p>
                 <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-accent group-hover:w-full transition-all duration-700" />
-              </article>
+              </Link>
             ))}
           </div>
         </div>

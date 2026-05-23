@@ -18,8 +18,6 @@ export const Navbar = () => {
     { to: "/intent", label: "ابدأ الرحلة", accent: true },
     { to: "/progress", label: "رحلتي" },
     { to: "/app", label: "لوحة الفلاح" },
-    { to: "/quran", label: "القرآن" },
-    { to: "/guide", label: "المرشد الذكي" },
   ];
 
   return (
