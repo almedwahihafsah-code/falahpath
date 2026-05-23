@@ -10,6 +10,7 @@ import { Slider } from "@/components/ui/slider";
 import { useAyahById } from "@/hooks/useAyahById";
 import { useCreateReflection } from "@/hooks/useCreateReflection";
 import { toast } from "sonner";
+import { ArrowRight } from "lucide-react";
 
 const ReflectionPage = () => {
   const [searchParams] = useSearchParams();
@@ -57,6 +58,12 @@ const ReflectionPage = () => {
       <Navbar />
       <main className="flex-1 page-enter">
         <section className="container max-w-3xl py-16 md:py-20">
+          <Link
+            to={verseId ? `/ayah/${verseId}?intent=${intentCode}&domain=${domainCode}` : `/ayat?intent=${intentCode}&domain=${domainCode}`}
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-smooth mb-6"
+          >
+            <ArrowRight className="w-4 h-4" /> رجوع
+          </Link>
           <header className="text-center mb-8 space-y-3">
             <p className="text-caption text-accent">الخطوة الخامسة</p>
             <h1 className="text-display text-primary">تأمّل</h1>

@@ -1,9 +1,11 @@
+import { Link } from "react-router-dom";
 import { Navbar } from "@/components/falah/Navbar";
 import { SiteFooter } from "@/components/falah/SiteFooter";
 import { IntentCard } from "@/components/falah/IntentCard";
 import { OrnamentalDivider } from "@/components/falah/OrnamentalDivider";
 import { useIntents } from "@/hooks/useIntents";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ArrowRight } from "lucide-react";
 
 const IntentPage = () => {
   const { data: intents, isLoading, error } = useIntents();
@@ -17,6 +19,12 @@ const IntentPage = () => {
       <Navbar />
       <main className="flex-1 page-enter">
         <section className="container max-w-5xl py-16 md:py-24">
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-smooth mb-6"
+          >
+            <ArrowRight className="w-4 h-4" /> رجوع
+          </Link>
           <header className="text-center mb-12 space-y-4">
             <p className="text-caption text-accent">الخطوة الأولى</p>
             <h1 className="text-display text-primary">ما الذي تطلبه اليوم؟</h1>
