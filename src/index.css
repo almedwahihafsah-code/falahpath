@@ -120,7 +120,11 @@
 
 @layer base {
   * { @apply border-border; }
-  html { @apply bg-background; }
+  html, body, #root {
+    @apply bg-background;
+    min-height: 100%;
+  }
+  html { overscroll-behavior: none; background-color: hsl(var(--background)); }
   body {
     @apply bg-background text-foreground;
     font-family: 'Tajawal', system-ui, sans-serif;
