@@ -31,12 +31,19 @@ const Auth = () => {
     setBusy(true);
     try {
       if (mode === "signup") {
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email, password,
           options: { emailRedirectTo: `${window.location.origin}/guide` },
         });
         if (error) throw error;
-        toast.success("تم إنشاء الحساب. تحقّق من بريدك لتأكيد التسجيل.");
+        if (data.session) {
+          toast.success("تم إنشاء الحساب بنجاح");
+          navigate("/guide", { replace: true });
+        } else {
+          const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+          if (signInError) throw signInError;
+          navigate("/guide", { replace: true });
+        }
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
