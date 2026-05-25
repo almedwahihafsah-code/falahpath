@@ -106,7 +106,7 @@ export const JournalForm = ({ userId, onPointsEarned }: Props) => {
         </div>
         <div>
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium">التأمل والتدبر (دقائق)</span>
+            <span className="text-sm font-medium">التدبّر (دقائق)</span>
             <div className="flex items-center gap-2">
               <Button size="icon" variant="outline" onClick={() => setReflection(Math.max(0, reflection - 5))}><Minus className="w-3 h-3" /></Button>
               <span className="font-display text-2xl text-primary w-12 text-center">{reflection}</span>
