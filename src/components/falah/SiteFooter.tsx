@@ -18,7 +18,7 @@ export const SiteFooter = () => {
     setLoading(true);
     // graceful no-op: front-end only confirmation
     setTimeout(() => {
-      toast({ title: "تم الاشتراك", description: "ستصلك تأمّلات الفلاح الأسبوعية قريبًا." });
+      toast({ title: "تم الاشتراك", description: "ستصلك تدبّرات الفلاح الأسبوعية قريبًا." });
       setEmail("");
       setLoading(false);
     }, 600);
@@ -41,10 +41,10 @@ export const SiteFooter = () => {
             Newsletter · النشرة الأسبوعية
           </p>
           <h3 className="font-editorial text-2xl sm:text-3xl md:text-4xl leading-tight mb-4">
-            تأمّلاتٌ في القرآن، <em className="not-italic italic text-accent-glow">إلى بريدك.</em>
+            تدبّراتٌ في القرآن، <em className="not-italic italic text-accent-glow">إلى بريدك.</em>
           </h3>
           <p className="text-sm text-primary-foreground/60 mb-6 leading-relaxed">
-            رسالةٌ واحدة كلّ أسبوع: آيةٌ، تأمّلٌ، وخطوةٌ عملية نحو الفلاح.
+            رسالةٌ واحدة كلّ أسبوع: آيةٌ، تدبّرٌ، وخطوةٌ عملية نحو الفلاح.
           </p>
           <form
             onSubmit={onSubscribe}
