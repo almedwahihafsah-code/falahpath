@@ -18,6 +18,7 @@ import { useEffect, useState } from "react";
 import { domains, paths, methodSteps } from "@/data/falah";
 import { LegacySection } from "@/components/falah/LegacySection";
 import { ContributeSection } from "@/components/falah/ContributeSection";
+import { FalahiTeaser } from "@/components/falah/FalahiTeaser";
 import { Governance } from "@/components/falah/Governance";
 import { EngagementHub } from "@/components/falah/EngagementHub";
 import { SiteFooter } from "@/components/falah/SiteFooter";
@@ -442,6 +443,7 @@ const Index = () => {
       </section>
 
       {/* LEGACY · GOVERNANCE · ENGAGEMENT */}
+      <FalahiTeaser />
       <LegacySection />
       <ContributeSection />
       <Governance />

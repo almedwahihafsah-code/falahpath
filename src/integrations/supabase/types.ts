@@ -345,6 +345,24 @@ export type Database = {
         }
         Relationships: []
       }
+      falahi_waitlist: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+        }
+        Relationships: []
+      }
       feedback: {
         Row: {
           category: string
