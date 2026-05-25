@@ -315,6 +315,9 @@ const Index = () => {
         </div>
       </section>
 
+      {/* FALAHI TEASER — after the 8 Domains, before Paths/Legacy */}
+      <FalahiTeaser />
+
       {/* PATHS */}
       <section id="paths" className="relative container py-40 md:py-56 overflow-hidden">
         <ParallaxBg image={heroMuseum} speed={0.15} opacity={0.04} />
@@ -443,7 +446,6 @@ const Index = () => {
       </section>
 
       {/* LEGACY · GOVERNANCE · ENGAGEMENT */}
-      <FalahiTeaser />
       <LegacySection />
       <ContributeSection />
       <Governance />
