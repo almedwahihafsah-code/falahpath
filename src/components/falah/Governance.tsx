@@ -4,7 +4,7 @@ import { ShieldCheck, Sparkles, Infinity as InfinityIcon, ArrowUpRight } from "l
 
 export const Governance = () => {
   return (
-    <section id="governance" className="bg-primary text-primary-foreground py-28 md:py-32 relative overflow-hidden">
+    <section id="governance" className="bg-primary text-primary-foreground py-24 md:py-32 relative overflow-hidden">
       <div
         className="absolute inset-0 opacity-[0.04] pointer-events-none"
         style={{
