@@ -54,7 +54,7 @@ const AyahDetailPage = () => {
       <Navbar />
       <main className="flex-1 page-enter">
         <section className="container max-w-3xl py-16 md:py-20">
-          <header className="mb-8">
+          <header className="mb-12">
             <Link
               to={`/ayat?intent=${intentCode}&domain=${domainCode}`}
               className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-smooth"

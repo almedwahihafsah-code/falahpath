@@ -80,9 +80,9 @@ export const SiteFooter = () => {
                 decoding="async"
                 className="h-16 w-auto object-contain"
               />
-              <div>
+              <div className="flex flex-col items-start gap-1.5">
                 <p className="font-editorial text-2xl leading-none">وقف الفلاح</p>
-                <p className="font-sans2 text-[10px] tracking-[0.4em] uppercase text-accent mt-1">
+                <p className="font-sans2 text-[10px] tracking-[0.4em] uppercase text-primary-foreground/50">
                   A Perpetual Endowment
                 </p>
               </div>

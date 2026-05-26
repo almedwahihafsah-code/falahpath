@@ -20,7 +20,7 @@ const DomainPage = () => {
         <section className="container max-w-6xl py-16 md:py-24">
           <Link
             to="/intent"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-smooth mb-6"
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-smooth mb-10"
           >
             <ArrowRight className="w-4 h-4" /> رجوع
           </Link>

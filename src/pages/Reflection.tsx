@@ -60,7 +60,7 @@ const ReflectionPage = () => {
         <section className="container max-w-3xl py-16 md:py-20">
           <Link
             to={verseId ? `/ayah/${verseId}?intent=${intentCode}&domain=${domainCode}` : `/ayat?intent=${intentCode}&domain=${domainCode}`}
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-smooth mb-6"
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-smooth mb-10"
           >
             <ArrowRight className="w-4 h-4" /> رجوع
           </Link>
