@@ -83,7 +83,7 @@ const Index = () => {
       <Navbar />
 
       {/* HERO — Museumcore Cinematic */}
-      <section className="relative overflow-hidden bg-background min-h-[92vh] flex items-center">
+      <section className="relative overflow-hidden bg-background flex items-center">
         <img
           src={heroMuseum}
           alt=""
@@ -191,7 +191,7 @@ const Index = () => {
       </section>
 
       {/* PERSPECTIVE */}
-      <section id="perspective" className="relative container py-40 md:py-56 overflow-hidden">
+      <section id="perspective" className="relative container py-24 md:py-32 overflow-hidden">
         <ParallaxBg image={heroPattern} speed={0.18} opacity={0.05} />
         <div className="reveal relative text-center mb-24 max-w-3xl mx-auto">
           <Eyebrow kicker="The Perspective" label="المنظور" />
@@ -216,7 +216,7 @@ const Index = () => {
       </section>
 
       {/* METHOD */}
-      <section id="method" className="relative bg-[hsl(118_18%_10%)] text-primary-foreground py-40 md:py-56 overflow-hidden">
+      <section id="method" className="relative bg-[hsl(118_18%_10%)] text-primary-foreground py-24 md:py-32 overflow-hidden">
         <ParallaxBg image={heroMuseum} speed={0.2} opacity={0.18} />
         <div
           className="absolute inset-0 opacity-[0.05] pointer-events-none"
@@ -274,7 +274,7 @@ const Index = () => {
       </section>
 
       {/* DOMAINS — Masonry */}
-      <section id="domains" className="relative bg-[hsl(40_30%_91%)] py-40 md:py-56 overflow-hidden">
+      <section id="domains" className="relative bg-[hsl(40_30%_91%)] py-24 md:py-32 overflow-hidden">
         <ParallaxBg image={heroPattern} speed={0.12} opacity={0.06} />
         <div className="relative container">
           <div className="reveal text-center mb-24 max-w-3xl mx-auto">
@@ -319,7 +319,7 @@ const Index = () => {
       <FalahiTeaser />
 
       {/* PATHS */}
-      <section id="paths" className="relative container py-40 md:py-56 overflow-hidden">
+      <section id="paths" className="relative container py-24 md:py-32 overflow-hidden">
         <ParallaxBg image={heroMuseum} speed={0.15} opacity={0.04} />
         <div className="reveal relative text-center mb-24 max-w-3xl mx-auto">
           <Eyebrow kicker="The Life Paths" label="المسارات الحياتية" />
@@ -352,7 +352,7 @@ const Index = () => {
       </section>
 
       {/* SERVICES — Masonry */}
-      <section id="services" className="relative bg-[hsl(40_30%_91%)] py-40 md:py-56 overflow-hidden">
+      <section id="services" className="relative bg-[hsl(40_30%_91%)] py-24 md:py-32 overflow-hidden">
         <ParallaxBg image={heroPattern} speed={0.18} opacity={0.05} />
         <div className="relative container">
         <div className="reveal text-center mb-24 max-w-3xl mx-auto">
@@ -401,7 +401,7 @@ const Index = () => {
       </section>
 
       {/* CTA */}
-      <section className="container py-40 md:py-56">
+      <section className="container py-24 md:py-32">
         <div className="relative overflow-hidden bg-[hsl(155_45%_8%)] p-14 md:p-24 text-center shadow-elegant border border-accent/20">
           <div
             className="absolute inset-0 opacity-[0.06]"
