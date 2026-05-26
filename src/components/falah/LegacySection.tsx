@@ -2,7 +2,7 @@ import portrait from "@/assets/founder-father-portrait.jpg";
 
 export const LegacySection = () => {
   return (
-    <section id="legacy" className="relative bg-[hsl(40_30%_94%)] py-36 md:py-48 overflow-hidden">
+    <section id="legacy" className="relative bg-[hsl(40_30%_94%)] py-24 md:py-32 overflow-hidden">
       {/* subtle museum texture */}
       <div
         className="absolute inset-0 opacity-[0.04] pointer-events-none"

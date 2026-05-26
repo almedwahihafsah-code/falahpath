@@ -65,7 +65,7 @@ export const EngagementHub = () => {
   const waLink = `https://wa.me/${CONTACT.whatsapp.replace(/\D/g, "")}`;
 
   return (
-    <section id="engagement" className="bg-[hsl(40_35%_96%)] py-28 md:py-32">
+    <section id="engagement" className="bg-[hsl(40_35%_96%)] py-24 md:py-32">
       <div className="container">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center gap-3 mb-6">
