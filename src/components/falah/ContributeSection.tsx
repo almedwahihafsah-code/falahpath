@@ -42,7 +42,7 @@ export const ContributeSection = () => {
   const whatsappContribute = `https://wa.me/${WHATSAPP_CONTACT}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
 
   return (
-    <section id="contribute" className="relative bg-background py-28 md:py-40 overflow-hidden">
+    <section id="contribute" className="relative bg-background py-24 md:py-32 overflow-hidden">
       <div className="container relative">
         <div className="text-center max-w-3xl mx-auto mb-16 md:mb-20">
           <div className="inline-flex items-center gap-3 mb-6">
