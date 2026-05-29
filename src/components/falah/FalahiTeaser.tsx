@@ -40,8 +40,8 @@ export const FalahiTeaser = () => {
     }
     setSubmitting(true);
     const { error } = await supabase
-      .from("falahi_waitlist")
-      .insert({ email: parsed.data });
+      .from("newsletter_subscribers")
+      .insert({ email: parsed.data.toLowerCase(), source: "falahi_waitlist", locale: "ar" });
     setSubmitting(false);
 
     // Treat duplicates (23505) the same as success
