@@ -11,6 +11,7 @@ import Guide from "./pages/Guide.tsx";
 import QuranExplorer from "./pages/QuranExplorer.tsx";
 import QuranAdmin from "./pages/QuranAdmin.tsx";
 import Auth from "./pages/Auth.tsx";
+import Onboarding from "./pages/Onboarding.tsx";
 import Intent from "./pages/Intent.tsx";
 import Domain from "./pages/Domain.tsx";
 import Ayat from "./pages/Ayat.tsx";
@@ -31,6 +32,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/onboarding" element={<ProtectedRoute><Onboarding /></ProtectedRoute>} />
             <Route path="/app" element={<ProtectedRoute><AppHome /></ProtectedRoute>} />
             <Route path="/intent" element={<ProtectedRoute><Intent /></ProtectedRoute>} />
             <Route path="/domain" element={<ProtectedRoute><Domain /></ProtectedRoute>} />
