@@ -43,20 +43,18 @@ export const EngagementHub = () => {
       return;
     }
     setSubmitting(true);
-    const { data: auth } = await supabase.auth.getUser();
-    const { error } = await supabase.from("feedback").insert({
-      category,
+    const { error } = await supabase.from("contact_messages").insert({
+      message_type: category,
       name: name.trim() || null,
       email: email.trim() || null,
       message: message.trim(),
-      user_id: auth.user?.id ?? null,
     });
     setSubmitting(false);
     if (error) {
       toast.error("تعذّر الإرسال، حاول لاحقاً");
       return;
     }
-    toast.success("وصلتنا رسالتك. شكرًا لك.");
+    toast.success("وصلتنا رسالتك. شكر الله لك.");
     setName("");
     setEmail("");
     setMessage("");
