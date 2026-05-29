@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { Navbar } from "@/components/falah/Navbar";
 import { SiteFooter } from "@/components/falah/SiteFooter";
 import { IntentCard } from "@/components/falah/IntentCard";
@@ -9,6 +9,8 @@ import { ArrowRight } from "lucide-react";
 
 const IntentPage = () => {
   const { data: intents, isLoading, error } = useIntents();
+  const [searchParams] = useSearchParams();
+  const preselectedCode = searchParams.get("intent");
 
   const handleSelect = (code: string) => {
     try { sessionStorage.setItem("current_intent", code); } catch {}
@@ -42,7 +44,12 @@ const IntentPage = () => {
             {isLoading
               ? Array.from({ length: 6 }).map((_, i) => <Skeleton key={i} className="h-56 rounded-xl" />)
               : (intents ?? []).map((intent) => (
-                  <IntentCard key={intent.code} intent={intent} onSelect={handleSelect} />
+                  <IntentCard
+                    key={intent.code}
+                    intent={intent}
+                    onSelect={handleSelect}
+                    preselected={preselectedCode === intent.code}
+                  />
                 ))}
           </div>
         </section>
