@@ -7,12 +7,14 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useUserProgress } from "@/hooks/useUserProgress";
 import { useRecentActivity } from "@/hooks/useRecentActivity";
 import { useDomains } from "@/hooks/useDomains";
+import { useUserProfile } from "@/hooks/useUserProfile";
 import { BookOpenCheck, Heart } from "lucide-react";
 
 const ProgressPage = () => {
   const { data: progress, isLoading } = useUserProgress();
   const { data: activity } = useRecentActivity(12);
   const { data: domains } = useDomains();
+  const { data: profile, isLoading: profileLoading } = useUserProfile();
   const domainLabel = (code: string) =>
     domains?.find((d) => d.code === code)?.label_ar ?? code;
 
@@ -30,6 +32,17 @@ const ProgressPage = () => {
           </header>
 
           <OrnamentalDivider />
+
+          {!profileLoading && !profile && (
+            <div className="card-rest rounded-xl px-5 py-4 mt-8 mb-2 flex items-center justify-between gap-4">
+              <p className="text-body text-muted-foreground">
+                أكمل ملفك الشخصي ليكون منهج الفلاح أقرب إليك.
+              </p>
+              <Button asChild variant="outline" className="shrink-0">
+                <Link to="/onboarding">أكمل ملفك</Link>
+              </Button>
+            </div>
+          )}
 
           {isLoading ? (
             <div className="grid md:grid-cols-3 gap-6">

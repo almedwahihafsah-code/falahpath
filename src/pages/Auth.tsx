@@ -20,11 +20,24 @@ const Auth = () => {
 
   const routeAfterAuth = async (userId: string) => {
     try {
+      // 1) New user without a profile → onboarding
+      const { data: profile } = await supabase
+        .from("user_profiles" as any)
+        .select("user_id,initial_intent_code")
+        .eq("user_id", userId)
+        .maybeSingle();
+      if (!profile) {
+        navigate("/onboarding", { replace: true });
+        return;
+      }
+      // 2) Returning user → app if they've taken actions, else intent (pre-selected)
+      const ic = (profile as any).initial_intent_code;
       const { count } = await supabase
         .from("actions")
         .select("id", { count: "exact", head: true })
         .eq("user_id", userId);
-      navigate((count ?? 0) > 0 ? "/app" : "/intent", { replace: true });
+      if ((count ?? 0) > 0) navigate("/app", { replace: true });
+      else navigate(ic ? `/intent?intent=${ic}` : "/intent", { replace: true });
     } catch {
       navigate("/intent", { replace: true });
     }

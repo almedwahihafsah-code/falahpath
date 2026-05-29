@@ -4,6 +4,7 @@ import { SiteFooter } from "@/components/falah/SiteFooter";
 import { DomainCard } from "@/components/falah/DomainCard";
 import { OrnamentalDivider } from "@/components/falah/OrnamentalDivider";
 import { useDomains, useDomainCoverage } from "@/hooks/useDomains";
+import { useUserProfile } from "@/hooks/useUserProfile";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowRight } from "lucide-react";
 
@@ -12,6 +13,18 @@ const DomainPage = () => {
   const intent = searchParams.get("intent") ?? "falah";
   const { data: domains, isLoading, error } = useDomains();
   const { data: coverage } = useDomainCoverage();
+  const { data: profile } = useUserProfile();
+  const preferred = profile?.preferred_domains ?? [];
+
+  const allDomains = domains ?? [];
+  const preferredDomains = preferred.length
+    ? preferred
+        .map((code) => allDomains.find((d) => d.code === code))
+        .filter((d): d is NonNullable<typeof d> => !!d)
+    : [];
+  const otherDomains = preferred.length
+    ? allDomains.filter((d) => !preferred.includes(d.code))
+    : allDomains;
 
   return (
     <div className="min-h-screen flex flex-col bg-background" dir="rtl">
@@ -36,10 +49,15 @@ const DomainPage = () => {
             <p className="text-center text-destructive">تعذّر تحميل المجالات. حاول لاحقًا.</p>
           )}
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
-            {isLoading
-              ? Array.from({ length: 8 }).map((_, i) => <Skeleton key={i} className="h-48 rounded-xl" />)
-              : (domains ?? []).map((domain) => (
+          {isLoading ? (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+              {Array.from({ length: 8 }).map((_, i) => <Skeleton key={i} className="h-48 rounded-xl" />)}
+            </div>
+          ) : preferredDomains.length > 0 ? (
+            <>
+              <p className="text-center text-caption text-accent mb-5">مجالاتك المختارة</p>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mb-10">
+                {preferredDomains.map((domain) => (
                   <DomainCard
                     key={domain.code}
                     domain={domain}
@@ -47,7 +65,31 @@ const DomainPage = () => {
                     ayahCount={coverage ? (coverage[domain.code] ?? 0) : undefined}
                   />
                 ))}
-          </div>
+              </div>
+              <div className="h-px bg-border/60 max-w-xs mx-auto mb-10" />
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+                {otherDomains.map((domain) => (
+                  <DomainCard
+                    key={domain.code}
+                    domain={domain}
+                    intentCode={intent}
+                    ayahCount={coverage ? (coverage[domain.code] ?? 0) : undefined}
+                  />
+                ))}
+              </div>
+            </>
+          ) : (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+              {allDomains.map((domain) => (
+                <DomainCard
+                  key={domain.code}
+                  domain={domain}
+                  intentCode={intent}
+                  ayahCount={coverage ? (coverage[domain.code] ?? 0) : undefined}
+                />
+              ))}
+            </div>
+          )}
         </section>
       </main>
       <SiteFooter />
