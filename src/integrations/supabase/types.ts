@@ -698,6 +698,84 @@ export type Database = {
         }
         Relationships: []
       }
+      user_profile_signals: {
+        Row: {
+          dominant_domain_code: string | null
+          dominant_intent_code: string | null
+          last_active_at: string | null
+          streak_days: number | null
+          total_actions: number | null
+          total_journeys: number | null
+          total_reflections: number | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          dominant_domain_code?: string | null
+          dominant_intent_code?: string | null
+          last_active_at?: string | null
+          streak_days?: number | null
+          total_actions?: number | null
+          total_journeys?: number | null
+          total_reflections?: number | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          dominant_domain_code?: string | null
+          dominant_intent_code?: string | null
+          last_active_at?: string | null
+          streak_days?: number | null
+          total_actions?: number | null
+          total_journeys?: number | null
+          total_reflections?: number | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_profiles: {
+        Row: {
+          age_bracket: string | null
+          avatar_url: string | null
+          created_at: string | null
+          display_name: string
+          initial_challenge: string | null
+          initial_intent_code: string | null
+          locale: string | null
+          onboarding_completed_at: string | null
+          preferred_domains: string[] | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          age_bracket?: string | null
+          avatar_url?: string | null
+          created_at?: string | null
+          display_name: string
+          initial_challenge?: string | null
+          initial_intent_code?: string | null
+          locale?: string | null
+          onboarding_completed_at?: string | null
+          preferred_domains?: string[] | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          age_bracket?: string | null
+          avatar_url?: string | null
+          created_at?: string | null
+          display_name?: string
+          initial_challenge?: string | null
+          initial_intent_code?: string | null
+          locale?: string | null
+          onboarding_completed_at?: string | null
+          preferred_domains?: string[] | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_progress: {
         Row: {
           last_activity_date: string | null
