@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 import { Instagram, Twitter, Youtube, Linkedin, Send } from "lucide-react";
 
 export const SiteFooter = () => {
@@ -16,12 +17,19 @@ export const SiteFooter = () => {
       return;
     }
     setLoading(true);
-    // graceful no-op: front-end only confirmation
-    setTimeout(() => {
-      toast({ title: "تم الاشتراك", description: "ستصلك تدبّرات الفلاح الأسبوعية قريبًا." });
-      setEmail("");
-      setLoading(false);
-    }, 600);
+    const { error } = await supabase
+      .from("newsletter_subscribers")
+      .insert({ email: email.trim().toLowerCase(), source: "footer", locale: "ar" });
+    setLoading(false);
+    if (error && error.code !== "23505") {
+      toast({ title: "تعذّر الاشتراك", description: "حاول مرة أخرى لاحقًا." });
+      return;
+    }
+    toast({
+      title: "بارك الله فيك",
+      description: "سنُبشّرك حين تصلك أوّل تدبّر.",
+    });
+    setEmail("");
   };
 
   const socials = [
