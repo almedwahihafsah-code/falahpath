@@ -153,6 +153,39 @@ export type Database = {
         }
         Relationships: []
       }
+      contact_messages: {
+        Row: {
+          created_at: string
+          email: string | null
+          id: string
+          message: string
+          message_type: string
+          name: string | null
+          read_at: string | null
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          message: string
+          message_type: string
+          name?: string | null
+          read_at?: string | null
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          message?: string
+          message_type?: string
+          name?: string | null
+          read_at?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
       daily_journal: {
         Row: {
           created_at: string
@@ -525,6 +558,39 @@ export type Database = {
           label_en?: string | null
           sort_order?: number
           updated_at?: string
+        }
+        Relationships: []
+      }
+      newsletter_subscribers: {
+        Row: {
+          confirmation_token: string
+          confirmed: boolean
+          email: string
+          id: string
+          locale: string | null
+          source: string | null
+          subscribed_at: string
+          unsubscribed_at: string | null
+        }
+        Insert: {
+          confirmation_token?: string
+          confirmed?: boolean
+          email: string
+          id?: string
+          locale?: string | null
+          source?: string | null
+          subscribed_at?: string
+          unsubscribed_at?: string | null
+        }
+        Update: {
+          confirmation_token?: string
+          confirmed?: boolean
+          email?: string
+          id?: string
+          locale?: string | null
+          source?: string | null
+          subscribed_at?: string
+          unsubscribed_at?: string | null
         }
         Relationships: []
       }
