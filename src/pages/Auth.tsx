@@ -8,7 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
-import { Loader2, Sparkles } from "lucide-react";
+import { Loader2, Sparkles, Mail } from "lucide-react";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -17,6 +17,8 @@ const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
+  const [pendingVerification, setPendingVerification] = useState<string | null>(null);
+  const [unconfirmedEmail, setUnconfirmedEmail] = useState<string | null>(null);
 
   const routeAfterAuth = async (userId: string) => {
     try {
@@ -66,10 +68,8 @@ const Auth = () => {
           toast.success("تم إنشاء الحساب بنجاح");
           await routeAfterAuth(data.session.user.id);
         } else {
-          const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
-          if (signInError) throw signInError;
-          if (signInData.user) await routeAfterAuth(signInData.user.id);
-          else navigate("/intent", { replace: true });
+          // Email confirmation required — show verification screen
+          setPendingVerification(email);
         }
       } else {
         const { data: signInData, error } = await supabase.auth.signInWithPassword({ email, password });
@@ -78,7 +78,30 @@ const Auth = () => {
         else navigate("/intent", { replace: true });
       }
     } catch (err: any) {
-      toast.error(err?.message || "تعذّر إتمام العملية");
+      const msg = String(err?.message || "");
+      if (/email not confirmed|not confirmed|email_not_confirmed/i.test(msg)) {
+        setUnconfirmedEmail(email);
+      } else {
+        toast.error(msg || "تعذّر إتمام العملية");
+      }
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const handleResend = async (target: string) => {
+    if (!target) return;
+    setBusy(true);
+    try {
+      const { error } = await supabase.auth.resend({
+        type: "signup",
+        email: target,
+        options: { emailRedirectTo: `${window.location.origin}/intent` },
+      });
+      if (error) throw error;
+      toast.success("أعدنا إرسال رسالة التأكيد إلى بريدك.");
+    } catch (err: any) {
+      toast.error(err?.message || "تعذّر إعادة الإرسال");
     } finally {
       setBusy(false);
     }
@@ -112,6 +135,42 @@ const Auth = () => {
           </div>
           <span className="font-display text-2xl text-primary">الفلاح</span>
         </Link>
+        {pendingVerification ? (
+          <div className="text-center" dir="rtl">
+            <div className="mx-auto w-16 h-16 rounded-full bg-accent/10 border border-accent/30 flex items-center justify-center mb-5 shadow-soft">
+              <Mail className="w-7 h-7 text-accent" />
+            </div>
+            <h1 className="font-display text-2xl text-primary mb-3">تحقّق من بريدك</h1>
+            <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+              أرسلنا رسالة تأكيد إلى{" "}
+              <span className="text-primary font-medium">{pendingVerification}</span>.
+              افتح بريدك واضغط رابط التأكيد لتبدأ رحلتك مع منهج الفلاح.
+            </p>
+            <p className="text-xs text-muted-foreground/80 mb-6 leading-relaxed">
+              إن لم تجد الرسالة في صندوق الوارد، تحقّق من مجلد البريد المزعج (Spam).
+            </p>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => handleResend(pendingVerification)}
+              disabled={busy}
+              className="mb-4"
+            >
+              {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : "لم تصلك الرسالة؟ أعد الإرسال"}
+            </Button>
+            <div>
+              <button
+                type="button"
+                onClick={() => { setPendingVerification(null); setMode("signin"); }}
+                className="text-sm text-accent hover:underline"
+              >
+                العودة لتسجيل الدخول
+              </button>
+            </div>
+          </div>
+        ) : (
+        <>
         <div className="text-center mb-5">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-accent/30 bg-accent/5 mb-3">
             <Sparkles className="w-3 h-3 text-accent" />
@@ -151,16 +210,34 @@ const Auth = () => {
           </Button>
         </form>
 
+        {unconfirmedEmail && mode === "signin" && (
+          <div className="mt-4 p-3 rounded-md border border-accent/30 bg-accent/5 text-center" dir="rtl">
+            <p className="text-sm text-primary mb-2 leading-relaxed">
+              لم تؤكّد بريدك بعد. تحقّق من صندوق الوارد،
+            </p>
+            <button
+              type="button"
+              onClick={() => handleResend(unconfirmedEmail)}
+              disabled={busy}
+              className="text-sm text-accent hover:underline"
+            >
+              {busy ? "جارٍ الإرسال..." : "أعد إرسال رابط التأكيد"}
+            </button>
+          </div>
+        )}
+
         <p className="text-center text-sm text-muted-foreground mt-5">
           {mode === "signin" ? "لا تملك حسابًا؟" : "لديك حساب؟"}{" "}
           <button
             type="button"
-            onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
+            onClick={() => { setMode(mode === "signin" ? "signup" : "signin"); setUnconfirmedEmail(null); }}
             className="text-accent hover:underline"
           >
             {mode === "signin" ? "أنشئ حسابًا" : "سجّل الدخول"}
           </button>
         </p>
+        </>
+        )}
       </Card>
     </div>
   );
