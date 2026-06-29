@@ -3,6 +3,7 @@ import { Navbar } from "@/components/falah/Navbar";
 import { SiteFooter } from "@/components/falah/SiteFooter";
 import { OrnamentalDivider } from "@/components/falah/OrnamentalDivider";
 import { AyahCard } from "@/components/falah/AyahCard";
+import { DomainJourneyPanel } from "@/components/falah/DomainJourneyPanel";
 import { useAyatByDomain } from "@/hooks/useAyatByDomain";
 import { useDomains } from "@/hooks/useDomains";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -44,22 +45,32 @@ const AyatPage = () => {
               ))}
             </div>
           ) : (ayat ?? []).length === 0 ? (
-            <div className="card-sacred rounded-xl p-12 text-center space-y-4">
-              <p className="text-h2 text-primary">آيات هذا المجال قيد التصنيف</p>
-              <p className="text-body text-muted-foreground">
-                تعود قريبًا. جرّب مجالًا آخر.
-              </p>
-              <Button asChild variant="outline">
-                <Link to={intentCode ? `/domain?intent=${intentCode}` : "/domain"}>
-                  العودة إلى المجالات
-                </Link>
-              </Button>
+            <div className="space-y-8">
+              {domainCode && (
+                <DomainJourneyPanel
+                  domainCode={domainCode}
+                  intentCode={intentCode}
+                  emphasized
+                />
+              )}
+              <div className="text-center">
+                <Button asChild variant="outline">
+                  <Link to={intentCode ? `/domain?intent=${intentCode}` : "/domain"}>
+                    استكشف مجالًا آخر
+                  </Link>
+                </Button>
+              </div>
             </div>
           ) : (
-            <div className="grid grid-cols-1 gap-6">
-              {ayat!.map((a) => (
-                <AyahCard key={a.id} ayah={a} intentCode={intentCode} domainCode={domainCode} />
-              ))}
+            <div className="space-y-10">
+              {domainCode && (
+                <DomainJourneyPanel domainCode={domainCode} intentCode={intentCode} />
+              )}
+              <div className="grid grid-cols-1 gap-6">
+                {ayat!.map((a) => (
+                  <AyahCard key={a.id} ayah={a} intentCode={intentCode} domainCode={domainCode} />
+                ))}
+              </div>
             </div>
           )}
         </section>
