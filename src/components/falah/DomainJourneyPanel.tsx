@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { OrnamentalDivider } from "@/components/falah/OrnamentalDivider";
 import { getDomainJourney } from "@/data/journey-map";
 import { Sparkles, BookOpen, HelpCircle } from "lucide-react";
@@ -15,11 +14,9 @@ type Props = {
  * reflection question for a given domain. Acts as the always-on activation
  * layer above the (possibly empty) DB-classified verses list.
  */
-export const DomainJourneyPanel = ({ domainCode, intentCode, emphasized }: Props) => {
+export const DomainJourneyPanel = ({ domainCode, emphasized }: Props) => {
   const journey = getDomainJourney(domainCode);
   if (!journey) return null;
-
-  const reflectHref = `/reflection?intent=${intentCode ?? "falah"}&domain=${domainCode}`;
 
   return (
     <section
@@ -55,14 +52,6 @@ export const DomainJourneyPanel = ({ domainCode, intentCode, emphasized }: Props
         </div>
       </div>
 
-      <div className="text-center pt-2">
-        <Link
-          to={reflectHref}
-          className="inline-flex items-center gap-2 text-sm text-accent hover:text-primary transition-smooth"
-        >
-          اكتب تدبّرك في هذا المجال ←
-        </Link>
-      </div>
     </section>
   );
 };
