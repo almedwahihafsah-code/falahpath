@@ -3,7 +3,7 @@ import { Navbar } from "@/components/falah/Navbar";
 import { SiteFooter } from "@/components/falah/SiteFooter";
 import { DomainCard } from "@/components/falah/DomainCard";
 import { OrnamentalDivider } from "@/components/falah/OrnamentalDivider";
-import { useDomains, useDomainCoverage } from "@/hooks/useDomains";
+import { useDomains } from "@/hooks/useDomains";
 import { useUserProfile } from "@/hooks/useUserProfile";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowRight } from "lucide-react";
