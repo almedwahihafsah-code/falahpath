@@ -19,23 +19,14 @@ type Props = {
   ayahCount?: number;
 };
 
-export const DomainCard = ({ domain, intentCode, ayahCount }: Props) => {
+export const DomainCard = ({ domain, intentCode }: Props) => {
   const Icon = ICONS[domain.code] ?? Heart;
   const href = intentCode ? `/ayat?intent=${intentCode}&domain=${domain.code}` : `/ayat?domain=${domain.code}`;
-  const pending = ayahCount === 0;
   return (
     <Link
       to={href}
       className="relative card-rest card-lift rounded-xl p-8 flex flex-col items-start gap-4 focus:outline-none focus-visible:ring-4 focus-visible:ring-accent/30"
     >
-      {pending && (
-        <span
-          className="absolute top-3 left-3 text-[0.65rem] font-medium tracking-wide px-2 py-0.5 rounded-full bg-gold-500/10 text-gold-700 border border-gold-500/30"
-          dir="rtl"
-        >
-          قيد الإعداد
-        </span>
-      )}
       <Icon className="w-10 h-10 text-accent" strokeWidth={1.5} aria-hidden="true" />
       <div className="space-y-1">
         <h3 className="text-h2 text-primary">{domain.label_ar}</h3>
