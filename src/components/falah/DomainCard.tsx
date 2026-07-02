@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Heart, Activity, Sparkles, Briefcase, Coins, Users, Globe2, Mountain, LucideIcon } from "lucide-react";
+import { Heart, Activity, Sparkles, Briefcase, Coins, Users, Globe2, Mountain, BookOpen, LucideIcon } from "lucide-react";
 import type { Domain } from "@/hooks/useDomains";
 
 const ICONS: Record<string, LucideIcon> = {
@@ -11,6 +11,7 @@ const ICONS: Record<string, LucideIcon> = {
   family: Users,
   ummah: Globe2,
   trials: Mountain,
+  qasas: BookOpen,
 };
 
 type Props = {

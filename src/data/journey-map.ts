@@ -6,10 +6,10 @@
 
 export type DomainCode =
   | "heart" | "body" | "mind" | "work"
-  | "wealth" | "family" | "ummah" | "trials";
+  | "wealth" | "family" | "ummah" | "trials" | "qasas";
 
 export type IntentCode =
-  | "falah" | "sakinah" | "hidayah" | "thabat" | "shukr" | "inabah";
+  | "falah" | "sakinah" | "hidayah" | "thabat" | "shukr" | "inabah" | "rizq";
 
 export type DomainJourneyContent = {
   verse: {
@@ -20,6 +20,11 @@ export type DomainJourneyContent = {
   };
   action: string;       // Practical, small, today-actionable.
   reflection: string;   // Single, open, sincere question.
+  /** Optional supportive supplication surfaced after the action card. */
+  dua?: {
+    text_ar: string;
+    source_ar?: string; // e.g. "من دعاء موسى عليه السلام — القصص: ٢٤"
+  };
 };
 
 // Each intent maps to its most relevant domains (ordered).
@@ -27,10 +32,11 @@ export type DomainJourneyContent = {
 export const INTENT_TO_DOMAINS: Record<IntentCode, DomainCode[]> = {
   falah:   ["heart", "work", "ummah", "wealth"],
   sakinah: ["heart", "trials", "family"],
-  hidayah: ["mind", "heart", "work"],
-  thabat:  ["trials", "heart", "mind"],
+  hidayah: ["mind", "heart", "work", "qasas"],
+  thabat:  ["trials", "heart", "mind", "qasas"],
   shukr:   ["heart", "family", "wealth", "body"],
-  inabah:  ["heart", "trials", "mind"],
+  inabah:  ["heart", "trials", "mind", "qasas"],
+  rizq:    ["wealth", "work", "heart", "trials"],
 };
 
 // Per-domain placeholder content — curated, dignified, Museumcore-aligned.
@@ -43,6 +49,10 @@ export const DOMAIN_JOURNEY: Record<DomainCode, DomainJourneyContent> = {
     },
     action: "خصّص خمس دقائق اليوم لذكرٍ هادئ قبل أن تفتح هاتفك.",
     reflection: "ما الذي يثقل قلبك الآن، وما أوّل خطوة لتطمينه بذكر الله؟",
+    dua: {
+      text_ar: "اللَّهُمَّ مُقَلِّبَ الْقُلُوبِ ثَبِّتْ قَلْبِي عَلَى دِينِكَ.",
+      source_ar: "من دعاء النبي ﷺ",
+    },
   },
   body: {
     verse: {
@@ -75,6 +85,10 @@ export const DOMAIN_JOURNEY: Record<DomainCode, DomainJourneyContent> = {
     },
     action: "راجع نفقةً واحدة اليوم: هل هي حاجة أم إسراف؟ واتّخذ قرارًا.",
     reflection: "أين تستشعر بركة الرزق في حياتك، وأين تشعر بضيقه؟",
+    dua: {
+      text_ar: "اللَّهُمَّ اكْفِنِي بِحَلَالِكَ عَنْ حَرَامِكَ، وَأَغْنِنِي بِفَضْلِكَ عَمَّنْ سِوَاكَ.",
+      source_ar: "من دعاء النبي ﷺ",
+    },
   },
   family: {
     verse: {
@@ -99,6 +113,22 @@ export const DOMAIN_JOURNEY: Record<DomainCode, DomainJourneyContent> = {
     },
     action: "اكتب ابتلاءً تمرّ به، ثم اذكر نعمةً واحدة فيه لم تنتبه لها.",
     reflection: "ما الذي يعلّمك إيّاه هذا الابتلاء عن نفسك وعن ربّك؟",
+    dua: {
+      text_ar: "حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ.",
+      source_ar: "آل عمران: ١٧٣",
+    },
+  },
+  qasas: {
+    verse: {
+      text_ar: "لَقَدْ كَانَ فِي قَصَصِهِمْ عِبْرَةٌ لِّأُولِي الْأَلْبَابِ",
+      surah_name_ar: "يوسف", surah_number: 12, verse_number: 111,
+    },
+    action: "اقرأ اليوم قصةً قرآنيةً قصيرة، واستخرج منها عبرةً واحدة تخصّ حالك.",
+    reflection: "أيّ نبيٍّ أو موقفٍ قرآنيّ يشبه ما تمرّ به الآن، وماذا يعلّمك؟",
+    dua: {
+      text_ar: "رَبِّ إِنِّي لِمَا أَنزَلْتَ إِلَيَّ مِنْ خَيْرٍ فَقِيرٌ.",
+      source_ar: "من دعاء موسى عليه السلام — القصص: ٢٤",
+    },
   },
 };
 
