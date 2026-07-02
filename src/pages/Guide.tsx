@@ -175,7 +175,7 @@ const Guide = () => {
                 <Sparkles className="w-4 h-4 text-accent" />
                 أو صف حالتك بحرية للمرشد الذكي
               </h2>
-              <p className="text-xs text-muted-foreground">سيختار لك المرشد آيةً، تدبّرًا، وثلاث خطوات عملية.</p>
+              <p className="text-xs text-muted-foreground">سيختار لك المرشد آيةً، تفكرًا، وثلاث خطوات عملية.</p>
             </div>
 
         <Card className="p-6 md:p-8 bg-gradient-card shadow-soft mb-8">
@@ -258,7 +258,7 @@ const Guide = () => {
 
             <Card className="p-7 bg-gradient-card shadow-soft">
               <div className="flex items-center gap-2 mb-3 text-accent">
-                <Heart className="w-4 h-4" /><span className="text-sm font-medium">تدبّر</span>
+                <Heart className="w-4 h-4" /><span className="text-sm font-medium">تفكر</span>
               </div>
               <p className="text-foreground leading-relaxed">{result.reflection}</p>
             </Card>

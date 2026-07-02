@@ -29,7 +29,7 @@ const ReflectionPage = () => {
 
   const handleSubmit = async () => {
     if (body.trim().length < 10) {
-      toast.error("اكتب تدبّرًا صادقًا (10 أحرف على الأقل)");
+      toast.error("اكتب تفكرًا صادقًا (10 أحرف على الأقل)");
       return;
     }
     if (!verseId) {
@@ -46,10 +46,10 @@ const ReflectionPage = () => {
         clarity_score: clarity,
         difficulty_score: difficulty,
       });
-      toast.success("تم حفظ التدبّر");
+      toast.success("تم حفظ التفكر");
       navigate("/progress");
     } catch (e: any) {
-      toast.error(e?.message ?? "تعذّر حفظ التدبّر");
+      toast.error(e?.message ?? "تعذّر حفظ التفكر");
     }
   };
 
@@ -66,7 +66,7 @@ const ReflectionPage = () => {
           </Link>
           <header className="text-center mb-8 space-y-3">
             <p className="text-caption text-accent">الخطوة الخامسة</p>
-            <h1 className="text-display text-primary">تدبّر</h1>
+            <h1 className="text-display text-primary">تفكر</h1>
             <p className="text-body-lg text-muted-foreground">
               ما الذي تحرّك في قلبك؟ ما الذي صعب؟ ما الذي تغيّر؟
             </p>
@@ -85,7 +85,7 @@ const ReflectionPage = () => {
 
           <div className="card-elevated rounded-xl p-8 space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="reflection-body">تدبّرك</Label>
+              <Label htmlFor="reflection-body">تفكرك</Label>
               <Textarea
                 id="reflection-body"
                 value={body}
@@ -119,7 +119,7 @@ const ReflectionPage = () => {
                 size="lg"
                 className="flex-1 bg-gradient-emerald text-primary-foreground shadow-elegant"
               >
-                {createReflection.isPending ? "جارٍ الحفظ..." : "احفظ التدبّر"}
+                {createReflection.isPending ? "جارٍ الحفظ..." : "احفظ التفكر"}
               </Button>
               <Button asChild size="lg" variant="outline">
                 <Link to="/progress">تخطٍّ</Link>

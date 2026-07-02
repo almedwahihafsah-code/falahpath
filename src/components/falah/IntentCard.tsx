@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Sun, Feather, Compass, Anchor, HandHeart, Sunrise, LucideIcon } from "lucide-react";
+import { Sun, Feather, Compass, Anchor, HandHeart, Sunrise, Wheat, LucideIcon } from "lucide-react";
 import type { Intent } from "@/hooks/useIntents";
 
 const ICONS: Record<string, LucideIcon> = {
@@ -9,6 +9,7 @@ const ICONS: Record<string, LucideIcon> = {
   thabat: Anchor,
   shukr: HandHeart,
   inabah: Sunrise,
+  rizq: Wheat,
 };
 
 export const IntentCard = ({

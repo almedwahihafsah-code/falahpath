@@ -68,7 +68,7 @@ const ProgressPage = () => {
                 <p className="text-xs text-muted-foreground mt-3">المُنجزة من الملتزَم بها</p>
               </div>
               <div className="card-rest rounded-xl p-8 text-center">
-                <p className="text-caption text-accent mb-3">التدبّرات</p>
+                <p className="text-caption text-accent mb-3">التفكرات</p>
                 <p className="font-display text-5xl text-primary leading-none">
                   {progress?.totalReflections ?? 0}
                 </p>
@@ -92,7 +92,7 @@ const ProgressPage = () => {
                     >
                       <span className="text-body text-primary">{d.label_ar}</span>
                       <span className="text-sm text-muted-foreground">
-                        {stat ? `${stat.actions} سلوك • ${stat.reflections} تدبّر` : "—"}
+                        {stat ? `${stat.actions} سلوك • ${stat.reflections} تفكر` : "—"}
                       </span>
                     </div>
                   );

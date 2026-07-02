@@ -1,6 +1,6 @@
 import { OrnamentalDivider } from "@/components/falah/OrnamentalDivider";
 import { getDomainJourney } from "@/data/journey-map";
-import { Sparkles, BookOpen, HelpCircle } from "lucide-react";
+import { Sparkles, BookOpen, HelpCircle, HandHeart } from "lucide-react";
 
 type Props = {
   domainCode: string;
@@ -46,11 +46,25 @@ export const DomainJourneyPanel = ({ domainCode, emphasized }: Props) => {
         </div>
         <div className="card-rest rounded-xl p-6 space-y-3">
           <p className="text-caption text-accent flex items-center gap-2">
-            <HelpCircle className="w-4 h-4" aria-hidden="true" /> سؤال للتدبّر
+            <HelpCircle className="w-4 h-4" aria-hidden="true" /> سؤال للتفكر
           </p>
           <p className="text-body text-foreground leading-relaxed">{journey.reflection}</p>
         </div>
       </div>
+
+      {journey.dua && (
+        <div className="card-rest rounded-xl p-6 space-y-3 border-r-2 border-accent/40">
+          <p className="text-caption text-accent flex items-center gap-2">
+            <HandHeart className="w-4 h-4" aria-hidden="true" /> دعاء
+          </p>
+          <p className="text-quran text-lg md:text-xl leading-loose text-foreground">
+            ﴿ {journey.dua.text_ar} ﴾
+          </p>
+          {journey.dua.source_ar && (
+            <p className="text-caption text-muted-foreground">{journey.dua.source_ar}</p>
+          )}
+        </div>
+      )}
 
     </section>
   );
