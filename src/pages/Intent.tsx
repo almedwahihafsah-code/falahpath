@@ -3,6 +3,7 @@ import { Navbar } from "@/components/falah/Navbar";
 import { SiteFooter } from "@/components/falah/SiteFooter";
 import { IntentCard } from "@/components/falah/IntentCard";
 import { OrnamentalDivider } from "@/components/falah/OrnamentalDivider";
+import { JourneyProgress } from "@/components/falah/JourneyProgress";
 import { useIntents } from "@/hooks/useIntents";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowRight } from "lucide-react";
@@ -19,6 +20,7 @@ const IntentPage = () => {
   return (
     <div className="min-h-screen flex flex-col bg-background" dir="rtl">
       <Navbar />
+      <JourneyProgress currentStep={1} />
       <main className="flex-1 page-enter">
         <section className="container max-w-5xl py-16 md:py-24">
           <Link

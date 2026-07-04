@@ -2,13 +2,14 @@ import { Link } from "react-router-dom";
 import { Navbar } from "@/components/falah/Navbar";
 import { SiteFooter } from "@/components/falah/SiteFooter";
 import { OrnamentalDivider } from "@/components/falah/OrnamentalDivider";
+import { JourneyProgress } from "@/components/falah/JourneyProgress";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useUserProgress } from "@/hooks/useUserProgress";
 import { useRecentActivity } from "@/hooks/useRecentActivity";
 import { useDomains } from "@/hooks/useDomains";
 import { useUserProfile } from "@/hooks/useUserProfile";
-import { BookOpenCheck, Heart } from "lucide-react";
+import { BookOpenCheck, Heart, ArrowRight } from "lucide-react";
 
 const ProgressPage = () => {
   const { data: progress, isLoading } = useUserProgress();
@@ -21,8 +22,15 @@ const ProgressPage = () => {
   return (
     <div className="min-h-screen flex flex-col bg-background" dir="rtl">
       <Navbar />
+      <JourneyProgress currentStep={7} />
       <main className="flex-1 page-enter">
         <section className="container max-w-5xl py-16 md:py-20">
+          <Link
+            to="/reflection"
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-smooth mb-8"
+          >
+            <ArrowRight className="w-4 h-4" /> رجوع
+          </Link>
           <header className="text-center mb-10 space-y-3">
             <p className="text-caption text-accent">الخطوة السادسة</p>
             <h1 className="text-display text-primary">رحلتك</h1>

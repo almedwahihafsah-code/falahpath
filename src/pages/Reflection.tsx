@@ -3,6 +3,7 @@ import { useSearchParams, useNavigate, Link } from "react-router-dom";
 import { Navbar } from "@/components/falah/Navbar";
 import { SiteFooter } from "@/components/falah/SiteFooter";
 import { OrnamentalDivider } from "@/components/falah/OrnamentalDivider";
+import { JourneyProgress } from "@/components/falah/JourneyProgress";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -56,6 +57,10 @@ const ReflectionPage = () => {
   return (
     <div className="min-h-screen flex flex-col bg-background" dir="rtl">
       <Navbar />
+      <JourneyProgress
+        currentStep={6}
+        context={{ intent: intentCode, domain: domainCode, verse: verseId, action: actionId ?? undefined }}
+      />
       <main className="flex-1 page-enter">
         <section className="container max-w-3xl py-16 md:py-20">
           <Link

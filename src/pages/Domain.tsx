@@ -3,6 +3,7 @@ import { Navbar } from "@/components/falah/Navbar";
 import { SiteFooter } from "@/components/falah/SiteFooter";
 import { DomainCard } from "@/components/falah/DomainCard";
 import { OrnamentalDivider } from "@/components/falah/OrnamentalDivider";
+import { JourneyProgress } from "@/components/falah/JourneyProgress";
 import { useDomains } from "@/hooks/useDomains";
 import { useUserProfile } from "@/hooks/useUserProfile";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -33,6 +34,7 @@ const DomainPage = () => {
   return (
     <div className="min-h-screen flex flex-col bg-background" dir="rtl">
       <Navbar />
+      <JourneyProgress currentStep={2} context={{ intent }} />
       <main className="flex-1 page-enter">
         <section className="container max-w-6xl py-16 md:py-24">
           <Link

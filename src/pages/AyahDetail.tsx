@@ -3,6 +3,7 @@ import { useParams, useSearchParams, useNavigate, Link } from "react-router-dom"
 import { Navbar } from "@/components/falah/Navbar";
 import { SiteFooter } from "@/components/falah/SiteFooter";
 import { OrnamentalDivider } from "@/components/falah/OrnamentalDivider";
+import { JourneyProgress } from "@/components/falah/JourneyProgress";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -52,6 +53,10 @@ const AyahDetailPage = () => {
   return (
     <div className="min-h-screen flex flex-col bg-background" dir="rtl">
       <Navbar />
+      <JourneyProgress
+        currentStep={5}
+        context={{ intent: intentCode, domain: domainCode, verse: id }}
+      />
       <main className="flex-1 page-enter">
         <section className="container max-w-3xl py-16 md:py-20">
           <header className="mb-12">
