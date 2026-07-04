@@ -1,6 +1,6 @@
 import { OrnamentalDivider } from "@/components/falah/OrnamentalDivider";
 import { getDomainJourney } from "@/data/journey-map";
-import { Sparkles, BookOpen, HelpCircle, HandHeart } from "lucide-react";
+import { Sparkles, BookOpen, HelpCircle, HandHeart, Lightbulb } from "lucide-react";
 
 type Props = {
   domainCode: string;
@@ -38,6 +38,17 @@ export const DomainJourneyPanel = ({ domainCode, emphasized }: Props) => {
       <OrnamentalDivider />
 
       <div className="space-y-6">
+        {journey.understanding && (
+          <div className="card-rest rounded-xl p-6 space-y-3">
+            <p className="text-caption text-accent flex items-center gap-2">
+              <Lightbulb className="w-4 h-4" aria-hidden="true" /> الفهم
+            </p>
+            <p className="text-body text-foreground leading-relaxed">
+              {journey.understanding}
+            </p>
+          </div>
+        )}
+
         <div className="card-rest rounded-xl p-6 space-y-3">
           <p className="text-caption text-accent flex items-center gap-2">
             <Sparkles className="w-4 h-4" aria-hidden="true" /> سلوك عملي اليوم
