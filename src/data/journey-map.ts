@@ -18,6 +18,8 @@ export type DomainJourneyContent = {
     surah_number: number;
     verse_number: number;
   };
+  /** Optional curated "understanding" bridge between verse and action. */
+  understanding?: string;
   action: string;       // Practical, small, today-actionable.
   reflection: string;   // Single, open, sincere question.
   /** Optional supportive supplication surfaced after the action card. */
@@ -47,6 +49,7 @@ export const DOMAIN_JOURNEY: Record<DomainCode, DomainJourneyContent> = {
       text_ar: "أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ",
       surah_name_ar: "الرعد", surah_number: 13, verse_number: 28,
     },
+    understanding: "طمأنينة القلب لا تُشترى ولا تُنتزع من الدنيا؛ إنما تُستمدّ من ذكر الله. كلّما ضاق القلب، فالطريق هو الرجوع لا الهروب.",
     action: "خصّص خمس دقائق اليوم لذكرٍ هادئ قبل أن تفتح هاتفك.",
     reflection: "ما الذي يثقل قلبك الآن، وما أوّل خطوة لتطمينه بذكر الله؟",
     dua: {
@@ -59,6 +62,7 @@ export const DOMAIN_JOURNEY: Record<DomainCode, DomainJourneyContent> = {
       text_ar: "وَكُلُوا وَاشْرَبُوا وَلَا تُسْرِفُوا ۚ إِنَّهُ لَا يُحِبُّ الْمُسْرِفِينَ",
       surah_name_ar: "الأعراف", surah_number: 7, verse_number: 31,
     },
+    understanding: "الجسد أمانة، والاعتدال في مطعمه ومشربه عبادة. ليس المطلوب الحرمان، بل ضبط النَّهم بميزان الشرع.",
     action: "اشرب كوب ماء الآن، وامشِ عشر دقائق قبل المغرب.",
     reflection: "كيف تُكرم جسدك اليوم كأمانةٍ أعطاكها الله؟",
   },
@@ -67,6 +71,7 @@ export const DOMAIN_JOURNEY: Record<DomainCode, DomainJourneyContent> = {
       text_ar: "اقْرَأْ بِاسْمِ رَبِّكَ الَّذِي خَلَقَ",
       surah_name_ar: "العلق", surah_number: 96, verse_number: 1,
     },
+    understanding: "أوّل ما نزل من الوحي أمرٌ بالقراءة باسم الرب؛ فالعلم النافع يبدأ بنيّةٍ صادقة، ويثمر عملًا صالحًا.",
     action: "اقرأ صفحةً نافعة اليوم، ودوّن فكرةً واحدة تعمل بها.",
     reflection: "ما المعرفة التي إن تعلّمتها هذا الأسبوع غيّرت قراراتك؟",
   },
@@ -75,6 +80,7 @@ export const DOMAIN_JOURNEY: Record<DomainCode, DomainJourneyContent> = {
       text_ar: "وَقُلِ اعْمَلُوا فَسَيَرَى اللَّهُ عَمَلَكُمْ وَرَسُولُهُ وَالْمُؤْمِنُونَ",
       surah_name_ar: "التوبة", surah_number: 9, verse_number: 105,
     },
+    understanding: "العمل مشهودٌ عند الله قبل الناس؛ فالإتقان عبادة، والإخلاص فيه يُحوّل المهنة إلى قربة.",
     action: "أنجز مهمّتك الأهمّ اليوم بإتقان قبل أن تنشغل بغيرها.",
     reflection: "هل عملك اليوم يستحقّ أن يُرى؟ ما الذي تُحسّنه فيه؟",
   },
@@ -83,6 +89,7 @@ export const DOMAIN_JOURNEY: Record<DomainCode, DomainJourneyContent> = {
       text_ar: "وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّهُ مَخْرَجًا ۝ وَيَرْزُقْهُ مِنْ حَيْثُ لَا يَحْتَسِبُ",
       surah_name_ar: "الطلاق", surah_number: 65, verse_number: 2,
     },
+    understanding: "الرزق مقرونٌ بالتقوى قبل الأسباب. البركة ليست في الكثرة، بل في الحلال والقناعة وحُسن التدبير.",
     action: "راجع نفقةً واحدة اليوم: هل هي حاجة أم إسراف؟ واتّخذ قرارًا.",
     reflection: "أين تستشعر بركة الرزق في حياتك، وأين تشعر بضيقه؟",
     dua: {
@@ -95,6 +102,7 @@ export const DOMAIN_JOURNEY: Record<DomainCode, DomainJourneyContent> = {
       text_ar: "وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً ۚ إِنَّ فِي ذَٰلِكَ لَآيَاتٍ لِّقَوْمٍ يَتَفَكَّرُونَ",
       surah_name_ar: "الروم", surah_number: 30, verse_number: 21,
     },
+    understanding: "المودة والرحمة آيتان من آيات الله في البيت. صيانة الأسرة تبدأ بالحضور القلبي قبل الحضور الجسدي.",
     action: "اتّصل بأحد أهلك اليوم بكلمةٍ طيّبة دون سببٍ سوى الودّ.",
     reflection: "من في بيتك يحتاج حضورك لا حديثك؟",
   },
@@ -103,6 +111,7 @@ export const DOMAIN_JOURNEY: Record<DomainCode, DomainJourneyContent> = {
       text_ar: "كُنتُمْ خَيْرَ أُمَّةٍ أُخْرِجَتْ لِلنَّاسِ تَأْمُرُونَ بِالْمَعْرُوفِ وَتَنْهَوْنَ عَنِ الْمُنكَرِ",
       surah_name_ar: "آل عمران", surah_number: 3, verse_number: 110,
     },
+    understanding: "خيريّة الأمة مشروطة بالفعل لا بالنسب؛ الأمر بالمعروف والنهي عن المنكر مسؤوليّة فرديّة قبل أن تكون جماعية.",
     action: "قدّم اليوم نفعًا واحدًا لإنسان خارج دائرتك القريبة.",
     reflection: "ما الأثر الذي تودّ أن تتركه في مجتمعك خلال هذا العام؟",
   },
@@ -111,6 +120,7 @@ export const DOMAIN_JOURNEY: Record<DomainCode, DomainJourneyContent> = {
       text_ar: "فَإِنَّ مَعَ الْعُسْرِ يُسْرًا ۝ إِنَّ مَعَ الْعُسْرِ يُسْرًا",
       surah_name_ar: "الشرح", surah_number: 94, verse_number: 5,
     },
+    understanding: "اليسر مع العسر لا بعده؛ فالابتلاء ظرفٌ مؤقّتٌ يحمل في طيّاته فرجًا. الصبر مفتاحه، والدعاء زاده.",
     action: "اكتب ابتلاءً تمرّ به، ثم اذكر نعمةً واحدة فيه لم تنتبه لها.",
     reflection: "ما الذي يعلّمك إيّاه هذا الابتلاء عن نفسك وعن ربّك؟",
     dua: {
@@ -123,6 +133,7 @@ export const DOMAIN_JOURNEY: Record<DomainCode, DomainJourneyContent> = {
       text_ar: "لَقَدْ كَانَ فِي قَصَصِهِمْ عِبْرَةٌ لِّأُولِي الْأَلْبَابِ",
       surah_name_ar: "يوسف", surah_number: 12, verse_number: 111,
     },
+    understanding: "قصص القرآن ليست تاريخًا يُروى، بل مرايا للنفس. كل نبيٍّ ابتُلي، وكل صادقٍ نُصر — والعبرة لمن تدبّر.",
     action: "اقرأ اليوم قصةً قرآنيةً قصيرة، واستخرج منها عبرةً واحدة تخصّ حالك.",
     reflection: "أيّ نبيٍّ أو موقفٍ قرآنيّ يشبه ما تمرّ به الآن، وماذا يعلّمك؟",
     dua: {
