@@ -5,30 +5,29 @@ import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Instagram, Twitter, Youtube, Linkedin, Send } from "lucide-react";
+import { useLandingLang } from "@/i18n/landing/LandingLang";
 
 export const SiteFooter = () => {
+  const { t, lang } = useLandingLang();
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
 
   const onSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
-      toast({ title: "بريد غير صالح", description: "يرجى إدخال بريد إلكتروني صحيح." });
+      toast({ title: t.footer.invalidEmail, description: t.footer.invalidEmailDesc });
       return;
     }
     setLoading(true);
     const { error } = await supabase
       .from("newsletter_subscribers")
-      .insert({ email: email.trim().toLowerCase(), source: "footer", locale: "ar" });
+      .insert({ email: email.trim().toLowerCase(), source: "footer", locale: lang });
     setLoading(false);
     if (error && error.code !== "23505") {
-      toast({ title: "تعذّر الاشتراك", description: "حاول مرة أخرى لاحقًا." });
+      toast({ title: t.footer.subFail, description: t.footer.subFailDesc });
       return;
     }
-    toast({
-      title: "بارك الله فيك",
-      description: "سنُبشّرك حين تصلك أوّل تدبّر.",
-    });
+    toast({ title: t.footer.subOk, description: t.footer.subOkDesc });
     setEmail("");
   };
 
@@ -46,13 +45,14 @@ export const SiteFooter = () => {
         {/* Newsletter */}
         <div className="max-w-3xl mx-auto text-center">
           <p className="font-sans2 text-[10px] tracking-[0.45em] uppercase text-accent mb-4">
-            Newsletter · النشرة الأسبوعية
+            {t.footer.newsletterKicker}
           </p>
           <h3 className="font-editorial text-2xl sm:text-3xl md:text-4xl leading-tight mb-4">
-            تدبّراتٌ في القرآن، <em className="not-italic italic text-accent-glow">إلى بريدك.</em>
+            {t.footer.newsletterTitleLead}{" "}
+            <em className="not-italic italic text-accent-glow">{t.footer.newsletterTitleEm}</em>
           </h3>
           <p className="text-sm text-primary-foreground/60 mb-6 leading-relaxed">
-            رسالةٌ واحدة كلّ أسبوع: آيةٌ، تدبّرٌ، وخطوةٌ عملية نحو الفلاح.
+            {t.footer.newsletterSub}
           </p>
           <form
             onSubmit={onSubscribe}
@@ -72,7 +72,7 @@ export const SiteFooter = () => {
               disabled={loading}
               className="btn-lux h-12 px-7 rounded-none bg-accent text-accent-foreground hover:bg-accent font-sans2 text-xs tracking-[0.35em] uppercase"
             >
-              {loading ? "..." : "اشترك"} <Send className="w-4 h-4" />
+              {loading ? "..." : t.footer.subscribe} <Send className="w-4 h-4" />
             </Button>
           </form>
         </div>
@@ -89,33 +89,26 @@ export const SiteFooter = () => {
                 className="h-16 w-auto object-contain"
               />
               <div className="flex flex-col items-start gap-1.5">
-                <p className="font-editorial text-2xl leading-none">وقف الفلاح</p>
+                <p className="font-editorial text-2xl leading-none">{t.footer.endowmentBrand}</p>
                 <p className="font-sans2 text-[10px] tracking-[0.4em] uppercase text-primary-foreground/50">
-                  A Perpetual Endowment
+                  {t.footer.endowmentTag}
                 </p>
               </div>
             </div>
             <p className="font-quran text-base text-primary-foreground/85 leading-loose mb-4">
-              ﴿ قَدْ أَفْلَحَ مَن زَكَّاهَا ﴾
+              ﴿ {t.footer.verse} ﴾
             </p>
             <p className="text-sm text-primary-foreground/55 leading-relaxed max-w-md">
-              مشروع وقفي معرفي رقمي، مجاني للأفراد، صدقة جارية عن أرواح آبائنا وأمهاتنا
-              من المسلمين أجمعين.
+              {t.footer.about}
             </p>
           </div>
 
           <div className="md:col-span-3">
             <p className="font-sans2 text-[10px] tracking-[0.4em] uppercase text-accent mb-4">
-              Quick Links
+              {t.footer.quickLinks}
             </p>
             <ul className="space-y-2 text-sm">
-              {[
-                { to: "/#perspective", label: "المنظور" },
-                { to: "/#method", label: "المنهج" },
-                { to: "/#domains", label: "المجالات الثمانية" },
-                { to: "/#legacy", label: "قصة الوفاء" },
-                { to: "/#engagement", label: "تواصل معنا" },
-              ].map((l) => (
+              {t.footer.links.map((l) => (
                 <li key={l.to}>
                   <a
                     href={l.to}
@@ -130,11 +123,11 @@ export const SiteFooter = () => {
 
           <div className="md:col-span-4">
             <p className="font-sans2 text-[10px] tracking-[0.4em] uppercase text-accent mb-4">
-              Operated By
+              {t.footer.operatedBy}
             </p>
-            <p className="font-editorial text-2xl mb-1">Markets Movers</p>
+            <p className="font-editorial text-2xl mb-1">{t.footer.brandLatin}</p>
             <p className="font-display text-base text-primary-foreground/80 mb-4">
-              ماركتس موفرز للاستشارات
+              {t.footer.brandAr}
             </p>
             <div className="flex items-center gap-2">
               {socials.map((s) => (
@@ -154,9 +147,9 @@ export const SiteFooter = () => {
         </div>
 
         <div className="border-t border-primary-foreground/10 pt-6 flex flex-col md:flex-row md:items-center md:justify-between gap-3 text-xs text-primary-foreground/45">
-          <p>© {new Date().getFullYear()} منهج الفلاح — وقفٌ معرفي رقمي</p>
+          <p>© {new Date().getFullYear()} {t.footer.rights}</p>
           <p className="font-sans2 tracking-widest uppercase">
-            تطوير وإدارة: ماركتس موفرز للاستشارات
+            {t.footer.credit}
           </p>
         </div>
       </div>

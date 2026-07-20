@@ -88,6 +88,7 @@ export default {
         quran: ['Amiri', 'serif'],
         editorial: ['"Playfair Display"', 'Amiri', 'serif'],
         sans2: ['Inter', 'Tajawal', 'system-ui', 'sans-serif'],
+        nastaliq: ['"Noto Nastaliq Urdu"', 'Tajawal', 'Amiri', 'serif'],
       },
       keyframes: {
         "accordion-down": { from: { height: "0" }, to: { height: "var(--radix-accordion-content-height)" } },
