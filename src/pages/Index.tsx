@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import {
   ArrowLeft,
+  ArrowRight,
   BookOpen,
   Compass,
   ListTodo,
@@ -15,7 +16,6 @@ import {
 import heroPattern from "@/assets/hero-pattern.jpg";
 import heroMuseum from "@/assets/hero-museum.jpg";
 import { useEffect, useState } from "react";
-import { domains, paths, methodSteps } from "@/data/falah";
 import { LegacySection } from "@/components/falah/LegacySection";
 import { ContributeSection } from "@/components/falah/ContributeSection";
 import { FalahiTeaser } from "@/components/falah/FalahiTeaser";
@@ -23,6 +23,7 @@ import { Governance } from "@/components/falah/Governance";
 import { EngagementHub } from "@/components/falah/EngagementHub";
 import { SiteFooter } from "@/components/falah/SiteFooter";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { LandingLangProvider, LanguageBar, useLandingLang } from "@/i18n/landing/LandingLang";
 
 const Eyebrow = ({ kicker, label }: { kicker: string; label: string }) => (
   <div className="inline-flex items-center gap-3 mb-6">
@@ -74,12 +75,15 @@ const ParallaxBg = ({
   );
 };
 
-const Index = () => {
+const IndexInner = () => {
   useScrollReveal();
   const { user } = useAuth();
+  const { t, dir } = useLandingLang();
   const domainsHref = user ? "/domain" : "/auth";
+  const ArrowFwd = dir === "rtl" ? ArrowLeft : ArrowRight;
   return (
     <div className="min-h-screen bg-background">
+      <LanguageBar />
       <Navbar />
 
       {/* HERO — Museumcore Cinematic */}
@@ -113,11 +117,14 @@ const Index = () => {
 
         <div className="container relative pt-32 pb-24 md:pt-40 md:pb-32 text-center">
           <div className="animate-float-in">
-            <Eyebrow kicker="A Quranic Endowment" label="وقفٌ قرآنيٌّ معرفي" />
+            <Eyebrow kicker={t.hero.eyebrowKicker} label={t.hero.eyebrowLabel} />
           </div>
 
           <h1 className="font-editorial text-[2.75rem] xs:text-[3.25rem] sm:text-6xl md:text-8xl lg:text-[8.5rem] text-primary leading-[1] tracking-tight mb-8 animate-float-in">
-            منهج <em className="not-italic font-editorial italic text-gradient-gold">الفلاح</em>
+            {t.hero.titleLead}{" "}
+            <em className="not-italic font-editorial italic text-gradient-gold">
+              {t.hero.titleEm}
+            </em>
           </h1>
 
           {/* Ornament rule */}
@@ -128,11 +135,16 @@ const Index = () => {
           </div>
 
           <p className="font-quran text-xl sm:text-2xl md:text-4xl text-primary/85 mb-6 leading-loose">
-            ﴿ قَدْ أَفْلَحَ مَن زَكَّاهَا ﴾
+            ﴿ {t.hero.verse} ﴾
           </p>
+          {t.hero.verseTranslation ? (
+            <p className="font-editorial italic text-sm sm:text-base text-muted-foreground/90 mb-6">
+              {t.hero.verseTranslation}
+            </p>
+          ) : null}
 
           <p className="font-editorial italic text-base sm:text-lg md:text-2xl text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed">
-            من الوحي… إلى الحياة. القرآن هدايةٌ تُعاش، وسلوكٌ يُنجز، وفلاحٌ لا ينقطع.
+            {t.hero.subtitle}
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-4 mb-16">
@@ -142,7 +154,7 @@ const Index = () => {
               className="btn-lux bg-primary text-primary-foreground hover:bg-primary/90 shadow-elegant text-base px-10 h-12 rounded-none font-sans2 tracking-widest uppercase"
             >
               <Link to="/app">
-                ابدأ رحلتك <ArrowLeft className="mr-2 w-4 h-4" />
+                {t.hero.ctaStart} <ArrowFwd className="ms-2 w-4 h-4" />
               </Link>
             </Button>
             <Button
@@ -151,15 +163,15 @@ const Index = () => {
               size="lg"
               className="btn-lux border-primary/30 hover:border-accent text-primary text-base px-10 h-12 rounded-none font-sans2 tracking-widest uppercase bg-transparent"
             >
-              <a href="#perspective">تعرّف على المنهج</a>
+              <a href="#perspective">{t.hero.ctaLearn}</a>
             </Button>
           </div>
 
           {/* Editorial film frame */}
           <div className="max-w-5xl mx-auto animate-float-in">
             <p className="font-sans2 text-[10px] tracking-[0.45em] uppercase text-accent mb-4">
-              <PlayCircle className="inline w-3.5 h-3.5 mb-0.5 ml-1" />
-              Featured Film · فيلم تعريفي
+              <PlayCircle className="inline w-3.5 h-3.5 mb-0.5 ms-1" />
+              {t.hero.featuredFilm}
             </p>
             <div
               className="img-zoom relative p-[2px]"
@@ -173,7 +185,7 @@ const Index = () => {
                   <div className="aspect-video relative overflow-hidden">
                     <iframe
                       src="https://www.youtube.com/embed/tiNANW1m1_o"
-                      title="منهج الفلاح — تعريف بالمشروع"
+                      title={t.hero.videoTitle}
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                       allowFullScreen
                       loading="lazy"
@@ -184,7 +196,7 @@ const Index = () => {
               </div>
             </div>
             <p className="font-sans2 text-xs tracking-widest text-muted-foreground mt-5 uppercase">
-              An Introduction · شاهد تعريفًا موجزًا بمنهج الفلاح
+              {t.hero.videoCaption}
             </p>
           </div>
         </div>
@@ -194,17 +206,14 @@ const Index = () => {
       <section id="perspective" className="relative container py-24 md:py-32 overflow-hidden">
         <ParallaxBg image={heroPattern} speed={0.18} opacity={0.05} />
         <div className="reveal relative text-center mb-24 max-w-3xl mx-auto">
-          <Eyebrow kicker="The Perspective" label="المنظور" />
+          <Eyebrow kicker={t.perspective.eyebrowKicker} label={t.perspective.eyebrowLabel} />
           <h2 className="font-editorial text-4xl sm:text-5xl md:text-6xl text-primary leading-[1.05] tracking-tight">
-            رؤيتنا، رسالتنا، <em className="not-italic italic text-accent">قِيَمنا.</em>
+            {t.perspective.titleLead}{" "}
+            <em className="not-italic italic text-accent">{t.perspective.titleEm}</em>
           </h2>
         </div>
         <div className="relative grid md:grid-cols-3 gap-px bg-border/50">
-          {[
-            { n: "I", t: "الرؤية", en: "Vision", d: "بناء إنسانٍ مهتدٍ بالقرآن، يحقّق الفلاح في دنياه ويصل إلى الجنّة في آخرته." },
-            { n: "II", t: "الرسالة", en: "Mission", d: "تقديم منهج قرآني عملي شامل يُحوّل الآيات إلى بوصلة حياة وسلوك وإنجاز." },
-            { n: "III", t: "القيم", en: "Values", d: "القرآن أصلٌ ومنهج، الهداية قبل الإنجاز، السلوك قبل النتائج، الدنيا مزرعة الآخرة." },
-          ].map((item, i) => (
+          {t.perspective.items.map((item, i) => (
             <div key={i} className={`reveal bg-background p-10 md:p-12 group hover:bg-card transition-smooth ${i === 1 ? "md:translate-y-10" : ""}`} style={{ transitionDelay: `${i * 90}ms` }}>
               <p className="font-editorial italic text-5xl text-accent/70 mb-6">{item.n}</p>
               <p className="font-sans2 text-[10px] tracking-[0.4em] uppercase text-accent mb-2">{item.en}</p>
@@ -240,28 +249,31 @@ const Index = () => {
             <div className="inline-flex items-center gap-3 mb-6">
               <span className="h-px w-10 bg-accent/70" />
               <span className="font-sans2 text-[11px] tracking-[0.45em] uppercase text-accent font-medium">
-                The Method · المنهج
+                {t.method.eyebrow}
               </span>
               <span className="h-px w-10 bg-accent/70" />
             </div>
             <h2 className="font-editorial text-4xl sm:text-5xl md:text-6xl leading-[1.05] tracking-tight mb-6">
-              من الآية… <em className="not-italic italic text-gradient-gold">إلى الفلاح.</em>
+              {t.method.titleLead}{" "}
+              <em className="not-italic italic text-gradient-gold">{t.method.titleEm}</em>
             </h2>
             <p className="font-editorial italic text-lg md:text-xl text-primary-foreground/65 leading-relaxed">
-              أربع خطوات تُحوّل الوحي إلى سلوكٍ وأثرٍ ومآلٍ كريم.
+              {t.method.subtitle}
             </p>
           </div>
           <div className="grid md:grid-cols-4 gap-px bg-primary-foreground/10">
-            {methodSteps.map((s, i) => (
+            {t.method.steps.map((s, i) => (
               <div
-                key={s.n}
+                key={i}
                 className="reveal relative bg-[hsl(155_45%_8%)] p-8 md:p-10 hover:bg-[hsl(155_40%_11%)] transition-smooth group"
                 style={{ transitionDelay: `${i * 80}ms` }}
               >
                 <div className="flex items-baseline gap-3 mb-6">
-                  <span className="font-editorial text-6xl text-gradient-gold leading-none">{s.n}</span>
+                  <span className="font-editorial text-6xl text-gradient-gold leading-none">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
                   <span className="font-sans2 text-[10px] tracking-[0.4em] uppercase text-accent/70">
-                    Step
+                    {t.method.stepLabel}
                   </span>
                 </div>
                 <h3 className="font-editorial text-2xl mb-3 text-primary-foreground">{s.title}</h3>
@@ -278,19 +290,20 @@ const Index = () => {
         <ParallaxBg image={heroPattern} speed={0.12} opacity={0.06} />
         <div className="relative container">
           <div className="reveal text-center mb-24 max-w-3xl mx-auto">
-            <Eyebrow kicker="The Eight Domains" label="المجالات الثمانية" />
+            <Eyebrow kicker={t.domains.eyebrowKicker} label={t.domains.eyebrowLabel} />
             <h2 className="font-editorial text-4xl sm:text-5xl md:text-6xl text-primary leading-[1.05] tracking-tight mb-6">
-              رحلةُ الحياة <em className="not-italic italic text-accent">المتكاملة.</em>
+              {t.domains.titleLead}{" "}
+              <em className="not-italic italic text-accent">{t.domains.titleEm}</em>
             </h2>
             <p className="font-editorial italic text-lg text-muted-foreground leading-relaxed">
-              ثمانية مجالاتٍ تُغطّي الإنسان كلّه — قلبَه، جسدَه، عقلَه، عمله، ماله، أسرته، أمّته، وابتلاءاته.
+              {t.domains.subtitle}
             </p>
           </div>
           <div className="columns-1 md:columns-2 lg:columns-3 gap-6 [column-fill:_balance]">
-            {domains.map((d, i) => (
+            {t.domains.items.map((d, i) => (
               <Link
                 to={domainsHref}
-                key={d.id}
+                key={i}
                 className={`reveal group break-inside-avoid mb-6 block bg-card border border-border shadow-md p-8 hover:bg-card hover:shadow-elegant hover:-translate-y-1 transition-smooth relative overflow-hidden cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
                   i % 3 === 0 ? "pb-14" : i % 3 === 1 ? "pb-10" : "pb-12"
                 }`}
@@ -298,7 +311,7 @@ const Index = () => {
               >
                 <div className="flex items-start justify-between mb-6">
                   <span className="font-editorial italic text-5xl text-accent/60 leading-none">
-                    {d.id.toString().padStart(2, "0")}
+                    {String(i + 1).padStart(2, "0")}
                   </span>
                   <BookOpen className="w-4 h-4 text-accent opacity-50 group-hover:opacity-100 transition-smooth" />
                 </div>
@@ -306,7 +319,6 @@ const Index = () => {
                 <p className="font-sans2 text-[10px] tracking-[0.35em] uppercase text-accent mb-4">
                   {d.subtitle}
                 </p>
-                <p className="font-quran text-[15px] text-primary/75 mb-4 leading-loose">﴿ {d.quote} ﴾</p>
                 <p className="text-sm text-muted-foreground leading-loose">{d.desc}</p>
                 <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-accent group-hover:w-full transition-all duration-700" />
               </Link>
@@ -322,15 +334,16 @@ const Index = () => {
       <section id="paths" className="relative container py-24 md:py-32 overflow-hidden">
         <ParallaxBg image={heroMuseum} speed={0.15} opacity={0.04} />
         <div className="reveal relative text-center mb-24 max-w-3xl mx-auto">
-          <Eyebrow kicker="The Life Paths" label="المسارات الحياتية" />
+          <Eyebrow kicker={t.paths.eyebrowKicker} label={t.paths.eyebrowLabel} />
           <h2 className="font-editorial text-4xl sm:text-5xl md:text-6xl text-primary leading-[1.05] tracking-tight">
-            لكلّ عُمرٍ <em className="not-italic italic text-accent">فلاحُه.</em>
+            {t.paths.titleLead}{" "}
+            <em className="not-italic italic text-accent">{t.paths.titleEm}</em>
           </h2>
         </div>
         <div className="relative grid md:grid-cols-3 gap-8">
-          {paths.map((p, i) => (
+          {t.paths.items.map((p, i) => (
             <article
-              key={p.id}
+              key={i}
               className={`reveal relative bg-card p-10 border border-border shadow-md hover:shadow-elegant hover:-translate-y-1 transition-smooth ${
                 i === 1 ? "md:translate-y-12" : i === 2 ? "md:translate-y-6" : ""
               }`}
@@ -344,7 +357,6 @@ const Index = () => {
                 {p.age}
               </p>
               <h3 className="font-editorial text-3xl text-primary mb-5">{p.title}</h3>
-              <p className="font-quran text-base text-primary/70 mb-5 leading-loose">"{p.quote}"</p>
               <p className="text-muted-foreground leading-loose text-[15px]">{p.focus}</p>
             </article>
           ))}
@@ -356,27 +368,28 @@ const Index = () => {
         <ParallaxBg image={heroPattern} speed={0.18} opacity={0.05} />
         <div className="relative container">
         <div className="reveal text-center mb-24 max-w-3xl mx-auto">
-          <Eyebrow kicker="Inside the Platform" label="داخل المنصّة" />
+          <Eyebrow kicker={t.services.eyebrowKicker} label={t.services.eyebrowLabel} />
           <h2 className="font-editorial text-4xl sm:text-5xl md:text-6xl text-primary leading-[1.05] tracking-tight mb-6">
-            منظومةٌ <em className="not-italic italic text-accent">متكاملة.</em>
+            {t.services.titleLead}{" "}
+            <em className="not-italic italic text-accent">{t.services.titleEm}</em>
           </h2>
           <p className="font-editorial italic text-lg text-muted-foreground leading-relaxed">
-            تخطيطٌ، وتزكيةٌ، وإنجاز — في فضاءٍ واحدٍ مدروس.
+            {t.services.subtitle}
           </p>
         </div>
         <div className="columns-1 md:columns-2 lg:columns-3 gap-6 [column-fill:_balance]">
           {[
-            { icon: ListTodo, t: "مخطّط المهام", d: "أضف مهامك وأهدافك حسب المجال والأولوية والتاريخ.", href: "/app" },
-            { icon: Layers, t: "المجالات الثمانية", d: "تابع تقدّمك في 8 مجالات حياتية بنظرة شاملة.", href: "/app" },
-            { icon: Sunrise, t: "اليومية الإيمانية", d: "وِرد، صلوات، تدبّر، طمأنينة وطاقة — في صفحة واحدة.", href: "/app" },
-            { icon: Trophy, t: "الإنجازات والمستويات", d: "اجمع نقاطًا، ارتقِ مستويات، واحصد الأوسمة.", href: "/app" },
-            { icon: BookOpen, t: "تصنيف القرآن", d: "استكشف آيات القرآن مصنّفة وفق منهج الفلاح السداسي.", href: "/quran" },
-            { icon: Compass, t: "المرشد الذكي", d: "استشر القرآن في موقفك واحصل على هداية وأدعية وخطوات.", href: "/guide" },
+            { icon: ListTodo, href: "/app" },
+            { icon: Layers, href: "/app" },
+            { icon: Sunrise, href: "/app" },
+            { icon: Trophy, href: "/app" },
+            { icon: BookOpen, href: "/quran" },
+            { icon: Compass, href: "/guide" },
           ].map((s, i) => (
             <Link
               key={i}
               to={s.href}
-              aria-label={s.t}
+              aria-label={t.services.items[i]?.t}
               className={`reveal group block break-inside-avoid mb-6 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent bg-background border border-border/50 hover:bg-card hover:shadow-elegant transition-smooth p-8 relative ${
                 i % 3 === 0 ? "pb-16" : i % 3 === 1 ? "pb-10" : "pb-12"
               }`}
@@ -388,10 +401,10 @@ const Index = () => {
                   {String(i + 1).padStart(2, "0")}
                 </span>
               </div>
-              <h3 className="font-editorial text-2xl text-primary mb-3">{s.t}</h3>
-              <p className="text-sm text-muted-foreground leading-loose mb-5">{s.d}</p>
+              <h3 className="font-editorial text-2xl text-primary mb-3">{t.services.items[i]?.t}</h3>
+              <p className="text-sm text-muted-foreground leading-loose mb-5">{t.services.items[i]?.d}</p>
               <span className="inline-flex items-center gap-2 text-xs font-sans2 tracking-[0.3em] uppercase text-accent group-hover:gap-3 transition-all">
-                استكشف <ArrowLeft className="w-3.5 h-3.5" />
+                {t.services.explore} <ArrowFwd className="w-3.5 h-3.5" />
               </span>
               <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-accent group-hover:w-full transition-all duration-700" />
             </Link>
@@ -420,17 +433,18 @@ const Index = () => {
             <div className="inline-flex items-center gap-3 mb-7">
               <span className="h-px w-10 bg-accent/70" />
               <span className="font-sans2 text-[11px] tracking-[0.45em] uppercase text-accent-glow">
-                Begin · ابدأ
+                {t.cta.eyebrow}
               </span>
               <span className="h-px w-10 bg-accent/70" />
             </div>
             <h2 className="font-editorial text-3xl sm:text-4xl md:text-6xl text-primary-foreground mb-7 leading-[1.1] tracking-tight">
-              ابدأ رحلتك نحو
+              {t.cta.titleLead}
               <br />
-              <em className="not-italic italic text-gradient-gold">الفلاح</em> اليوم.
+              <em className="not-italic italic text-gradient-gold">{t.cta.titleEm}</em>{" "}
+              {t.cta.titleSuffix}
             </h2>
             <p className="font-editorial italic text-primary-foreground/70 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
-              قياسٌ أسبوعي، خططٌ يومية، وأدواتٌ عملية تُترجم القرآن إلى سلوكٍ وأثر.
+              {t.cta.subtitle}
             </p>
             <Button
               asChild
@@ -438,7 +452,7 @@ const Index = () => {
               className="btn-lux bg-gradient-gold text-accent-foreground hover:opacity-90 shadow-gold text-base px-12 h-14 rounded-none font-sans2 tracking-[0.3em] uppercase"
             >
               <Link to="/app">
-                ادخل التطبيق <ArrowLeft className="mr-2 w-4 h-4" />
+                {t.cta.button} <ArrowFwd className="ms-2 w-4 h-4" />
               </Link>
             </Button>
           </div>
@@ -455,5 +469,11 @@ const Index = () => {
     </div>
   );
 };
+
+const Index = () => (
+  <LandingLangProvider>
+    <IndexInner />
+  </LandingLangProvider>
+);
 
 export default Index;
