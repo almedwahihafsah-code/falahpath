@@ -2,27 +2,29 @@ import { Share2, HandHeart, MessageCircle, Twitter, Link2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { useLandingLang } from "@/i18n/landing/LandingLang";
 
 const SHARE_URL = "https://falah.me";
-const SHARE_TEXT = "منهج الفلاح — من الوحي إلى الحياة. رحلتك القرآنية اليومية.";
 const WHATSAPP_CONTACT = "971504105804";
 const WHATSAPP_MESSAGE = "السلام عليكم، أرغب في الإسهام في وقف الفلاح.";
 
 export const ContributeSection = () => {
   const { toast } = useToast();
+  const { t } = useLandingLang();
+  const c = t.contribute;
   const [showFallback, setShowFallback] = useState(false);
 
   const handleShare = async () => {
     if (typeof navigator !== "undefined" && (navigator as any).share) {
       try {
         await (navigator as any).share({
-          title: "منهج الفلاح",
-          text: SHARE_TEXT,
+          title: "Falah",
+          text: c.shareText,
           url: SHARE_URL,
         });
         return;
       } catch {
-        // user cancelled or error — fall through to fallback
+        // user cancelled — fall through
       }
     }
     setShowFallback((s) => !s);
@@ -31,14 +33,14 @@ export const ContributeSection = () => {
   const copyLink = async () => {
     try {
       await navigator.clipboard.writeText(SHARE_URL);
-      toast({ description: "تم نسخ الرابط" });
+      toast({ description: c.copied });
     } catch {
-      toast({ description: "تعذّر نسخ الرابط", variant: "destructive" });
+      toast({ description: c.copyFail, variant: "destructive" });
     }
   };
 
-  const whatsappShare = `https://wa.me/?text=${encodeURIComponent(`${SHARE_TEXT} ${SHARE_URL}`)}`;
-  const twitterShare = `https://twitter.com/intent/tweet?text=${encodeURIComponent(SHARE_TEXT)}&url=${encodeURIComponent(SHARE_URL)}`;
+  const whatsappShare = `https://wa.me/?text=${encodeURIComponent(`${c.shareText} ${SHARE_URL}`)}`;
+  const twitterShare = `https://twitter.com/intent/tweet?text=${encodeURIComponent(c.shareText)}&url=${encodeURIComponent(SHARE_URL)}`;
   const whatsappContribute = `https://wa.me/${WHATSAPP_CONTACT}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
 
   return (
@@ -48,36 +50,34 @@ export const ContributeSection = () => {
           <div className="inline-flex items-center gap-3 mb-6">
             <span className="h-px w-10 bg-accent/60" />
             <span className="font-sans2 text-[11px] tracking-[0.45em] uppercase text-accent font-medium">
-              Share in the Reward · شارك في الأجر
+              {c.eyebrow}
             </span>
             <span className="h-px w-10 bg-accent/60" />
           </div>
           <h2 className="font-editorial text-4xl sm:text-5xl md:text-6xl text-primary leading-[1.05] tracking-tight mb-8">
-            كن سببًا في <em className="not-italic italic text-accent">هداية.</em>
+            {c.titleLead} <em className="not-italic italic text-accent">{c.titleEm}</em>
           </h2>
           <p className="font-editorial italic text-lg md:text-xl text-muted-foreground leading-relaxed">
-            الدالُّ على الخير كفاعله. شارك فلاح مع من تحب، فكل قلبٍ يهتدي بآيةٍ تصل إليه عبرك — لك مثل أجره.
-            وهذا وقفٌ مفتوح، من أراد الإسهام في إدامته فله ذلك.
+            {c.intro}
           </p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-6 md:gap-8 max-w-4xl mx-auto">
-          {/* Card 1 — Share */}
           <div className="bg-card border border-border shadow-md p-8 md:p-10 flex flex-col">
             <div className="flex items-center gap-4 mb-6">
               <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
                 <Share2 className="w-5 h-5 text-primary" strokeWidth={1.6} />
               </div>
-              <h3 className="font-editorial text-2xl md:text-3xl text-foreground">انشر فلاح</h3>
+              <h3 className="font-editorial text-2xl md:text-3xl text-foreground">{c.shareTitle}</h3>
             </div>
             <p className="text-muted-foreground leading-loose text-[15px] mb-8 flex-1">
-              بضغطة واحدة، أهدِ فلاح لأصدقائك — صدقة جارية تجري لك ولوالديك.
+              {c.shareDesc}
             </p>
             <Button
               onClick={handleShare}
               className="btn-lux bg-primary text-primary-foreground hover:bg-primary/90 h-12 rounded-none font-sans2 tracking-widest uppercase"
             >
-              شارك الآن
+              {c.shareBtn}
             </Button>
 
             {showFallback && (
@@ -89,7 +89,7 @@ export const ContributeSection = () => {
                   className="flex flex-col items-center gap-2 p-3 border border-border hover:bg-muted transition-smooth"
                 >
                   <MessageCircle className="w-5 h-5 text-accent" strokeWidth={1.5} />
-                  <span className="font-sans2 text-[10px] tracking-widest uppercase text-muted-foreground">واتساب</span>
+                  <span className="font-sans2 text-[10px] tracking-widest uppercase text-muted-foreground">{c.labelWa}</span>
                 </a>
                 <a
                   href={twitterShare}
@@ -98,36 +98,35 @@ export const ContributeSection = () => {
                   className="flex flex-col items-center gap-2 p-3 border border-border hover:bg-muted transition-smooth"
                 >
                   <Twitter className="w-5 h-5 text-accent" strokeWidth={1.5} />
-                  <span className="font-sans2 text-[10px] tracking-widest uppercase text-muted-foreground">X</span>
+                  <span className="font-sans2 text-[10px] tracking-widest uppercase text-muted-foreground">{c.labelX}</span>
                 </a>
                 <button
                   onClick={copyLink}
                   className="flex flex-col items-center gap-2 p-3 border border-border hover:bg-muted transition-smooth"
                 >
                   <Link2 className="w-5 h-5 text-accent" strokeWidth={1.5} />
-                  <span className="font-sans2 text-[10px] tracking-widest uppercase text-muted-foreground">نسخ</span>
+                  <span className="font-sans2 text-[10px] tracking-widest uppercase text-muted-foreground">{c.labelCopy}</span>
                 </button>
               </div>
             )}
           </div>
 
-          {/* Card 2 — Contribute */}
           <div className="bg-card border border-border shadow-md p-8 md:p-10 flex flex-col">
             <div className="flex items-center gap-4 mb-6">
               <div className="w-12 h-12 rounded-full bg-accent/15 flex items-center justify-center">
                 <HandHeart className="w-5 h-5 text-accent" strokeWidth={1.6} />
               </div>
-              <h3 className="font-editorial text-2xl md:text-3xl text-foreground">أسهِم في إدامة الوقف</h3>
+              <h3 className="font-editorial text-2xl md:text-3xl text-foreground">{c.contributeTitle}</h3>
             </div>
             <p className="text-muted-foreground leading-loose text-[15px] mb-8 flex-1">
-              من أراد المشاركة في استمرار هذا الوقف — احتسابًا، أو إهداءً لمن فقدهم — فبابنا مفتوح.
+              {c.contributeDesc}
             </p>
             <Button
               asChild
               className="btn-lux bg-accent text-accent-foreground hover:bg-accent/90 h-12 rounded-none font-sans2 tracking-widest uppercase"
             >
               <a href={whatsappContribute} target="_blank" rel="noopener noreferrer">
-                تواصل للمساهمة
+                {c.contributeBtn}
               </a>
             </Button>
           </div>
