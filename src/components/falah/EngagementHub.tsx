@@ -23,9 +23,9 @@ const CATEGORIES: { key: Category; label: string; Icon: typeof Lightbulb; hint: 
 ];
 
 const CONTACT = {
-  whatsapp: "+971555851944",
+  whatsapp: "+971504105804",
   email: "info@falah.me",
-  phone: "+971555851944",
+  phone: "+971504105804",
 };
 
 export const EngagementHub = () => {
