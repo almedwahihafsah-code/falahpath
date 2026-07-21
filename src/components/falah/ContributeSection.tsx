@@ -5,7 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 
 const SHARE_URL = "https://falah.me";
 const SHARE_TEXT = "منهج الفلاح — من الوحي إلى الحياة. رحلتك القرآنية اليومية.";
-const WHATSAPP_CONTACT = "971555851944";
+const WHATSAPP_CONTACT = "971504105804";
 const WHATSAPP_MESSAGE = "السلام عليكم، أرغب في الإسهام في وقف الفلاح.";
 
 export const ContributeSection = () => {
