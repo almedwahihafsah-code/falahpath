@@ -12,6 +12,7 @@ import { useAyahById } from "@/hooks/useAyahById";
 import { useCreateReflection } from "@/hooks/useCreateReflection";
 import { toast } from "sonner";
 import { ArrowRight } from "lucide-react";
+import { ShareJourneyCard } from "@/components/falah/ShareJourneyCard";
 
 const ReflectionPage = () => {
   const [searchParams] = useSearchParams();
@@ -130,6 +131,10 @@ const ReflectionPage = () => {
                 <Link to="/progress">تخطٍّ</Link>
               </Button>
             </div>
+          </div>
+
+          <div className="mt-12">
+            <ShareJourneyCard />
           </div>
         </section>
       </main>

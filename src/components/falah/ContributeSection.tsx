@@ -3,10 +3,13 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useLandingLang } from "@/i18n/landing/LandingLang";
-
-const SHARE_URL = "https://falah.me";
-const WHATSAPP_CONTACT = "971504105804";
-const WHATSAPP_MESSAGE = "السلام عليكم، أرغب في الإسهام في وقف الفلاح.";
+import {
+  SHARE_URL,
+  WHATSAPP_INVITE_MESSAGE,
+  WHATSAPP_CONTRIBUTE_MESSAGE,
+  waInviteLink,
+  waContactLink,
+} from "@/lib/share";
 
 export const ContributeSection = () => {
   const { toast } = useToast();
@@ -39,9 +42,9 @@ export const ContributeSection = () => {
     }
   };
 
-  const whatsappShare = `https://wa.me/?text=${encodeURIComponent(`${c.shareText} ${SHARE_URL}`)}`;
+  const whatsappShare = waInviteLink(WHATSAPP_INVITE_MESSAGE);
   const twitterShare = `https://twitter.com/intent/tweet?text=${encodeURIComponent(c.shareText)}&url=${encodeURIComponent(SHARE_URL)}`;
-  const whatsappContribute = `https://wa.me/${WHATSAPP_CONTACT}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
+  const whatsappContribute = waContactLink(WHATSAPP_CONTRIBUTE_MESSAGE);
 
   return (
     <section id="contribute" className="relative bg-background py-24 md:py-32 overflow-hidden">
