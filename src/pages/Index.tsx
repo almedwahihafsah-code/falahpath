@@ -22,6 +22,8 @@ import { FalahiTeaser } from "@/components/falah/FalahiTeaser";
 import { Governance } from "@/components/falah/Governance";
 import { EngagementHub } from "@/components/falah/EngagementHub";
 import { SiteFooter } from "@/components/falah/SiteFooter";
+import { ShareJourneyCard } from "@/components/falah/ShareJourneyCard";
+import { InstallPwaButton } from "@/components/falah/InstallPwaButton";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { LandingLangProvider, LanguageBar, useLandingLang } from "@/i18n/landing/LandingLang";
 
@@ -462,6 +464,17 @@ const IndexInner = () => {
       {/* LEGACY · GOVERNANCE · ENGAGEMENT */}
       <LegacySection />
       <ContributeSection />
+      <section className="bg-background py-16 md:py-20" dir="rtl">
+        <div className="container max-w-3xl">
+          <ShareJourneyCard />
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 text-center">
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              اجعل فلاح رفيقًا يوميًا — على شاشة هاتفك.
+            </p>
+            <InstallPwaButton />
+          </div>
+        </div>
+      </section>
       <Governance />
       <EngagementHub />
 

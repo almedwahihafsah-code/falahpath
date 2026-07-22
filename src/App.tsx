@@ -19,6 +19,7 @@ import AyahDetail from "./pages/AyahDetail.tsx";
 import Reflection from "./pages/Reflection.tsx";
 import Progress from "./pages/Progress.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import QrRedirect from "./pages/QrRedirect.tsx";
 
 const queryClient = new QueryClient();
 
@@ -43,6 +44,7 @@ const App = () => (
             <Route path="/guide" element={<ProtectedRoute><Guide /></ProtectedRoute>} />
             <Route path="/quran" element={<QuranExplorer />} />
             <Route path="/quran/admin" element={<ProtectedRoute><QuranAdmin /></ProtectedRoute>} />
+            <Route path="/qr" element={<QrRedirect />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
