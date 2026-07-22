@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useLandingLang } from "@/i18n/landing/LandingLang";
+import { waContactLink } from "@/lib/share";
 
 type Category = "suggestion" | "bug" | "thanks";
 const CATEGORY_KEYS: Category[] = ["suggestion", "bug", "thanks"];
@@ -59,7 +60,13 @@ export const EngagementHub = () => {
     setMessage("");
   };
 
-  const waLink = `https://wa.me/${CONTACT.whatsapp.replace(/\D/g, "")}`;
+  const waLink = waContactLink(
+    [
+      "السلام عليكم ورحمة الله،",
+      "أحببتُ التواصل مع وقف الفلاح — رحلةٌ يوميةٌ مع القرآن.",
+    ].join("\n"),
+    CONTACT.whatsapp.replace(/\D/g, ""),
+  );
 
   return (
     <section id="engagement" className="bg-[hsl(40_35%_96%)] py-24 md:py-32">
