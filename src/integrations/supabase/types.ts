@@ -594,6 +594,24 @@ export type Database = {
         }
         Relationships: []
       }
+      qr_redirect: {
+        Row: {
+          destination_url: string
+          id: number
+          updated_at: string
+        }
+        Insert: {
+          destination_url: string
+          id?: number
+          updated_at?: string
+        }
+        Update: {
+          destination_url?: string
+          id?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       reflections: {
         Row: {
           action_id: string | null
